@@ -1,0 +1,176 @@
+:root {
+  --color-bg-0: #0a0705;
+  --color-bg-1: #120d09;
+  --color-bg-2: #1a1410;
+  --color-bg-3: #251c16;
+  --color-gold-100: #f7e8c8;
+  --color-gold-200: #efd7a3;
+  --color-gold-300: #e6c67f;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #b8860b;
+  --color-gold-600: #8f6809;
+  --color-text-primary: rgba(247, 232, 200, 0.92);
+  --color-text-secondary: rgba(247, 232, 200, 0.68);
+  --color-text-tertiary: rgba(247, 232, 200, 0.44);
+  --color-border-subtle: rgba(212, 175, 55, 0.14);
+  --color-border-strong: rgba(212, 175, 55, 0.28);
+  --color-shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.55);
+  --color-shadow-gold: 0 0 40px rgba(212, 175, 55, 0.08);
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --transition-fast: 0.15s ease-out;
+  --transition-normal: 0.25s ease-out;
+  --transition-slow: 0.4s ease-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-bg-0);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(184, 134, 11, 0.04) 0%, transparent 45%);
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.25);
+  color: var(--color-gold-100);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-3);
+  border-radius: 4px;
+  border: 1px solid var(--color-border-subtle);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-600);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-gold-200) 0%, var(--color-gold-400) 50%, var(--color-gold-500) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(26, 20, 16, 0.85) 0%, rgba(26, 20, 16, 0.92) 100%);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--color-shadow-soft);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--color-shadow-soft), var(--color-shadow-gold);
+  transform: translateY(-2px);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-gold-500) 0%, var(--color-gold-400) 50%, var(--color-gold-300) 100%);
+  color: var(--color-bg-0);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.35);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-gold-300);
+  border: 1px solid var(--color-border-strong);
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-200);
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-border-strong), transparent);
+  margin: var(--spacing-3xl) 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
