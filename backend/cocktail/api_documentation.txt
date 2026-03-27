@@ -1,0 +1,324 @@
+# Recipe 详情页 API 文档
+
+## 技术栈
+- Python 3.x
+- Django 5.2
+- Django REST Framework 3.16.0
+- MySQL
+
+## API 接口列表
+
+### 1. 获取所有配方信息
+- **接口**: GET /api/recipes
+- **用途**: 获取所有配方的基本信息列表
+- **参数**: 无
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": [
+    {
+      "recipe_id": "1",
+      "source": "kaggle_hotaling",
+      "source_recipe_key": "0_Flor de Amaras",
+      "name": "Flor de Amaras",
+      "instructions": "*Hibiscus Simple Syrup:\n1:1 w/ a cup of dried hibiscus flowers steeped in the hot simple syrup for 20 minutes...",
+      "glass": "coupe",
+      "tags": "tequila, mezcal, cocktail",
+      "image_url": "https://example.com/image.jpg",
+      "is_alcoholic": true,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    // 更多配方...
+  ]
+}
+```
+
+### 2. 获取配方基础信息
+- **接口**: GET /api/recipes/{recipe_id}
+- **用途**: 获取配方的基本信息，如名称、说明、玻璃杯类型等
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "recipe_id": "123",
+    "source": "example",
+    "source_recipe_key": "key123",
+    "name": "Margarita",
+    "instructions": "Mix all ingredients...",
+    "glass": "Margarita glass",
+    "tags": ["classic", "tequila"],
+    "image_url": "https://example.com/margarita.jpg",
+    "is_alcoholic": true,
+    "created_at": "2026-03-27T15:46:17Z",
+    "updated_at": "2026-03-27T15:46:17Z"
+  }
+}
+```
+
+### 3. 获取配方原料列表
+- **接口**: GET /api/recipes/{recipe_id}/ingredients
+- **用途**: 获取配方的原料列表，包含原料的详细信息
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": [
+    {
+      "ingredient_id": "ing1",
+      "line_no": 1,
+      "amount": 2.0,
+      "unit": "oz",
+      "role": "base",
+      "raw_text": "2 oz Tequila",
+      "ingredient": {
+        "ingredient_id": "ing1",
+        "name_norm": "Tequila",
+        "canonical_id": "can1",
+        "canonical_name": "Tequila Blanco",
+        "category": "Spirit",
+        "abv": 40.0,
+        "is_alcoholic": true,
+        "anchor_name": "Tequila",
+        "anchor_form": "Liquid",
+        "flavor_feature": {
+          "sour": 0.2,
+          "sweet": 0.1,
+          "bitter": 0.3,
+          "aroma": 0.8,
+          "fruity": 0.2,
+          "body": 0.6
+        }
+      }
+    }
+  ]
+}
+```
+
+### 4. 获取SQE评分分析
+- **接口**: GET /api/recipes/{recipe_id}/sqe
+- **用途**: 获取配方的SQE评分及各项指标
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "snapshot_id": "snap1",
+    "param_version": "v1",
+    "model_version": "v2",
+    "phaseA_synergy_raw": 0.8,
+    "phaseA_conflict_raw": 0.2,
+    "phaseA_balance_raw": 0.7,
+    "phaseA_synergy_norm": 0.85,
+    "phaseA_conflict_norm": 0.15,
+    "phaseA_balance_norm": 0.75,
+    "phaseA_total": 0.8,
+    "phaseB_synergy_score": 0.82,
+    "phaseB_conflict_score": 0.18,
+    "phaseB_balance_score": 0.78,
+    "phaseB_total": 0.8,
+    "phaseC_residual": 0.1,
+    "phaseC_pred_score": 0.85,
+    "phaseC_margin": 0.15,
+    "phaseC_confidence": 0.9,
+    "final_sqe_total": 0.82,
+    "rank_in_snapshot": 1,
+    "is_valid": true,
+    "note": "Excellent recipe"
+  }
+}
+```
+
+### 5. 获取风味分布与平衡特征
+- **接口**: GET /api/recipes/{recipe_id}/balance
+- **用途**: 获取配方的风味分布和平衡特征数据
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "snapshot_id": "snap1",
+    "family": "Margarita",
+    "f_sour": 0.6,
+    "f_sweet": 0.4,
+    "f_bitter": 0.2,
+    "f_aroma": 0.7,
+    "f_fruity": 0.5,
+    "f_body": 0.5,
+    "r_base": 0.5,
+    "r_acid": 0.3,
+    "r_sweetener": 0.1,
+    "r_modifier": 0.0,
+    "r_bitters": 0.0,
+    "r_garnish": 0.1,
+    "r_dilution": 0.0,
+    "r_other": 0.0,
+    "flavor_dist": {"sour": 0.3, "sweet": 0.2, "bitter": 0.1, "aroma": 0.25, "fruity": 0.1, "body": 0.05},
+    "role_dist": {"base": 0.5, "acid": 0.3, "sweetener": 0.1, "garnish": 0.1},
+    "flavor_balance_score": 0.8,
+    "role_balance_score": 0.75,
+    "final_balance_score": 0.78
+  }
+}
+```
+
+### 6. 获取关键风味节点
+- **接口**: GET /api/recipes/{recipe_id}/key-nodes
+- **用途**: 获取配方的关键风味原料节点列表
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": [
+    {
+      "canonical_id": "can1",
+      "ingredient_name": "Tequila",
+      "role": "base",
+      "amount_unit": "2 oz",
+      "base_score": 0.8,
+      "learned_contribution": 0.85,
+      "normalized_contribution": 0.9,
+      "contribution_ratio": 0.45,
+      "is_key_node": true,
+      "rank_no": 1,
+      "explanation": "Primary spirit"
+    }
+  ]
+}
+```
+
+### 7. 获取局部图谱
+- **接口**: GET /api/recipes/{recipe_id}/graph?layer=compat
+- **用途**: 获取配方的局部图谱数据，支持不同类型的边
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+  - layer: 图谱类型 (查询参数，可选值: cooccur, flavor, compat, mixed，默认: compat)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "nodes": [
+      {
+        "id": "can1",
+        "label": "Tequila Blanco",
+        "role": "base",
+        "is_key_node": true,
+        "contribution_ratio": 0.45
+      }
+    ],
+    "edges": [
+      {
+        "source": "can1",
+        "target": "can2",
+        "type": "compat",
+        "weight": 0.85,
+        "extra": {
+          "compat_score": 0.9,
+          "role_bonus": 0.1,
+          "taste_complement_score": 0.8
+        }
+      }
+    ]
+  }
+}
+```
+
+### 8. 获取某原料替代建议
+- **接口**: GET /api/recipes/{recipe_id}/substitutes?target_canonical_id=xxx
+- **用途**: 获取指定原料的替代建议列表
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+  - target_canonical_id: 目标原料的canonical ID (查询参数，必填)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": [
+    {
+      "candidate_canonical_id": "can3",
+      "candidate_name": "Mezcal",
+      "target_role": "base",
+      "candidate_role": "base",
+      "delta_sqe": -0.05,
+      "accept_flag": true,
+      "rank_no": 1,
+      "reason_code": "SIMILAR_FLAVOR",
+      "explanation": "Mezcal has similar flavor profile to Tequila",
+      "score_breakdown": {
+        "old_sqe_total": 0.82,
+        "new_sqe_total": 0.77,
+        "delta_sqe": -0.05,
+        "old_synergy_score": 0.85,
+        "new_synergy_score": 0.8,
+        "delta_synergy": -0.05,
+        "old_conflict_score": 0.15,
+        "new_conflict_score": 0.15,
+        "delta_conflict": 0.0,
+        "old_balance_score": 0.78,
+        "new_balance_score": 0.75,
+        "delta_balance": -0.03
+      }
+    }
+  ]
+}
+```
+
+## 错误处理
+- **404错误**: 当配方不存在或数据不存在时返回
+- **400错误**: 当请求参数缺失时返回
+- **其他错误**: 服务器内部错误时返回
+
+## 前端调用示例
+```javascript
+// 使用fetch API
+fetch('http://127.0.0.1:8000/api/recipes/123')
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 0) {
+      console.log('配方信息:', data.data);
+      // 处理配方数据
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+
+// 使用Axios
+axios.get('http://127.0.0.1:8000/api/recipes/123')
+  .then(response => {
+    const data = response.data;
+    if (data.code === 0) {
+      console.log('配方信息:', data.data);
+      // 处理配方数据
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+```
+
+## 性能优化建议
+1. **缓存策略**: 对于频繁访问的配方数据，可以使用缓存
+2. **数据库索引**: 在查询频繁的字段上添加索引
+3. **查询优化**: 使用select_related和prefetch_related减少数据库查询次数
+4. **分页处理**: 对于可能返回大量数据的接口，实现分页功能
+5. **异步处理**: 对于复杂的计算任务，如图谱生成，考虑使用异步任务处理
