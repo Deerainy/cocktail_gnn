@@ -10,7 +10,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = [
-            'recipe_id', 'source', 'source_recipe_key', 'name', 'instructions',
+            'recipe_id', 'source', 'source_recipe_key', 'name', 'recipe_name_zh', 'instructions',
             'glass', 'tags', 'image_url', 'is_alcoholic', 'created_at', 'updated_at'
         ]
 
@@ -22,6 +22,7 @@ class FlavorFeatureSerializer(serializers.ModelSerializer):
 class IngredientSerializer(serializers.ModelSerializer):
     canonical_id = serializers.SerializerMethodField()
     canonical_name = serializers.SerializerMethodField()
+    canonical_name_zh = serializers.SerializerMethodField()
     anchor_name = serializers.SerializerMethodField()
     anchor_form = serializers.SerializerMethodField()
     flavor_feature = serializers.SerializerMethodField()
@@ -51,6 +52,17 @@ class IngredientSerializer(serializers.ModelSerializer):
         anchor = IngredientFlavorAnchor.objects.filter(ingredient_id=obj.ingredient_id).first()
         return anchor.canonical_name if anchor else None
 
+    def get_canonical_name_zh(self, obj):
+        # 尝试从llm_canonical_map中获取映射
+        try:
+            src_ingredient_id = int(obj.ingredient_id)
+            mapping = LlmCanonicalMap.objects.filter(src_ingredient_id=src_ingredient_id, status='ok').first()
+            if mapping:
+                return mapping.canonical_name_zh
+        except:
+            pass
+        return None
+
     def get_anchor_name(self, obj):
         anchor = IngredientFlavorAnchor.objects.filter(ingredient_id=obj.ingredient_id).first()
         return anchor.anchor_name if anchor else None
@@ -68,7 +80,7 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = [
-            'ingredient_id', 'name_norm', 'canonical_id', 'canonical_name',
+            'ingredient_id', 'name_norm', 'canonical_id', 'canonical_name', 'canonical_name_zh',
             'category', 'abv', 'is_alcoholic', 'anchor_name', 'anchor_form', 'flavor_feature'
         ]
 

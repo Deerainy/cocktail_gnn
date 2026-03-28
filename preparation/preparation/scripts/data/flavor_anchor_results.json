@@ -1,0 +1,1874 @@
+[
+  {
+    "ingredient_id": 2808,
+    "canonical_name": "red wine",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Red wine is made from fermented grapes, with 'red' referring to the grape variety/color rather than being the primary flavor source. The form is classified as fortified_wine since wine is an alcoholic beverage made from fermented grapes, though not all wines are fortified; however, in cocktail contexts, wine is typically categorized under fortified_wine for mapping purposes. Confidence is high due to clear flavor source identification."
+  },
+  {
+    "ingredient_id": 2809,
+    "canonical_name": "ginger liqueur",
+    "anchor_name": "ginger",
+    "anchor_form": "liqueur",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'ginger liqueur' clearly identifies ginger as the main flavor source, and 'liqueur' as the form/category, matching the provided candidates exactly."
+  },
+  {
+    "ingredient_id": 2810,
+    "canonical_name": "sugar",
+    "anchor_name": "sugar",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sugar is a fundamental sweetening ingredient with no more specific flavor source to abstract to. It is not a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, so 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 2811,
+    "canonical_name": "lemon",
+    "anchor_name": "lemon",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'lemon' is a base ingredient name without any preparation or form modifiers. Since no specific form (like juice, syrup, or liqueur) is indicated, it defaults to 'other' as the anchor_form. The anchor_name remains 'lemon' as it is the main flavor source."
+  },
+  {
+    "ingredient_id": 2812,
+    "canonical_name": "zest",
+    "anchor_name": "citrus",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Zest typically refers to the outer peel of citrus fruits (lemon, lime, orange, etc.), which contains aromatic oils that provide flavor. Since 'zest' is a preparation form rather than a specific fruit, 'citrus' is the most reasonable abstraction for the main flavor source. The form is 'other' as zest is neither juice, syrup, liqueur, etc., but a prepared ingredient category."
+  },
+  {
+    "ingredient_id": 2813,
+    "canonical_name": "orange",
+    "anchor_name": "orange",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'orange' is a fruit name without any preparation or form modifier. Since no specific form is indicated (like juice, syrup, or liqueur), it defaults to the fruit itself as the flavor source and 'other' as the form, as it could be used in various ways in cocktails (e.g., peel, slice, or whole)."
+  },
+  {
+    "ingredient_id": 2815,
+    "canonical_name": "cinnamon",
+    "anchor_name": "cinnamon",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cinnamon is a spice that serves as its own flavor source; it is typically used in bark or ground form, not as a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, so 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 2817,
+    "canonical_name": "star anise",
+    "anchor_name": "star anise",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Star anise is a spice that serves as its own flavor source. It is typically used whole or ground in cocktails, not processed into juice, syrup, liqueur, etc., so 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 2818,
+    "canonical_name": "cachaca",
+    "anchor_name": "sugarcane",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cachaça is a Brazilian spirit distilled from fermented sugarcane juice, with sugarcane being the primary flavor source. The anchor_form is 'spirit' as it's a distilled alcoholic beverage, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 2821,
+    "canonical_name": "chai tea",
+    "anchor_name": "tea",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Chai tea is a spiced tea blend, where 'chai' refers to the spiced preparation style. The main flavor-bearing object is tea leaves, with spices as secondary modifiers. Since this is not a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, the form is 'other'."
+  },
+  {
+    "ingredient_id": 2826,
+    "canonical_name": "pomegranate cordial",
+    "anchor_name": "pomegranate",
+    "anchor_form": "cordial",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'pomegranate cordial' directly indicates pomegranate as the main flavor source, with 'cordial' specifying the form. No abstraction or substitution is needed as the flavor source is explicitly stated."
+  },
+  {
+    "ingredient_id": 2827,
+    "canonical_name": "brachetto",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Brachetto is a red Italian grape variety primarily used to make sweet, sparkling wines. While 'brachetto' could refer to the grape itself, in cocktail contexts it typically refers to Brachetto d'Acqui, a sweet sparkling red wine. Since it's a wine-based ingredient with alcohol content, 'fortified_wine' is the most appropriate form category, and 'grape' captures the primary flavor source."
+  },
+  {
+    "ingredient_id": 2828,
+    "canonical_name": "sugar",
+    "anchor_name": "sugar",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sugar is a fundamental sweetening ingredient with no more specific flavor source to abstract to. It is not a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, so 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 2834,
+    "canonical_name": "lemon zest",
+    "anchor_name": "lemon",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The main flavor source is lemon, with 'zest' being a preparation modifier that refers to the outer peel. The form 'other' is appropriate as zest is neither juice, syrup, liqueur, cordial, bitters, fortified_wine, nor spirit."
+  },
+  {
+    "ingredient_id": 2836,
+    "canonical_name": "shrub",
+    "anchor_name": "vinegar",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "A shrub is a drinking vinegar made from fruit, vinegar, and sugar. While fruit is the primary flavor source, vinegar is the defining acidic component that characterizes shrubs as a category. Since 'shrub' doesn't fit cleanly into the provided form categories, 'other' is appropriate with moderate confidence due to the dual nature of fruit and vinegar in shrubs."
+  },
+  {
+    "ingredient_id": 2841,
+    "canonical_name": "gin",
+    "anchor_name": "juniper",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Gin is a spirit primarily flavored with juniper berries, which are the main flavor source. The anchor_name reflects the botanical that defines gin's characteristic flavor profile, rather than the surface form 'gin'."
+  },
+  {
+    "ingredient_id": 2843,
+    "canonical_name": "orgeat",
+    "anchor_name": "almond",
+    "anchor_form": "syrup",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Orgeat is a sweet syrup traditionally made from almonds, sugar, and orange flower water or rose water. The primary flavor source is almond, and it is categorized as a syrup in cocktail applications."
+  },
+  {
+    "ingredient_id": 2845,
+    "canonical_name": "blue curacao",
+    "anchor_name": "orange",
+    "anchor_form": "liqueur",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Blue curaçao is a liqueur flavored primarily with the dried peel of the Laraha citrus fruit, a bitter orange variety native to Curaçao. The 'blue' refers to artificial coloring, not a flavor source. The main flavor anchor is orange, specifically the bitter orange peel used in traditional curaçao production."
+  },
+  {
+    "ingredient_id": 2848,
+    "canonical_name": "blood orange cordial",
+    "anchor_name": "orange",
+    "anchor_form": "cordial",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The main flavor source is 'orange' (removing the 'blood' variety modifier), and the form is clearly 'cordial' as specified in the input. This follows the rule to remove preparation/style modifiers while keeping the core flavor source."
+  },
+  {
+    "ingredient_id": 2849,
+    "canonical_name": "absinthe",
+    "anchor_name": "wormwood",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Absinthe is a spirit primarily flavored with wormwood (Artemisia absinthium), along with anise and fennel. While 'absinthe' could be used as the anchor_name, wormwood is the distinctive botanical that defines its flavor profile and historical identity. The form is 'spirit' as absinthe is a distilled alcoholic beverage, not a liqueur or other category."
+  },
+  {
+    "ingredient_id": 2850,
+    "canonical_name": "vodka",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vodka is traditionally distilled from grains like wheat, rye, or corn, with 'grain' being the most common and recognizable flavor source. While vodka can also be made from potatoes or other starches, grain is the most typical and neutral base that aligns with vodka's character. The anchor_form is clearly 'spirit' as specified in the input."
+  },
+  {
+    "ingredient_id": 2851,
+    "canonical_name": "apple whisky",
+    "anchor_name": "apple",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'apple whisky' is a spirit where 'whisky' indicates the form and 'apple' is the main flavor source. Following the rules, I extracted 'apple' as the flavor-bearing object and classified it as a spirit based on the provided rule_form_candidate and typical categorization of whisky as a spirit."
+  },
+  {
+    "ingredient_id": 2854,
+    "canonical_name": "vodka",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vodka is traditionally distilled from grains like wheat, rye, or corn, with 'grain' being the most common and recognizable flavor source. While vodka can also be made from potatoes or other starches, grain is the most typical and neutral base that aligns with vodka's character. The anchor_form is clearly 'spirit' as specified in the input."
+  },
+  {
+    "ingredient_id": 2855,
+    "canonical_name": "dill",
+    "anchor_name": "dill",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'dill' is already the main flavor source (an herb) and doesn't contain preparation or style modifiers. It doesn't fit any of the specified liquid forms (juice, syrup, liqueur, etc.), so 'other' is the appropriate anchor_form."
+  },
+  {
+    "ingredient_id": 2856,
+    "canonical_name": "garlic",
+    "anchor_name": "garlic",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'garlic' is already the main flavor source itself, with no preparation or style modifiers to remove. As a raw ingredient not fitting the predefined forms like juice, syrup, or spirit, it correctly maps to 'other' form."
+  },
+  {
+    "ingredient_id": 2858,
+    "canonical_name": "peppercorns",
+    "anchor_name": "pepper",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Peppercorns are the dried berries of the Piper nigrum plant, with 'pepper' being the main flavor source. The form 'other' is appropriate as peppercorns are typically used whole, crushed, or infused rather than in processed forms like juice or syrup."
+  },
+  {
+    "ingredient_id": 2863,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2869,
+    "canonical_name": "amaro",
+    "anchor_name": "herbal_botanical",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Amaro is a category of Italian herbal liqueurs with complex botanical flavor profiles. While 'amaro' itself is the surface form, the main flavor sources are typically various herbs, roots, barks, and botanicals rather than a single identifiable fruit or plant. 'herbal_botanical' captures this collective flavor source better than simply repeating 'amaro'."
+  },
+  {
+    "ingredient_id": 2871,
+    "canonical_name": "absinthe",
+    "anchor_name": "wormwood",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Absinthe is a spirit primarily flavored with wormwood (Artemisia absinthium), along with anise and fennel. While 'absinthe' could be used as the anchor_name, wormwood is the distinctive botanical that defines its flavor profile and historical identity. The form is 'spirit' as absinthe is a distilled alcoholic beverage, not a liqueur or other category."
+  },
+  {
+    "ingredient_id": 2872,
+    "canonical_name": "orange flower water",
+    "anchor_name": "orange flower",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange flower water' is a floral water or hydrosol made by distilling orange blossoms. The main flavor source is the orange flower itself, not the orange fruit. The form 'other' is appropriate as it's neither a juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit, but rather a floral water or aromatic water."
+  },
+  {
+    "ingredient_id": 2874,
+    "canonical_name": "aquavit",
+    "anchor_name": "caraway",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Aquavit is a Scandinavian spirit traditionally flavored primarily with caraway seeds, along with other botanicals like dill and fennel. While 'aquavit' itself is the surface form, the main flavor source is caraway, which serves as the sensory anchor. The form is 'spirit' as it is a distilled alcoholic beverage."
+  },
+  {
+    "ingredient_id": 2875,
+    "canonical_name": "apricot liqueur",
+    "anchor_name": "apricot",
+    "anchor_form": "liqueur",
+    "confidence": 0.95,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'apricot liqueur' clearly indicates apricot as the primary flavor source, with 'liqueur' as the form. The weak_anchor_candidate and rule_form_candidate provided align perfectly with this mapping."
+  },
+  {
+    "ingredient_id": 2876,
+    "canonical_name": "orange citrate",
+    "anchor_name": "orange",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange citrate' contains 'orange' as the main flavor source, with 'citrate' indicating a chemical salt form (likely citric acid salt) rather than a standard cocktail ingredient form. Following the rules, I removed the preparation/modifier 'citrate' to identify the core flavor anchor as 'orange'. The form is classified as 'other' since citrate doesn't fit the predefined categories of juice, syrup, liqueur, etc."
+  },
+  {
+    "ingredient_id": 2877,
+    "canonical_name": "cream soda",
+    "anchor_name": "vanilla",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cream soda is a vanilla-flavored soft drink. The main flavor source is vanilla, not 'cream' which refers to the creamy texture/color. Since it's a non-alcoholic carbonated beverage, 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 2878,
+    "canonical_name": "gin",
+    "anchor_name": "juniper",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Gin is a spirit primarily flavored with juniper berries, which are the main flavor source. The anchor_name reflects the botanical that defines gin's characteristic flavor profile, rather than the surface form 'gin'."
+  },
+  {
+    "ingredient_id": 2881,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 2883,
+    "canonical_name": "rye whiskey",
+    "anchor_name": "rye",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rye whiskey is a spirit where 'rye' refers to the grain used as the primary flavor source. The anchor_name 'rye' captures the main flavor-bearing ingredient, while 'spirit' correctly identifies the form/category."
+  },
+  {
+    "ingredient_id": 2885,
+    "canonical_name": "demerara simple syrup",
+    "anchor_name": "demerara",
+    "anchor_form": "syrup",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Demerara is a type of raw cane sugar that provides the primary flavor source, while 'simple syrup' indicates the form is a syrup preparation. The preparation modifier 'simple' was removed to isolate the main flavor-bearing ingredient."
+  },
+  {
+    "ingredient_id": 2897,
+    "canonical_name": "apple brandy",
+    "anchor_name": "apple",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'apple brandy' is a spirit where 'apple' is the main flavor source, and 'brandy' indicates the spirit form. Following the rules, the preparation/style modifier 'brandy' is removed to identify the core flavor anchor."
+  },
+  {
+    "ingredient_id": 2904,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2905,
+    "canonical_name": "grapefruit bitters",
+    "anchor_name": "grapefruit",
+    "anchor_form": "bitters",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'grapefruit bitters' clearly indicates grapefruit as the main flavor source, with 'bitters' specifying the form. The weak_anchor_candidate 'grapefruit' is appropriate as the flavor-bearing fruit, and rule_form_candidate 'bitters' correctly identifies the category."
+  },
+  {
+    "ingredient_id": 2914,
+    "canonical_name": "amaro",
+    "anchor_name": "herbal_botanical",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Amaro is a category of Italian herbal liqueurs with complex botanical flavor profiles. While 'amaro' itself is the surface form, the main flavor sources are typically various herbs, roots, barks, and botanicals rather than a single identifiable fruit or plant. 'herbal_botanical' captures this collective flavor source better than simply repeating 'amaro'."
+  },
+  {
+    "ingredient_id": 2915,
+    "canonical_name": "calisaya liqueur",
+    "anchor_name": "cinchona",
+    "anchor_form": "liqueur",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Calisaya liqueur is a type of quinquina or chinato liqueur flavored primarily with cinchona bark (also known as calisaya bark), which contains quinine. The name 'calisaya' refers to a specific species of cinchona tree (Cinchona calisaya). Therefore, the main flavor source is cinchona, not the generic term 'calisaya'."
+  },
+  {
+    "ingredient_id": 2920,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 2923,
+    "canonical_name": "anis",
+    "anchor_name": "anise",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'anis' appears to be a misspelling or variant of 'anise', which is a spice with a distinct licorice-like flavor. Since no specific form (like liqueur or syrup) is indicated in the name, 'other' is the appropriate form category. The confidence is high but not perfect due to the potential for alternative interpretations."
+  },
+  {
+    "ingredient_id": 2925,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2926,
+    "canonical_name": "sherry",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sherry is a fortified wine made from grapes, with 'grape' being the primary flavor source. The form 'fortified_wine' is more specific than 'other' and aligns with the definition of sherry as a wine-based beverage."
+  },
+  {
+    "ingredient_id": 2929,
+    "canonical_name": "bourbon",
+    "anchor_name": "corn",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bourbon is a type of whiskey that must be made from at least 51% corn mash, with corn being the primary flavor-bearing grain that distinguishes it from other whiskeys. The anchor_form is 'spirit' as bourbon is a distilled alcoholic beverage, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 2931,
+    "canonical_name": "rock and rye",
+    "anchor_name": "rye",
+    "anchor_form": "liqueur",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rock and Rye is a liqueur traditionally made with rye whiskey as its base spirit, sweetened with rock candy syrup, and often flavored with citrus and spices. The primary flavor source is rye, which is the base grain for the whiskey component, making it the main sensory anchor. The form is liqueur because it is a sweetened, flavored spirit."
+  },
+  {
+    "ingredient_id": 2933,
+    "canonical_name": "activated charcoal",
+    "anchor_name": "charcoal",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The main flavor-bearing source is charcoal, with 'activated' being a preparation modifier describing its processed form. Charcoal is a plant-derived carbon source with a distinct earthy/mineral sensory profile. The form is 'other' as it doesn't fit the defined beverage-specific categories."
+  },
+  {
+    "ingredient_id": 2936,
+    "canonical_name": "muscat wine",
+    "anchor_name": "muscat",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Muscat is a grape variety that gives the wine its characteristic flavor. The form 'wine' maps to 'fortified_wine' in the ontology, as muscat wines are often fortified dessert wines."
+  },
+  {
+    "ingredient_id": 2939,
+    "canonical_name": "maraschino liqueur",
+    "anchor_name": "cherry",
+    "anchor_form": "liqueur",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Maraschino liqueur is a cherry-based liqueur made from Marasca cherries. The 'maraschino' refers to the specific cherry variety and preparation style, but the main flavor source is cherry. The form is clearly liqueur."
+  },
+  {
+    "ingredient_id": 2941,
+    "canonical_name": "cherry bitters",
+    "anchor_name": "cherry",
+    "anchor_form": "bitters",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'cherry bitters' directly indicates cherry as the main flavor source, and 'bitters' is the correct form category according to the provided definitions. No abstraction or modification is needed as the surface form already clearly identifies both components."
+  },
+  {
+    "ingredient_id": 2943,
+    "canonical_name": "kirsch",
+    "anchor_name": "cherry",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Kirsch is a clear, colorless fruit brandy traditionally made from double distillation of morello cherries. The primary flavor source is cherry, and it's categorized as a spirit rather than 'other' since it's a distilled alcoholic beverage."
+  },
+  {
+    "ingredient_id": 2944,
+    "canonical_name": "riesling syrup",
+    "anchor_name": "grape",
+    "anchor_form": "syrup",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Riesling is a grape variety, so the main flavor source is grape. The ingredient form is syrup as indicated in the canonical name."
+  },
+  {
+    "ingredient_id": 2945,
+    "canonical_name": "kombu",
+    "anchor_name": "seaweed",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Kombu is a type of edible kelp/seaweed used in Japanese cuisine, primarily as a flavoring agent. The main flavor source is seaweed, which provides umami and oceanic notes. The form 'other' is appropriate as kombu is typically used dried or in infusions rather than as juice, syrup, liqueur, etc."
+  },
+  {
+    "ingredient_id": 2947,
+    "canonical_name": "bourbon",
+    "anchor_name": "corn",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bourbon is a type of whiskey that must be made from at least 51% corn mash, with corn being the primary flavor-bearing grain that distinguishes it from other whiskeys. The anchor_form is 'spirit' as bourbon is a distilled alcoholic beverage, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 2949,
+    "canonical_name": "whiskey",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Whiskey is a distilled spirit primarily made from fermented grain mash (commonly barley, corn, rye, or wheat). While 'whiskey' itself is the surface form, the main flavor source is grain, as it's the foundational ingredient that defines whiskey's character. The anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2952,
+    "canonical_name": "citrus bitters",
+    "anchor_name": "citrus",
+    "anchor_form": "bitters",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'citrus bitters' directly specifies 'citrus' as the main flavor source, which is a clear sensory anchor category encompassing fruits like lemon, lime, orange, etc. The form is explicitly 'bitters', matching the rule_form_candidate. No abstraction or substitution is needed as 'citrus' is already the primary flavor-bearing object."
+  },
+  {
+    "ingredient_id": 2953,
+    "canonical_name": "whiskey",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Whiskey is a distilled spirit primarily made from fermented grain mash (commonly barley, corn, rye, or wheat). While 'whiskey' itself is the surface form, the main flavor source is grain, as it's the foundational ingredient that defines whiskey's character. The anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2954,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2956,
+    "canonical_name": "slivovitz",
+    "anchor_name": "plum",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Slivovitz is a traditional fruit brandy made from plums, with 'slivovitz' derived from Slavic words for plum. The main flavor source is plum, and it's a distilled spirit, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 2957,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2961,
+    "canonical_name": "sloe gin",
+    "anchor_name": "sloe",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sloe gin is a spirit flavored with sloe berries (a type of plum). The main flavor source is 'sloe', and the form is 'spirit' as indicated by the rule_form_candidate. The preparation modifier 'gin' is removed to isolate the primary flavor anchor."
+  },
+  {
+    "ingredient_id": 2963,
+    "canonical_name": "salt tincture",
+    "anchor_name": "salt",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'salt tincture' contains 'salt' as the primary flavor source, with 'tincture' indicating an alcohol-based extraction method. Since tinctures are not specifically listed in the anchor_form options, 'other' is the appropriate category."
+  },
+  {
+    "ingredient_id": 2969,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2971,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 2973,
+    "canonical_name": "amaro",
+    "anchor_name": "herbal_botanical",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Amaro is a category of Italian herbal liqueurs with complex botanical flavor profiles. While 'amaro' itself is the surface form, the main flavor sources are typically various herbs, roots, barks, and botanicals rather than a single identifiable fruit or plant. 'herbal_botanical' captures this collective flavor source better than simply repeating 'amaro'."
+  },
+  {
+    "ingredient_id": 2975,
+    "canonical_name": "strawberry shrub",
+    "anchor_name": "strawberry",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "A shrub is a vinegar-based syrup, so 'strawberry' is the main flavor source, and 'other' is appropriate as shrubs don't fit the listed forms."
+  },
+  {
+    "ingredient_id": 2988,
+    "canonical_name": "irish whiskey",
+    "anchor_name": "barley",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Irish whiskey is a spirit primarily distilled from malted barley, with barley being the main flavor-bearing grain source. The 'Irish' modifier indicates origin/style, not flavor source, so it's removed per rules."
+  },
+  {
+    "ingredient_id": 2994,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 2995,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 2996,
+    "canonical_name": "lemon foam",
+    "anchor_name": "lemon",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'lemon foam' contains 'lemon' as the main flavor source, with 'foam' indicating a preparation style that should be removed per the rules. The form 'other' is appropriate since foam doesn't fit the specified categories of juice, syrup, liqueur, cordial, bitters, fortified_wine, or spirit."
+  },
+  {
+    "ingredient_id": 3002,
+    "canonical_name": "rye whiskey",
+    "anchor_name": "rye",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rye whiskey is a spirit where 'rye' refers to the grain used as the primary flavor source. The anchor_name 'rye' captures the main flavor-bearing ingredient, while 'spirit' correctly identifies the form/category."
+  },
+  {
+    "ingredient_id": 3003,
+    "canonical_name": "port",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Port is a fortified wine made from grapes, specifically from the Douro Valley in Portugal. The main flavor source is grape, and its form is fortified_wine, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3022,
+    "canonical_name": "earl grey syrup",
+    "anchor_name": "bergamot",
+    "anchor_form": "syrup",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Earl Grey tea is primarily flavored with bergamot oil, which is the dominant sensory component. The 'syrup' form is correctly identified from the input. The confidence is high because bergamot is the well-known flavor anchor for Earl Grey tea."
+  },
+  {
+    "ingredient_id": 3023,
+    "canonical_name": "malt",
+    "anchor_name": "barley",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Malt is primarily derived from barley grains through malting, which is the main flavor source. Since 'malt' is a processed ingredient form rather than a specific beverage category like spirit or liqueur, 'other' is the appropriate form classification."
+  },
+  {
+    "ingredient_id": 3026,
+    "canonical_name": "poppy liqueur",
+    "anchor_name": "poppy",
+    "anchor_form": "liqueur",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'poppy liqueur' directly indicates poppy as the main flavor source, with 'liqueur' as the form. No abstraction or substitution is needed as poppy is already the primary flavor-bearing object."
+  },
+  {
+    "ingredient_id": 3029,
+    "canonical_name": "orange bitters",
+    "anchor_name": "orange",
+    "anchor_form": "bitters",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange bitters' clearly identifies orange as the main flavor source, and 'bitters' is the correct form category as specified in the rules. The weak_anchor_candidate and rule_form_candidate provided in the input confirm this mapping."
+  },
+  {
+    "ingredient_id": 3030,
+    "canonical_name": "sparkling wine",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sparkling wine is a type of wine made from fermented grapes, with the primary flavor source being grape. The form 'fortified_wine' is appropriate as sparkling wine is a wine category, though not technically fortified, it fits better than 'other' given wine's classification. The confidence is 0.8 due to the abstraction from 'sparkling wine' to 'grape' being reasonable but not as direct as fruit juices or flavored liqueurs."
+  },
+  {
+    "ingredient_id": 3031,
+    "canonical_name": "cherry juice",
+    "anchor_name": "cherry",
+    "anchor_form": "juice",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'cherry juice' directly follows the example pattern 'lime juice' -> anchor_name='lime', anchor_form='juice'. The main flavor source is clearly cherry, and the form is juice as indicated in the canonical name."
+  },
+  {
+    "ingredient_id": 3038,
+    "canonical_name": "angostura bitters",
+    "anchor_name": "angostura",
+    "anchor_form": "bitters",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Angostura bitters is a proprietary blend of herbs and spices where 'angostura' refers to the specific brand/recipe rather than a single botanical source. While it contains gentian root and other botanicals, 'angostura' is the established identifier for this specific bitters formulation. The form is clearly 'bitters' as indicated in the name."
+  },
+  {
+    "ingredient_id": 3039,
+    "canonical_name": "salt tincture",
+    "anchor_name": "salt",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'salt tincture' contains 'salt' as the primary flavor source, with 'tincture' indicating an alcohol-based extraction method. Since tinctures are not specifically listed in the anchor_form options, 'other' is the appropriate category."
+  },
+  {
+    "ingredient_id": 3042,
+    "canonical_name": "riesling",
+    "anchor_name": "grape",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Riesling is a white wine grape variety, so the main flavor source is grape. The form is 'other' as it's a wine, not fitting the specific categories like juice, syrup, liqueur, etc."
+  },
+  {
+    "ingredient_id": 3053,
+    "canonical_name": "green chartreuse",
+    "anchor_name": "herbal blend",
+    "anchor_form": "liqueur",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Green Chartreuse is a herbal liqueur made from a secret blend of 130 herbs, plants, and flowers. While 'green' is a color modifier and 'Chartreuse' is the brand name, the main flavor source is a complex herbal blend. The form is clearly a liqueur, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3054,
+    "canonical_name": "gum syrup",
+    "anchor_name": "gum",
+    "anchor_form": "syrup",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'gum syrup' is a syrup made from gum arabic or similar tree sap gums. 'Gum' is the main flavor-bearing source (tree sap/resin), and 'syrup' correctly identifies the form. This follows the pattern of identifying the primary flavor source and its preparation form."
+  },
+  {
+    "ingredient_id": 3056,
+    "canonical_name": "dry vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Dry vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. The 'dry' modifier refers to the style (less sweet than sweet vermouth) and is removed to identify the main flavor source. While vermouth contains multiple botanicals, wormwood is the defining botanical that gives vermouth its characteristic bitter flavor profile."
+  },
+  {
+    "ingredient_id": 3063,
+    "canonical_name": "vodka",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vodka is traditionally distilled from grains like wheat, rye, or corn, with 'grain' being the most common and recognizable flavor source. While vodka can also be made from potatoes or other starches, grain is the most typical and neutral base that aligns with vodka's character. The anchor_form is clearly 'spirit' as specified in the input."
+  },
+  {
+    "ingredient_id": 3064,
+    "canonical_name": "dry vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Dry vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. The 'dry' modifier refers to the style (less sweet than sweet vermouth) and is removed to identify the main flavor source. While vermouth contains multiple botanicals, wormwood is the defining botanical that gives vermouth its characteristic bitter flavor profile."
+  },
+  {
+    "ingredient_id": 3069,
+    "canonical_name": "cachaca",
+    "anchor_name": "sugarcane",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cachaça is a Brazilian spirit distilled from fermented sugarcane juice, with sugarcane being the primary flavor source. The anchor_form is 'spirit' as it's a distilled alcoholic beverage, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3075,
+    "canonical_name": "cognac",
+    "anchor_name": "grape",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cognac is a type of brandy distilled from white wine grapes, primarily Ugni Blanc grapes from the Cognac region of France. While 'cognac' refers specifically to this protected designation of origin brandy, the fundamental flavor source is grape, following the rule that for spirits, anchor_name should reflect the main flavor source when identifiable."
+  },
+  {
+    "ingredient_id": 3076,
+    "canonical_name": "amontillado",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Amontillado is a type of sherry, which is a fortified wine made from grapes. The main flavor source is grape, though the specific nutty, oxidative character of amontillado comes from aging. 'fortified_wine' is the appropriate form category rather than 'other'."
+  },
+  {
+    "ingredient_id": 3078,
+    "canonical_name": "amaro",
+    "anchor_name": "herbal_botanical",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Amaro is a category of Italian herbal liqueurs with complex botanical flavor profiles. While 'amaro' itself is the surface form, the main flavor sources are typically various herbs, roots, barks, and botanicals rather than a single identifiable fruit or plant. 'herbal_botanical' captures this collective flavor source better than simply repeating 'amaro'."
+  },
+  {
+    "ingredient_id": 3079,
+    "canonical_name": "rum",
+    "anchor_name": "sugarcane",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rum is a spirit distilled from sugarcane byproducts (molasses or sugarcane juice), making sugarcane the primary flavor source. The anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3081,
+    "canonical_name": "ancho reyes",
+    "anchor_name": "ancho chile",
+    "anchor_form": "liqueur",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Ancho Reyes is a Mexican liqueur flavored primarily with ancho chiles (dried poblano peppers). The name 'ancho' refers to the chile variety, and 'reyes' is a brand identifier. Following the rules: the main flavor source is ancho chile (not simply repeating 'ancho reyes'), and the form is liqueur (not 'other' as suggested in the input, since it's specifically a chile-flavored liqueur)."
+  },
+  {
+    "ingredient_id": 3082,
+    "canonical_name": "banana bitters",
+    "anchor_name": "banana",
+    "anchor_form": "bitters",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'banana bitters' clearly indicates banana as the primary flavor source, and 'bitters' is the correct form category. The weak_anchor_candidate and rule_form_candidate provided match this mapping."
+  },
+  {
+    "ingredient_id": 3091,
+    "canonical_name": "absinthe",
+    "anchor_name": "wormwood",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Absinthe is a spirit primarily flavored with wormwood (Artemisia absinthium), along with anise and fennel. While 'absinthe' could be used as the anchor_name, wormwood is the distinctive botanical that defines its flavor profile and historical identity. The form is 'spirit' as absinthe is a distilled alcoholic beverage, not a liqueur or other category."
+  },
+  {
+    "ingredient_id": 3093,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3095,
+    "canonical_name": "syrup",
+    "anchor_name": "sugar",
+    "anchor_form": "syrup",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The term 'syrup' alone typically refers to a sugar syrup, which is a sweetening agent made from sugar dissolved in water. The main flavor source is sugar, and the form is clearly syrup as specified in the input."
+  },
+  {
+    "ingredient_id": 3097,
+    "canonical_name": "triple sec",
+    "anchor_name": "orange",
+    "anchor_form": "liqueur",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Triple sec is a clear, orange-flavored liqueur made from the dried peels of bitter and sweet oranges. The main flavor source is orange, and the form is liqueur, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3099,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 3100,
+    "canonical_name": "amaro",
+    "anchor_name": "herbal_botanical",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Amaro is a category of Italian herbal liqueurs with complex botanical flavor profiles. While 'amaro' itself is the surface form, the main flavor sources are typically various herbs, roots, barks, and botanicals rather than a single identifiable fruit or plant. 'herbal_botanical' captures this collective flavor source better than simply repeating 'amaro'."
+  },
+  {
+    "ingredient_id": 3106,
+    "canonical_name": "coffee syrup",
+    "anchor_name": "coffee",
+    "anchor_form": "syrup",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'coffee syrup' directly indicates coffee as the main flavor source and syrup as the form, matching the provided candidates and following the mapping rules."
+  },
+  {
+    "ingredient_id": 3107,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 3108,
+    "canonical_name": "scotch whisky",
+    "anchor_name": "barley",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Scotch whisky is primarily made from malted barley, which is the main flavor source. While 'scotch' refers to the geographical origin and production style, the fundamental flavor anchor is barley. The form is correctly identified as spirit based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3116,
+    "canonical_name": "absinthe",
+    "anchor_name": "wormwood",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Absinthe is a spirit primarily flavored with wormwood (Artemisia absinthium), along with anise and fennel. While 'absinthe' could be used as the anchor_name, wormwood is the distinctive botanical that defines its flavor profile and historical identity. The form is 'spirit' as absinthe is a distilled alcoholic beverage, not a liqueur or other category."
+  },
+  {
+    "ingredient_id": 3117,
+    "canonical_name": "rye",
+    "anchor_name": "rye",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "In cocktail contexts, 'rye' typically refers to rye whiskey, a spirit distilled from rye grain. The main flavor source is rye grain, so anchor_name='rye'. The form is a spirit, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3129,
+    "canonical_name": "madeira",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Madeira is a fortified wine from the Madeira Islands, Portugal, made primarily from grapes. The main flavor source is grape, with the fortified_wine form being more specific than the provided 'other' candidate."
+  },
+  {
+    "ingredient_id": 3131,
+    "canonical_name": "walnut liqueur",
+    "anchor_name": "walnut",
+    "anchor_form": "liqueur",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'walnut liqueur' clearly identifies 'walnut' as the main flavor source and 'liqueur' as the form, matching the provided candidates exactly."
+  },
+  {
+    "ingredient_id": 3133,
+    "canonical_name": "whisky",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Whisky is a spirit distilled from fermented grain mash, with grain being the primary flavor source. While specific grains (barley, corn, rye, wheat) vary by whisky type, 'grain' serves as a reasonable sensory abstraction for the main flavor-bearing category."
+  },
+  {
+    "ingredient_id": 3134,
+    "canonical_name": "verjus",
+    "anchor_name": "grape",
+    "anchor_form": "juice",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Verjus is an acidic juice made from unripe grapes, typically used as a substitute for vinegar or citrus juice in cocktails. The main flavor source is grape, specifically unripe grapes, and the form is juice, though it's technically a 'verjuice' which falls under the juice category in cocktail contexts."
+  },
+  {
+    "ingredient_id": 3135,
+    "canonical_name": "kummel liqueur",
+    "anchor_name": "caraway",
+    "anchor_form": "liqueur",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Kummel liqueur is traditionally flavored primarily with caraway seeds, along with other spices like cumin and fennel. The anchor_name reflects the main flavor source (caraway) rather than the surface form 'kummel' (which is the German word for caraway/cumin)."
+  },
+  {
+    "ingredient_id": 3137,
+    "canonical_name": "sugar syrup",
+    "anchor_name": "sugar",
+    "anchor_form": "syrup",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'sugar syrup' directly indicates sugar as the flavor source in syrup form, with no need for abstraction or substitution."
+  },
+  {
+    "ingredient_id": 3143,
+    "canonical_name": "orange liqueur",
+    "anchor_name": "orange",
+    "anchor_form": "liqueur",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange liqueur' directly specifies 'orange' as the main flavor source, and 'liqueur' as the form, matching the provided candidates exactly."
+  },
+  {
+    "ingredient_id": 3148,
+    "canonical_name": "orange liqueur",
+    "anchor_name": "orange",
+    "anchor_form": "liqueur",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange liqueur' directly specifies 'orange' as the main flavor source, and 'liqueur' as the form, matching the provided candidates exactly."
+  },
+  {
+    "ingredient_id": 3149,
+    "canonical_name": "clove tincture",
+    "anchor_name": "clove",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'clove tincture' contains 'clove' as the main flavor source, which is a spice. The form 'tincture' is not in the predefined list, so 'other' is appropriate as it's an alcohol-based extract."
+  },
+  {
+    "ingredient_id": 3153,
+    "canonical_name": "kola nut tincture",
+    "anchor_name": "kola nut",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'kola nut tincture' clearly indicates kola nut as the primary flavor source, with 'tincture' being a preparation method that doesn't match the predefined anchor_form categories, thus classified as 'other'."
+  },
+  {
+    "ingredient_id": 3166,
+    "canonical_name": "lime",
+    "anchor_name": "lime",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'lime' is a fruit name without any preparation or form specification. Since no processing method is indicated (like 'juice', 'syrup', etc.), it defaults to 'other' form. The anchor_name remains 'lime' as it's already the main flavor source without modifiers."
+  },
+  {
+    "ingredient_id": 3176,
+    "canonical_name": "cinnamon",
+    "anchor_name": "cinnamon",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cinnamon is a spice that serves as its own flavor source; it is typically used in bark or ground form, not as a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, so 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 3177,
+    "canonical_name": "orange peel",
+    "anchor_name": "orange",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange peel' has 'orange' as the main flavor source, with 'peel' being a preparation modifier indicating the specific part used. The form is 'other' since it's not a juice, syrup, liqueur, etc., but rather a fresh ingredient part used for flavoring."
+  },
+  {
+    "ingredient_id": 3182,
+    "canonical_name": "liqueur",
+    "anchor_name": "herb",
+    "anchor_form": "liqueur",
+    "confidence": 0.2,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'liqueur' is a generic category without a specific flavor source. Following the rule to return a reasonable sensory source when no better abstraction is possible, 'herb' is chosen as a common base for many liqueurs (e.g., Chartreuse, Jägermeister). However, this is a weak inference with low confidence due to the lack of specific information."
+  },
+  {
+    "ingredient_id": 3186,
+    "canonical_name": "passion fruit reduction",
+    "anchor_name": "passion fruit",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'passion fruit reduction' contains 'passion fruit' as the main flavor source, with 'reduction' indicating a cooking/preparation method that concentrates the flavor. Following the rules, I removed the preparation modifier 'reduction' to identify the core flavor anchor. The form 'other' is appropriate since reductions don't fit the specific categories like juice, syrup, or liqueur."
+  },
+  {
+    "ingredient_id": 3193,
+    "canonical_name": "herbal liqueur",
+    "anchor_name": "herbal",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'herbal liqueur' describes a liqueur with herbal characteristics. 'herbal' is already a broad flavor category representing various herbs, and no specific herb is named. Since 'herbal' is the main flavor descriptor and 'liqueur' is the form, these are used directly as anchor_name and anchor_form, respectively. Confidence is moderate because 'herbal' is a general term rather than a specific flavor source."
+  },
+  {
+    "ingredient_id": 3195,
+    "canonical_name": "cinnamon syrup",
+    "anchor_name": "cinnamon",
+    "anchor_form": "syrup",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'cinnamon syrup' directly contains 'cinnamon' as the main flavor source and 'syrup' as the form, matching the provided candidates and following the mapping rules."
+  },
+  {
+    "ingredient_id": 3196,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 3197,
+    "canonical_name": "grapefruit peel",
+    "anchor_name": "grapefruit",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The main flavor source is grapefruit, as the peel contains essential oils and aromatic compounds from the fruit. The form is 'other' because it's not a juice, syrup, liqueur, etc., but rather a fresh ingredient part used for flavoring."
+  },
+  {
+    "ingredient_id": 3206,
+    "canonical_name": "lemon twist",
+    "anchor_name": "lemon",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'lemon twist' is a garnish made from lemon peel, where 'lemon' is the main flavor source and 'twist' describes the preparation/style. Following the rules, I removed the preparation modifier 'twist' to identify the anchor_name as 'lemon'. The anchor_form is 'other' as it is not a juice, syrup, liqueur, etc., but a garnish or peel form."
+  },
+  {
+    "ingredient_id": 3207,
+    "canonical_name": "orange twist",
+    "anchor_name": "orange",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange twist' is a garnish made from orange peel, where 'orange' is the main flavor-bearing fruit source, and the form 'twist' (a peel garnish) falls under the 'other' category as it's not juice, syrup, liqueur, etc."
+  },
+  {
+    "ingredient_id": 3208,
+    "canonical_name": "peanut butter",
+    "anchor_name": "peanut",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The main flavor source in 'peanut butter' is peanut, which is a legume/plant source. The form 'other' is appropriate as peanut butter is a spread/paste rather than a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit."
+  },
+  {
+    "ingredient_id": 3209,
+    "canonical_name": "rum",
+    "anchor_name": "sugarcane",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rum is a spirit distilled from sugarcane byproducts (molasses or sugarcane juice), making sugarcane the primary flavor source. The anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3213,
+    "canonical_name": "grapefruit soda",
+    "anchor_name": "grapefruit",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'grapefruit soda' contains 'grapefruit' as the main flavor source, with 'soda' indicating a carbonated beverage form that doesn't fit the predefined anchor_form categories, so 'other' is appropriate."
+  },
+  {
+    "ingredient_id": 3223,
+    "canonical_name": "orange sorbet",
+    "anchor_name": "orange",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange sorbet' contains 'orange' as the main flavor source, with 'sorbet' indicating a frozen dessert form that doesn't match the predefined anchor_form categories, so 'other' is appropriate."
+  },
+  {
+    "ingredient_id": 3224,
+    "canonical_name": "orange bitters",
+    "anchor_name": "orange",
+    "anchor_form": "bitters",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'orange bitters' clearly identifies orange as the main flavor source, and 'bitters' is the correct form category as specified in the rules. The weak_anchor_candidate and rule_form_candidate provided in the input confirm this mapping."
+  },
+  {
+    "ingredient_id": 3225,
+    "canonical_name": "water",
+    "anchor_name": "water",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Water is a fundamental ingredient without a distinct flavor source beyond itself. It serves as a diluent and mixer in cocktails, not deriving from a specific fruit, herb, spice, or plant flavor. The anchor_form is 'other' as it does not fit juice, syrup, liqueur, cordial, bitters, fortified_wine, or spirit categories."
+  },
+  {
+    "ingredient_id": 3226,
+    "canonical_name": "raspberry jello",
+    "anchor_name": "raspberry",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'raspberry jello' contains 'raspberry' as the main flavor source, with 'jello' indicating a gelatin-based preparation form that falls under the 'other' category in the anchor_form options."
+  },
+  {
+    "ingredient_id": 3229,
+    "canonical_name": "water",
+    "anchor_name": "water",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Water is a fundamental ingredient without a distinct flavor source beyond itself. It serves as a diluent and mixer in cocktails, not deriving from a specific fruit, herb, spice, or plant flavor. The anchor_form is 'other' as it does not fit juice, syrup, liqueur, cordial, bitters, fortified_wine, or spirit categories."
+  },
+  {
+    "ingredient_id": 3230,
+    "canonical_name": "cognac",
+    "anchor_name": "grape",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cognac is a type of brandy distilled from white wine grapes, primarily Ugni Blanc grapes from the Cognac region of France. While 'cognac' refers specifically to this protected designation of origin brandy, the fundamental flavor source is grape, following the rule that for spirits, anchor_name should reflect the main flavor source when identifiable."
+  },
+  {
+    "ingredient_id": 3231,
+    "canonical_name": "apricot liqueur",
+    "anchor_name": "apricot",
+    "anchor_form": "liqueur",
+    "confidence": 0.95,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'apricot liqueur' clearly indicates apricot as the primary flavor source, with 'liqueur' as the form. The weak_anchor_candidate and rule_form_candidate provided align perfectly with this mapping."
+  },
+  {
+    "ingredient_id": 3233,
+    "canonical_name": "aperitivo",
+    "anchor_name": "bitter_orange",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Aperitivo is a category of Italian bitter aperitif wines, typically flavored with herbs, roots, and citrus. The most common flavor profile includes bitter orange (chinotto or Seville orange) as a primary botanical, along with gentian, rhubarb, and other herbs. While 'aperitivo' itself is a category name, the sensory anchor for these drinks is typically bitter citrus/orange notes. The form is classified as fortified_wine since most aperitivos (like Campari, Aperol, etc.) are wine-based with added spirits and botanicals."
+  },
+  {
+    "ingredient_id": 3234,
+    "canonical_name": "lemon juice",
+    "anchor_name": "lemon",
+    "anchor_form": "juice",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'lemon juice' directly follows the example pattern 'lime juice' -> anchor_name='lime', anchor_form='juice'. The main flavor source is clearly 'lemon' (the fruit), and the form is 'juice' (extracted liquid)."
+  },
+  {
+    "ingredient_id": 3235,
+    "canonical_name": "whisky",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Whisky is a spirit distilled from fermented grain mash, with grain being the primary flavor source. While specific grains (barley, corn, rye, wheat) vary by whisky type, 'grain' serves as a reasonable sensory abstraction for the main flavor-bearing category."
+  },
+  {
+    "ingredient_id": 3236,
+    "canonical_name": "sugar",
+    "anchor_name": "sugar",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sugar is a fundamental sweetening ingredient with no more specific flavor source to abstract to. It is not a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, so 'other' is the appropriate form category."
+  },
+  {
+    "ingredient_id": 3239,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 3241,
+    "canonical_name": "bloody mary mix",
+    "anchor_name": "tomato",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bloody Mary mix is a prepared cocktail mixer typically containing tomato juice as its primary flavor base, along with spices and other flavorings. The main sensory anchor is tomato, though the mix includes additional elements like horseradish, Worcestershire sauce, and spices. The form is 'other' as it's a prepared mixer blend rather than a single-form ingredient."
+  },
+  {
+    "ingredient_id": 3242,
+    "canonical_name": "caper berry",
+    "anchor_name": "caper",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Caper berry is the fruit of the caper plant, with 'caper' being the main flavor source. The form 'other' is appropriate as it's neither juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit, but rather a whole or preserved ingredient."
+  },
+  {
+    "ingredient_id": 3243,
+    "canonical_name": "celery",
+    "anchor_name": "celery",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'celery' is a plant source itself, not a processed form like juice, syrup, or spirit. It serves as its own flavor anchor, and 'other' is the appropriate form category for whole/raw plant ingredients."
+  },
+  {
+    "ingredient_id": 3244,
+    "canonical_name": "tomato",
+    "anchor_name": "tomato",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Tomato is a fruit/vegetable that serves as its own flavor source. Since no preparation form is specified (like 'tomato juice' or 'tomato liqueur'), the most appropriate form is 'other' as it's likely being used in its raw or prepared form rather than as a processed beverage ingredient."
+  },
+  {
+    "ingredient_id": 3245,
+    "canonical_name": "pepperoncini",
+    "anchor_name": "pepperoncini",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Pepperoncini is a specific chili pepper variety, and the input does not specify a processed form like juice, syrup, or liqueur. The anchor_name is the pepper itself as the flavor source, and anchor_form is 'other' since it's likely used fresh, pickled, or as an ingredient without a defined cocktail-specific form."
+  },
+  {
+    "ingredient_id": 3246,
+    "canonical_name": "okra",
+    "anchor_name": "okra",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Okra is a vegetable with a distinct flavor profile, and 'okra' is the primary flavor source. It does not fit into the specified forms like juice, syrup, liqueur, etc., so 'other' is appropriate."
+  },
+  {
+    "ingredient_id": 3247,
+    "canonical_name": "onion",
+    "anchor_name": "onion",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'onion' is already the main flavor source and belongs to the plant/vegetable category. Since it's not processed into juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit, the appropriate form is 'other'."
+  },
+  {
+    "ingredient_id": 3248,
+    "canonical_name": "pepper",
+    "anchor_name": "pepper",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'pepper' is a spice that serves as its own flavor source. Since it's not in juice, syrup, liqueur, cordial, bitters, fortified_wine, or spirit form, 'other' is the appropriate category. The confidence is high because pepper is a well-defined flavor source without preparation modifiers."
+  },
+  {
+    "ingredient_id": 3249,
+    "canonical_name": "lemon",
+    "anchor_name": "lemon",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'lemon' is a base ingredient name without any preparation or form modifiers. Since no specific form (like juice, syrup, or liqueur) is indicated, it defaults to 'other' as the anchor_form. The anchor_name remains 'lemon' as it is the main flavor source."
+  },
+  {
+    "ingredient_id": 3250,
+    "canonical_name": "olive",
+    "anchor_name": "olive",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'olive' is already the main flavor source itself, not a processed form like juice or liqueur. It fits the 'other' category as it's typically used whole or as a garnish in cocktails, not falling into the other specified forms."
+  },
+  {
+    "ingredient_id": 3255,
+    "canonical_name": "rum",
+    "anchor_name": "sugarcane",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rum is a spirit distilled from sugarcane byproducts (molasses or sugarcane juice), making sugarcane the primary flavor source. The anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3260,
+    "canonical_name": "ale",
+    "anchor_name": "barley",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Ale is a type of beer brewed primarily from malted barley, with hops providing bitterness and aroma. While 'ale' could be considered the anchor_name, following the rule to identify the main flavor source, barley is the primary grain that provides the foundational malt character in ale. The form is 'other' as specified in the input, since ale doesn't fit the other specific form categories like spirit or liqueur."
+  },
+  {
+    "ingredient_id": 3262,
+    "canonical_name": "angioletto",
+    "anchor_name": "angelica",
+    "anchor_form": "liqueur",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Angioletto is an Italian liqueur flavored primarily with angelica root. The name 'angioletto' is derived from 'angelica' (angelica root), which serves as the main flavor source. The form is identified as 'liqueur' based on its alcoholic and sweetened nature, typical of Italian herbal liqueurs."
+  },
+  {
+    "ingredient_id": 3265,
+    "canonical_name": "maraschino cherry",
+    "anchor_name": "cherry",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Maraschino cherry is a preserved cherry typically used as a garnish or ingredient. The main flavor source is cherry, with 'maraschino' referring to the preservation method (originally in maraschino liqueur). The form is 'other' as it's neither juice, syrup, liqueur, etc., but a preserved fruit product."
+  },
+  {
+    "ingredient_id": 3267,
+    "canonical_name": "bitters",
+    "anchor_name": "botanical",
+    "anchor_form": "bitters",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bitters are typically made from a blend of botanicals, herbs, roots, and spices. While 'bitters' is the surface form, the main flavor source is a complex botanical mixture rather than a single identifiable fruit or plant. The anchor_form is correctly 'bitters' as per the category definition."
+  },
+  {
+    "ingredient_id": 3279,
+    "canonical_name": "sherry",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sherry is a fortified wine made from grapes, with 'grape' being the primary flavor source. The form 'fortified_wine' is more specific than 'other' and aligns with the definition of sherry as a wine-based beverage."
+  },
+  {
+    "ingredient_id": 3280,
+    "canonical_name": "cold brew coffee",
+    "anchor_name": "coffee",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The main flavor source is coffee, with 'cold brew' being a preparation method that should be removed according to the rules. The form 'other' is appropriate since cold brew coffee is neither a juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit in the traditional cocktail sense."
+  },
+  {
+    "ingredient_id": 3285,
+    "canonical_name": "poppy oil",
+    "anchor_name": "poppy",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'poppy oil' is an oil derived from poppy seeds. The main flavor source is 'poppy', which is the plant source, and the form is 'other' as it is an oil rather than a juice, syrup, liqueur, cordial, bitters, fortified wine, or spirit."
+  },
+  {
+    "ingredient_id": 3286,
+    "canonical_name": "lager",
+    "anchor_name": "barley",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Lager is a type of beer primarily made from barley malt, with barley being the main flavor-bearing grain source. The form 'other' is appropriate as lager is neither a juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit in the typical cocktail context."
+  },
+  {
+    "ingredient_id": 3287,
+    "canonical_name": "sage",
+    "anchor_name": "sage",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sage is a herb that serves as its own flavor source. It doesn't contain preparation or style modifiers, and isn't in a processed form like juice, syrup, or liqueur. The 'other' category is appropriate for whole herbs, spices, or botanicals used directly."
+  },
+  {
+    "ingredient_id": 3288,
+    "canonical_name": "slivovitz",
+    "anchor_name": "plum",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Slivovitz is a traditional fruit brandy made from plums, with 'slivovitz' derived from Slavic words for plum. The main flavor source is plum, and it's a distilled spirit, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3291,
+    "canonical_name": "coconut",
+    "anchor_name": "coconut",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'coconut' is already the main flavor source. As a standalone ingredient without a specified preparation form (like 'coconut cream', 'coconut milk', or 'coconut liqueur'), it defaults to 'other' form. The confidence is high because coconut is clearly the flavor anchor, but lower than 1.0 due to potential ambiguity in preparation."
+  },
+  {
+    "ingredient_id": 3296,
+    "canonical_name": "moscato",
+    "anchor_name": "muscat grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Moscato is a sweet wine made from Muscat grapes, which are the primary flavor source. While Moscato can be a still or sparkling wine, it is often fortified or has higher alcohol content than table wines, making 'fortified_wine' the most appropriate form category among the options, as it captures the wine-based nature with potential fortification."
+  },
+  {
+    "ingredient_id": 3297,
+    "canonical_name": "sherry",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sherry is a fortified wine made from grapes, with 'grape' being the primary flavor source. The form 'fortified_wine' is more specific than 'other' and aligns with the definition of sherry as a wine-based beverage."
+  },
+  {
+    "ingredient_id": 3301,
+    "canonical_name": "cinnamon tincture",
+    "anchor_name": "cinnamon",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'cinnamon tincture' contains 'cinnamon' as the main flavor source, which is a spice. The form 'tincture' is not in the predefined list of anchor forms, so 'other' is appropriate as it's an alcohol-based extract."
+  },
+  {
+    "ingredient_id": 3303,
+    "canonical_name": "honey liqueur",
+    "anchor_name": "honey",
+    "anchor_form": "liqueur",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'honey liqueur' directly indicates honey as the main flavor source, with 'liqueur' specifying the form. No abstraction or substitution is needed as honey is already the primary flavor-bearing component."
+  },
+  {
+    "ingredient_id": 3305,
+    "canonical_name": "sherry",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sherry is a fortified wine made from grapes, with 'grape' being the primary flavor source. The form 'fortified_wine' is more specific than 'other' and aligns with the definition of sherry as a wine-based beverage."
+  },
+  {
+    "ingredient_id": 3309,
+    "canonical_name": "tuaca",
+    "anchor_name": "vanilla",
+    "anchor_form": "liqueur",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Tuaca is a vanilla-citrus flavored liqueur, with vanilla being the dominant flavor profile. The anchor_form is 'liqueur' as it's a sweetened spirit-based beverage, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3311,
+    "canonical_name": "simple syrup",
+    "anchor_name": "sugar",
+    "anchor_form": "syrup",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Simple syrup is a basic mixture of sugar and water. The main flavor source is sugar, which provides sweetness. The form is syrup, as indicated by the ingredient name. The modifier 'simple' refers to the basic preparation style and should be removed when identifying the anchor_name."
+  },
+  {
+    "ingredient_id": 3317,
+    "canonical_name": "ale",
+    "anchor_name": "barley",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Ale is a type of beer brewed primarily from malted barley, with hops providing bitterness and aroma. While 'ale' could be considered the anchor_name, following the rule to identify the main flavor source, barley is the primary grain that provides the foundational malt character in ale. The form is 'other' as specified in the input, since ale doesn't fit the other specific form categories like spirit or liqueur."
+  },
+  {
+    "ingredient_id": 3324,
+    "canonical_name": "yuzu",
+    "anchor_name": "yuzu",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Yuzu is a citrus fruit that serves as its own flavor source. Since no preparation form is specified in the input, it defaults to 'other' as it could be used in various forms (juice, zest, etc.) in cocktails."
+  },
+  {
+    "ingredient_id": 3325,
+    "canonical_name": "lychee puree",
+    "anchor_name": "lychee",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'lychee puree' contains 'lychee' as the main flavor source, with 'puree' indicating a processed form that doesn't fit the predefined anchor_form categories, so 'other' is appropriate."
+  },
+  {
+    "ingredient_id": 3330,
+    "canonical_name": "aperitivo",
+    "anchor_name": "bitter_orange",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Aperitivo is a category of Italian bitter aperitif wines, typically flavored with herbs, roots, and citrus. The most common flavor profile includes bitter orange (chinotto or Seville orange) as a primary botanical, along with gentian, rhubarb, and other herbs. While 'aperitivo' itself is a category name, the sensory anchor for these drinks is typically bitter citrus/orange notes. The form is classified as fortified_wine since most aperitivos (like Campari, Aperol, etc.) are wine-based with added spirits and botanicals."
+  },
+  {
+    "ingredient_id": 3337,
+    "canonical_name": "cinnamon syrup",
+    "anchor_name": "cinnamon",
+    "anchor_form": "syrup",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'cinnamon syrup' directly contains 'cinnamon' as the main flavor source and 'syrup' as the form, matching the provided candidates and following the mapping rules."
+  },
+  {
+    "ingredient_id": 3341,
+    "canonical_name": "fennel bitters",
+    "anchor_name": "fennel",
+    "anchor_form": "bitters",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'fennel bitters' directly indicates fennel as the main flavor source, with bitters as the form/category. No abstraction or substitution is needed as fennel is already the primary flavor-bearing botanical."
+  },
+  {
+    "ingredient_id": 3349,
+    "canonical_name": "salt",
+    "anchor_name": "salt",
+    "anchor_form": "other",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "Salt is a mineral seasoning that serves as its own flavor source; it doesn't derive from a fruit, plant, or other flavor-bearing object. The 'other' form category is appropriate as it's neither a juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit."
+  },
+  {
+    "ingredient_id": 3360,
+    "canonical_name": "club soda",
+    "anchor_name": "carbonated water",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Club soda is carbonated water with added minerals for taste, but lacks a distinct flavor-bearing source like fruit, herb, or spice. The anchor_name is generalized to its base form as carbonated water, which is the closest sensory source, and anchor_form is 'other' as it doesn't fit the specified categories like juice or spirit."
+  },
+  {
+    "ingredient_id": 3380,
+    "canonical_name": "pisco",
+    "anchor_name": "grape",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Pisco is a grape-based spirit from South America, specifically a brandy made from fermented grape juice. The main flavor source is grape, not the spirit category itself."
+  },
+  {
+    "ingredient_id": 3384,
+    "canonical_name": "sherry vinegar",
+    "anchor_name": "grape",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sherry vinegar is made from sherry wine, which is produced from grapes. The main flavor source is grape, with the vinegar form indicating fermentation and acidification. The anchor_form is 'other' as specified in the rule_form_candidate, since vinegar doesn't fit the other listed categories."
+  },
+  {
+    "ingredient_id": 3389,
+    "canonical_name": "dark chocolate",
+    "anchor_name": "cacao",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Dark chocolate's primary flavor source is cacao beans. 'Dark chocolate' is a processed form with cacao as the main flavor-bearing ingredient. The form 'other' is appropriate since it's neither juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit."
+  },
+  {
+    "ingredient_id": 3390,
+    "canonical_name": "cream",
+    "anchor_name": "dairy",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'cream' is a dairy product derived from milk. While 'cream' itself is a specific dairy component, the main flavor source is dairy. The form 'other' is appropriate as cream doesn't fit the other specified categories like juice, syrup, liqueur, etc."
+  },
+  {
+    "ingredient_id": 3392,
+    "canonical_name": "ginger",
+    "anchor_name": "ginger",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'ginger' is ambiguous but the rule_form_candidate suggests it's a spirit form. Ginger is a root that serves as the primary flavor source, so anchor_name remains 'ginger' as the main flavor-bearing object. The confidence is 0.8 due to potential ambiguity about the exact form without additional context."
+  },
+  {
+    "ingredient_id": 3394,
+    "canonical_name": "gran classico",
+    "anchor_name": "bitter_herbs",
+    "anchor_form": "bitters",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Gran Classico is a bitter Italian amaro-style liqueur. While 'gran classico' is the brand/specific name, the main flavor profile comes from a blend of bitter herbs, roots, and botanicals (similar to Campari). The form is 'bitters' as it's an aromatic bitter liqueur used as a cocktail ingredient, not a spirit or standard liqueur in the typical sense."
+  },
+  {
+    "ingredient_id": 3397,
+    "canonical_name": "grapefruit",
+    "anchor_name": "grapefruit",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'grapefruit' is a fruit name without any preparation or form modifiers. Since no specific form (like juice, syrup, liqueur, etc.) is indicated, it defaults to 'other' as the anchor_form. The anchor_name remains 'grapefruit' as it is the main flavor source."
+  },
+  {
+    "ingredient_id": 3401,
+    "canonical_name": "vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vermouth is a fortified wine flavored primarily with wormwood (Artemisia absinthium), along with other botanicals. While 'vermouth' is the surface form, the main flavor source is wormwood, which gives it its characteristic bitter profile. The form is correctly identified as fortified_wine based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3407,
+    "canonical_name": "grapefruit soda",
+    "anchor_name": "grapefruit",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'grapefruit soda' contains 'grapefruit' as the main flavor source, with 'soda' indicating a carbonated beverage form that doesn't fit the predefined anchor_form categories, so 'other' is appropriate."
+  },
+  {
+    "ingredient_id": 3410,
+    "canonical_name": "lime juice",
+    "anchor_name": "lime",
+    "anchor_form": "juice",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'lime juice' directly follows the example pattern: 'lime' is the main flavor-bearing fruit, and 'juice' is the form/category. The weak_anchor_candidate and rule_form_candidate provided match this mapping exactly."
+  },
+  {
+    "ingredient_id": 3413,
+    "canonical_name": "habanero tincture",
+    "anchor_name": "habanero",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'habanero tincture' contains 'habanero' as the main flavor-bearing chili pepper source, with 'tincture' indicating an alcohol-based extraction that doesn't fit the predefined anchor_form categories, thus classified as 'other'."
+  },
+  {
+    "ingredient_id": 3416,
+    "canonical_name": "absinthe",
+    "anchor_name": "wormwood",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Absinthe is a spirit primarily flavored with wormwood (Artemisia absinthium), along with anise and fennel. While 'absinthe' could be used as the anchor_name, wormwood is the distinctive botanical that defines its flavor profile and historical identity. The form is 'spirit' as absinthe is a distilled alcoholic beverage, not a liqueur or other category."
+  },
+  {
+    "ingredient_id": 3423,
+    "canonical_name": "pear syrup",
+    "anchor_name": "pear",
+    "anchor_form": "syrup",
+    "confidence": 1.0,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'pear syrup' directly indicates pear as the main flavor source and syrup as the form, matching the provided weak_anchor_candidate and rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3432,
+    "canonical_name": "sweet vermouth",
+    "anchor_name": "wormwood",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sweet vermouth is a fortified wine whose primary flavor traditionally comes from wormwood (Artemisia absinthium), which is the botanical anchor. The 'sweet' modifier describes the style, not the flavor source."
+  },
+  {
+    "ingredient_id": 3433,
+    "canonical_name": "brandy",
+    "anchor_name": "grape",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Brandy is a spirit distilled from fermented fruit juice, most commonly grapes. While 'brandy' could refer to various fruit-based spirits, grape is the most common and traditional base. The anchor_name reflects the primary flavor source (grape) rather than the surface form 'brandy', and anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3437,
+    "canonical_name": "ginger beer",
+    "anchor_name": "ginger",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Ginger beer is a carbonated beverage flavored primarily with ginger root. The main flavor source is ginger, not beer (which refers to the fermented/carbonated beverage style). The form 'other' is appropriate as ginger beer is neither a juice, syrup, liqueur, cordial, bitters, fortified wine, nor spirit - it's a non-alcoholic or low-alcohol carbonated beverage."
+  },
+  {
+    "ingredient_id": 3438,
+    "canonical_name": "vodka",
+    "anchor_name": "grain",
+    "anchor_form": "spirit",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Vodka is traditionally distilled from grains like wheat, rye, or corn, with 'grain' being the most common and recognizable flavor source. While vodka can also be made from potatoes or other starches, grain is the most typical and neutral base that aligns with vodka's character. The anchor_form is clearly 'spirit' as specified in the input."
+  },
+  {
+    "ingredient_id": 3440,
+    "canonical_name": "ginger",
+    "anchor_name": "ginger",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'ginger' is ambiguous but the rule_form_candidate suggests it's a spirit form. Ginger is a root that serves as the primary flavor source, so anchor_name remains 'ginger' as the main flavor-bearing object. The confidence is 0.8 due to potential ambiguity about the exact form without additional context."
+  },
+  {
+    "ingredient_id": 3441,
+    "canonical_name": "strawberry",
+    "anchor_name": "strawberry",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "The input 'strawberry' is already the main flavor source without preparation or style modifiers. Since no specific form is indicated in the name, 'other' is the appropriate anchor_form as it doesn't fit the defined categories like juice, syrup, liqueur, etc."
+  },
+  {
+    "ingredient_id": 3443,
+    "canonical_name": "bourbon",
+    "anchor_name": "corn",
+    "anchor_form": "spirit",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Bourbon is a type of whiskey that must be made from at least 51% corn mash, with corn being the primary flavor-bearing grain that distinguishes it from other whiskeys. The anchor_form is 'spirit' as bourbon is a distilled alcoholic beverage, not 'other' as suggested in the input."
+  },
+  {
+    "ingredient_id": 3445,
+    "canonical_name": "apricot liqueur",
+    "anchor_name": "apricot",
+    "anchor_form": "liqueur",
+    "confidence": 0.95,
+    "anchor_source": "deepseek_llm",
+    "reason": "The ingredient 'apricot liqueur' clearly indicates apricot as the primary flavor source, with 'liqueur' as the form. The weak_anchor_candidate and rule_form_candidate provided align perfectly with this mapping."
+  },
+  {
+    "ingredient_id": 3451,
+    "canonical_name": "rum",
+    "anchor_name": "sugarcane",
+    "anchor_form": "spirit",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Rum is a spirit distilled from sugarcane byproducts (molasses or sugarcane juice), making sugarcane the primary flavor source. The anchor_form is correctly identified as 'spirit' based on the rule_form_candidate."
+  },
+  {
+    "ingredient_id": 3452,
+    "canonical_name": "cacao",
+    "anchor_name": "cacao",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Cacao is the primary flavor source and botanical origin. As a raw ingredient without preparation modifiers, it maps directly to 'cacao' as the anchor_name. The form 'other' is appropriate since cacao could be used in various forms (nibs, powder, beans) not covered by the specific form categories."
+  },
+  {
+    "ingredient_id": 3453,
+    "canonical_name": "menta",
+    "anchor_name": "mint",
+    "anchor_form": "other",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "'Menta' is the Spanish/Italian word for 'mint', which is a clear flavor-bearing herb. The input provides 'other' as the form candidate, which is appropriate since 'menta' alone doesn't specify a processed form like syrup or liqueur."
+  },
+  {
+    "ingredient_id": 3454,
+    "canonical_name": "demerara sugar",
+    "anchor_name": "sugar cane",
+    "anchor_form": "other",
+    "confidence": 0.8,
+    "anchor_source": "deepseek_llm",
+    "reason": "Demerara sugar is a type of raw cane sugar with large, golden crystals. The main flavor source is sugar cane, which is the plant source for all cane sugars. The 'demerara' modifier refers to the specific processing style and origin (Demerara region of Guyana), which should be removed to identify the core flavor anchor. The form is 'other' as it's a solid sweetener, not fitting the other specified liquid forms."
+  },
+  {
+    "ingredient_id": 3455,
+    "canonical_name": "mole",
+    "anchor_name": "chili",
+    "anchor_form": "other",
+    "confidence": 0.7,
+    "anchor_source": "deepseek_llm",
+    "reason": "Mole is a complex Mexican sauce typically featuring chili peppers as the primary flavor anchor, along with spices, chocolate, and other ingredients. Since 'mole' refers to the sauce preparation rather than a single ingredient, 'chili' is inferred as the most characteristic flavor source. The form is 'other' as it doesn't fit the specified beverage-oriented categories."
+  },
+  {
+    "ingredient_id": 3457,
+    "canonical_name": "sherry",
+    "anchor_name": "grape",
+    "anchor_form": "fortified_wine",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Sherry is a fortified wine made from grapes, with 'grape' being the primary flavor source. The form 'fortified_wine' is more specific than 'other' and aligns with the definition of sherry as a wine-based beverage."
+  },
+  {
+    "ingredient_id": 3467,
+    "canonical_name": "grenadine",
+    "anchor_name": "pomegranate",
+    "anchor_form": "syrup",
+    "confidence": 0.9,
+    "anchor_source": "deepseek_llm",
+    "reason": "Grenadine is a sweet syrup traditionally made from pomegranate juice, sugar, and sometimes other flavorings. The main flavor source is pomegranate, and its form is a syrup rather than a juice, liqueur, or other category."
+  }
+]

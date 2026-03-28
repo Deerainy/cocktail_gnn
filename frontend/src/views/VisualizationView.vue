@@ -32,7 +32,12 @@
           <div class="recipe-header-card card">
             <div class="recipe-header-content">
               <div class="recipe-header-info">
-                <h2 class="recipe-name">{{ recipe?.name || '莫吉托' }}</h2>
+                <h2 class="recipe-name">
+                  <span v-if="recipe?.recipe_name_zh && recipe?.name" class="name-zh">{{ recipe.recipe_name_zh }}</span>
+                  <span v-if="recipe?.recipe_name_zh && recipe?.name" class="name-separator"> / </span>
+                  <span v-if="recipe?.name" class="name-en">{{ recipe.name }}</span>
+                  <span v-if="!recipe?.recipe_name_zh && !recipe?.name">莫吉托</span>
+                </h2>
                 <p class="recipe-subtitle">{{ recipe?.instructions || '清爽型经典鸡尾酒' }}</p>
                 <div class="recipe-meta">
                   <div class="recipe-meta-item">
@@ -73,20 +78,36 @@
             <div class="lg:col-span-1">
               <div class="ingredient-structure card">
                 <h3 class="card-title">原料结构</h3>
-                <div class="ingredient-list">
+                <div class="ingredient-groups">
                   <div 
-                    v-for="(ingredient, index) in ingredients" 
-                    :key="ingredient.ingredient_id || index"
-                    class="ingredient-item"
-                    @click="selectIngredient(ingredient)"
+                    v-for="(group, type) in ingredientsByType" 
+                    :key="type"
+                    class="ingredient-group"
                   >
-                    <div class="ingredient-header">
-                      <h4 class="ingredient-name">{{ ingredient.ingredient?.name_norm || ingredient.raw_text }}</h4>
-                      <span :class="['ingredient-role', `role-${ingredient.role}`]">{{ ingredient.role }}</span>
+                    <div class="group-header">
+                      <h4 class="group-title">{{ type }}</h4>
+                      <span class="group-count">{{ group.length }} 种</span>
                     </div>
-                    <div class="ingredient-info">
-                      <span class="ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</span>
-                      <span class="ingredient-category" v-if="ingredient.ingredient">{{ ingredient.ingredient.category }}</span>
+                    <div class="group-ingredients">
+                      <div 
+                        v-for="(ingredient, index) in group" 
+                        :key="ingredient.ingredient_id || index"
+                        class="ingredient-item"
+                        @click="selectIngredient(ingredient)"
+                      >
+                        <div class="ingredient-header">
+                          <h5 class="ingredient-name">
+                          <span v-if="ingredient.ingredient?.canonical_name_zh" class="name-zh">{{ ingredient.ingredient.canonical_name_zh }}</span>
+                          <span v-if="ingredient.ingredient?.canonical_name_zh && ingredient.ingredient?.canonical_name" class="name-separator"> / </span>
+                          <span v-if="ingredient.ingredient?.canonical_name" class="name-en">{{ ingredient.ingredient.canonical_name }}</span>
+                          <span v-if="!ingredient.ingredient?.canonical_name_zh && !ingredient.ingredient?.canonical_name">{{ ingredient.ingredient?.name_norm || ingredient.raw_text }}</span>
+                        </h5>
+                        </div>
+                        <div class="ingredient-info">
+                          <span class="ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</span>
+                          <span class="ingredient-category" v-if="ingredient.ingredient">{{ ingredient.ingredient.category }}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -114,20 +135,15 @@
                   </div>
                 </div>
                 <div class="sqe-triple-bar">
-                  <div class="triple-bar-labels">
-                    <span class="triple-label synergy-label">协同性</span>
-                    <span class="triple-label conflict-label">冲突度</span>
-                    <span class="triple-label balance-label">平衡性</span>
-                  </div>
                   <div class="triple-bar-container">
-                    <div class="triple-bar-fill synergy-fill" :style="{ width: (sqe?.phaseB_synergy_score || 0.28883) * 100 + '%' }">
-                      <span class="triple-value">{{ ((sqe?.phaseB_synergy_score || 0.28883) * 100).toFixed(1) }}%</span>
+                    <div class="triple-bar-fill synergy-fill" :style="{ width: sqePercentages.synergy + '%' }">
+                      <span class="triple-value">{{ sqePercentages.synergy.toFixed(1) }}%</span>
                     </div>
-                    <div class="triple-bar-fill conflict-fill" :style="{ width: (sqe?.phaseB_conflict_score || 1.14334) * 100 + '%' }">
-                      <span class="triple-value">{{ ((sqe?.phaseB_conflict_score || 1.14334) * 100).toFixed(1) }}%</span>
+                    <div class="triple-bar-fill conflict-fill" :style="{ width: sqePercentages.conflict + '%' }">
+                      <span class="triple-value">{{ sqePercentages.conflict.toFixed(1) }}%</span>
                     </div>
-                    <div class="triple-bar-fill balance-fill" :style="{ width: (sqe?.phaseB_balance_score || 0.78) * 100 + '%' }">
-                      <span class="triple-value">{{ ((sqe?.phaseB_balance_score || 0.78) * 100).toFixed(1) }}%</span>
+                    <div class="triple-bar-fill balance-fill" :style="{ width: sqePercentages.balance + '%' }">
+                      <span class="triple-value">{{ sqePercentages.balance.toFixed(1) }}%</span>
                     </div>
                   </div>
                   <div class="triple-bar-legend">
@@ -236,7 +252,11 @@
                   >
                     <div class="key-flavor-header">
                       <span class="flavor-rank">{{ node.rank_no }}</span>
-                      <span class="flavor-name">{{ node.ingredient_name }}</span>
+                      <span class="flavor-name">
+                      <span v-if="node.ingredient_name_zh" class="name-zh">{{ node.ingredient_name_zh }}</span>
+                      <span v-if="node.ingredient_name_zh && node.ingredient_name" class="name-separator"> / </span>
+                      <span v-if="node.ingredient_name" class="name-en">{{ node.ingredient_name }}</span>
+                    </span>
                       <span class="flavor-contribution">{{ node.normalized_contribution.toFixed(2) }}</span>
                     </div>
                     <div class="contribution-bar">
@@ -256,27 +276,19 @@
             </div>
           </div>
           
-          <!-- 第二行：局部风味关系图 -->
+          <!-- 第二行：结构解释图 -->
           <div class="local-graph-section mb-6">
-            <div class="local-graph card">
-              <h3 class="card-title">局部风味关系图</h3>
-              <div class="graph-controls">
-                <button 
-                  v-for="layer in graphLayers" 
-                  :key="layer.value"
-                  :class="['graph-control-btn', { active: graphLayer === layer.value }]"
-                  @click="switchGraphLayer(layer.value)"
-                >
-                  {{ layer.label }}
-                </button>
-              </div>
-              <div class="graph-container">
-                <div class="graph-placeholder">
-                  <div class="graph-placeholder-icon">📊</div>
-                  <p class="graph-placeholder-text">风味关系图</p>
-                  <p class="graph-placeholder-subtext">选择不同视图查看风味关系</p>
-                </div>
-              </div>
+            <RecipeLocalGraph 
+              v-if="graphData"
+              :graph-data="graphData"
+              :ingredients="ingredients"
+              @node-click="handleGraphNodeClick"
+              @view-substitutes="handleViewSubstitutes"
+            />
+            <div v-else class="graph-placeholder card">
+              <div class="graph-placeholder-icon">📊</div>
+              <p class="graph-placeholder-text">加载中...</p>
+              <p class="graph-placeholder-subtext">正在获取结构解释图数据</p>
             </div>
           </div>
           
@@ -294,29 +306,49 @@
               </div>
               <div v-else class="substitute-list">
                 <div 
-                  v-for="(substitute, index) in substitutes" 
+                  v-for="(substitute, index) in sortedSubstitutes" 
                   :key="substitute.candidate_canonical_id || index"
                   class="substitute-item"
                 >
                   <div class="substitute-header">
-                    <span class="substitute-name">{{ substitute.candidate_name || '金朗姆酒' }}</span>
+                    <div class="substitute-name-section">
+                      <h4 class="substitute-name">
+                        <span v-if="substitute.candidate_name_zh" class="name-zh">{{ substitute.candidate_name_zh }}</span>
+                        <span v-if="substitute.candidate_name_zh && substitute.candidate_name" class="name-separator"> / </span>
+                        <span v-if="substitute.candidate_name" class="name-en">{{ substitute.candidate_name }}</span>
+                        <span v-if="!substitute.candidate_name_zh && !substitute.candidate_name">金朗姆酒</span>
+                      </h4>
+                      <div class="substitute-rating">
+                        <div class="rating-stars">
+                          <span v-for="star in 5" :key="star" :class="['star', star <= Math.round((substitute.compatibility_score || 0.5) * 5) ? 'filled' : 'empty']">★</span>
+                        </div>
+                        <span class="rating-score">{{ ((substitute.compatibility_score || 0.5) * 100).toFixed(0) }}%</span>
+                      </div>
+                    </div>
                     <span :class="['substitute-flag', substitute.accept_flag ? 'accept' : 'reject']">
                       {{ substitute.accept_flag ? '可接受' : '不推荐' }}
                     </span>
                   </div>
                   <div class="substitute-details">
-                    <div class="substitute-roles">
-                      <span class="role-item">原角色: {{ substitute.target_role }}</span>
-                      <span class="role-item">新角色: {{ substitute.candidate_role }}</span>
+                    <div class="substitute-metrics">
+                      <div class="metric-item">
+                        <span class="metric-label">原角色:</span>
+                        <span class="metric-value">{{ substitute.target_role }}</span>
+                      </div>
+                      <div class="metric-item">
+                        <span class="metric-label">新角色:</span>
+                        <span class="metric-value">{{ substitute.candidate_role }}</span>
+                      </div>
+                      <div class="metric-item">
+                        <span class="metric-label">SQE变化:</span>
+                        <span :class="['metric-value', substitute.delta_sqe >= 0 ? 'positive' : 'negative']">
+                          {{ substitute.delta_sqe >= 0 ? '+' : '' }}{{ substitute.delta_sqe.toFixed(2) }}
+                        </span>
+                      </div>
                     </div>
-                    <div class="substitute-score">
-                      <span class="score-label">SQE变化:</span>
-                      <span :class="['score-value', substitute.delta_sqe >= 0 ? 'positive' : 'negative']">
-                        {{ substitute.delta_sqe >= 0 ? '+' : '' }}{{ substitute.delta_sqe.toFixed(2) }}
-                      </span>
-                    </div>
-                    <div class="substitute-explanation" v-if="substitute.explanation">
-                      <p>{{ substitute.explanation }}</p>
+                    <div class="substitute-explanation" v-if="substitute.explanation_summary">
+                      <h5 class="explanation-title">说明</h5>
+                      <p class="explanation-text">{{ substitute.explanation_summary }}</p>
                     </div>
                   </div>
                 </div>
@@ -361,10 +393,14 @@
 </template>
 
 <script>
-import { fetchRecipe, fetchIngredients, fetchSQE, fetchBalance, fetchKeyNodes, fetchSubstitutes } from '../api/recipeApi';
+import { fetchRecipe, fetchIngredients, fetchSQE, fetchBalance, fetchKeyNodes, fetchSubstitutes, fetchGraph } from '../api/recipeApi';
+import RecipeLocalGraph from '../components/RecipeLocalGraph.vue';
 
 export default {
   name: 'VisualizationView',
+  components: {
+    RecipeLocalGraph
+  },
   data() {
     return {
       recipe: null,
@@ -374,13 +410,8 @@ export default {
       keyNodes: [],
       substitutes: [],
       selectedIngredient: null,
-      graphLayer: 'compat',
-      graphLayers: [
-        { label: '兼容性', value: 'compat' },
-        { label: '共现性', value: 'cooccur' },
-        { label: '风味', value: 'flavor' },
-        { label: '混合', value: 'mixed' }
-      ],
+      graphData: null,
+      graphLayer: 'mixed',
       loading: false,
       error: null
     };
@@ -393,18 +424,28 @@ export default {
       const recipeId = this.$route.query.recipe_id || '123';
       this.loading = true;
       try {
-        const [recipeData, ingredientsData, sqeData, balanceData, keyNodesData] = await Promise.all([
+        const [recipeData, ingredientsData, sqeData, balanceData, keyNodesData, graphData] = await Promise.all([
           fetchRecipe(recipeId),
           fetchIngredients(recipeId),
           fetchSQE(recipeId),
           fetchBalance(recipeId),
-          fetchKeyNodes(recipeId)
+          fetchKeyNodes(recipeId),
+          fetchGraph(recipeId, this.graphLayer)
         ]);
         this.recipe = recipeData;
         this.ingredients = ingredientsData;
         this.sqe = sqeData;
         this.balance = balanceData;
         this.keyNodes = keyNodesData;
+        this.graphData = graphData;
+        
+        // 调试：打印数据结构
+        console.log('Recipe data:', recipeData);
+        console.log('Ingredients data:', ingredientsData);
+        console.log('Key nodes data:', keyNodesData);
+        console.log('Graph data:', graphData);
+        console.log('Graph data nodes:', graphData?.nodes);
+        console.log('Graph data edges:', graphData?.edges);
       } catch (error) {
         this.error = '获取配方数据失败';
         console.error('Error fetching recipe data:', error);
@@ -417,14 +458,51 @@ export default {
       const recipeId = this.$route.query.recipe_id || '123';
       const targetCanonicalId = ingredient.ingredient?.canonical_id;
       if (targetCanonicalId) {
-        this.substitutes = await fetchSubstitutes(recipeId, targetCanonicalId);
+        const substitutes = await fetchSubstitutes(recipeId, targetCanonicalId);
+        // 解析每个替代方案的 compatibility_score 和 summary
+        this.substitutes = substitutes.map(substitute => {
+          let compatibilityScore = 0.5; // 默认值
+          let explanationSummary = substitute.explanation; // 默认值
+          if (substitute.explanation) {
+            try {
+              const parsed = JSON.parse(substitute.explanation);
+              if (parsed.compatibility_score) {
+                compatibilityScore = parsed.compatibility_score;
+              }
+              if (parsed.summary) {
+                explanationSummary = parsed.summary;
+              }
+            } catch (e) {
+              console.error('解析 explanation 失败:', e);
+            }
+          }
+          return {
+            ...substitute,
+            compatibility_score: compatibilityScore,
+            explanation_summary: explanationSummary
+          };
+        });
+        // 调试：打印替代方案数据结构
+        console.log('Substitutes data:', this.substitutes);
+        if (this.substitutes.length > 0) {
+          console.log('First substitute:', this.substitutes[0]);
+        }
       } else {
         this.substitutes = [];
       }
     },
     switchGraphLayer(layer) {
       this.graphLayer = layer;
-      // 这里可以添加获取图谱数据的逻辑
+      const recipeId = this.$route.query.recipe_id || '123';
+      this.fetchGraphData(recipeId, layer);
+    },
+    async fetchGraphData(recipeId, layer) {
+      try {
+        this.graphData = await fetchGraph(recipeId, layer);
+      } catch (error) {
+        console.error('Error fetching graph data:', error);
+        this.graphData = null;
+      }
     },
     getScoreLabel(score) {
       if (score >= 0.9) return '卓越';
@@ -455,6 +533,178 @@ export default {
       return {
         clipPath: `polygon(${points.join(', ')})`
       };
+    },
+    handleGraphNodeClick(node) {
+      const ingredient = this.ingredients.find(ing => 
+        ing.ingredient?.canonical_id === node.canonical_id
+      );
+      if (ingredient) {
+        this.selectIngredient(ingredient);
+      }
+    },
+    handleViewSubstitutes(node) {
+      const ingredient = this.ingredients.find(ing => 
+        ing.ingredient?.canonical_id === node.canonical_id
+      );
+      if (ingredient) {
+        this.selectIngredient(ingredient);
+      }
+    }
+  },
+  computed: {
+    // 计算SQE百分比，确保总和为100%
+    sqePercentages() {
+      const synergy = this.sqe?.phaseB_synergy_score || 0.28883;
+      const conflict = this.sqe?.phaseB_conflict_score || 1.14334;
+      const balance = this.sqe?.phaseB_balance_score || 0.78;
+      const total = synergy + conflict + balance;
+      return {
+        synergy: (synergy / total) * 100,
+        conflict: (conflict / total) * 100,
+        balance: (balance / total) * 100
+      };
+    },
+    // 按类型分组原料
+    ingredientsByType() {
+      const grouped = {};
+      this.ingredients.forEach(ingredient => {
+        const type = ingredient.role || '其他';
+        if (!grouped[type]) {
+          grouped[type] = [];
+        }
+        grouped[type].push(ingredient);
+      });
+      return grouped;
+    },
+    parseExplanation(explanation) {
+      try {
+        // 尝试解析JSON格式的说明
+        if (explanation && (explanation.startsWith('{') || explanation.startsWith('['))) {
+          const parsed = JSON.parse(explanation);
+          // 如果是对象，提取summary字段
+          if (typeof parsed === 'object' && parsed.summary) {
+            return parsed.summary;
+          }
+        }
+        // 如果不是JSON或没有summary字段，直接返回
+        return explanation;
+      } catch (e) {
+        // 解析失败，直接返回原始文本
+        return explanation;
+      }
+    },
+    getScore(substitute) {
+      // 首先尝试从 explanation 中解析 compatibility_score
+      if (substitute.explanation) {
+        try {
+          const parsed = JSON.parse(substitute.explanation);
+          if (parsed.compatibility_score) {
+            return parsed.compatibility_score;
+          }
+        } catch (e) {}
+      }
+      // 然后尝试其他字段
+      const scoreFields = ['similarity_score', 'compatibility', 'score', 'similarity'];
+      for (const field of scoreFields) {
+        if (substitute[field] !== undefined && substitute[field] !== null) {
+          return substitute[field];
+        }
+      }
+      // 默认值
+      return 0.5; // 默认50%
+    },
+    
+    getScoreForSubstitute(substitute) {
+      // 首先尝试从 explanation 中解析 compatibility_score
+      if (substitute.explanation) {
+        try {
+          const parsed = JSON.parse(substitute.explanation);
+          if (parsed.compatibility_score) {
+            return parsed.compatibility_score;
+          }
+        } catch (e) {}
+      }
+      // 然后尝试其他字段
+      const scoreFields = ['similarity_score', 'compatibility', 'score', 'similarity'];
+      for (const field of scoreFields) {
+        if (substitute[field] !== undefined && substitute[field] !== null) {
+          return substitute[field];
+        }
+      }
+      // 默认值
+      return 0.5; // 默认50%
+    }
+  },
+  computed: {
+    // 计算SQE百分比，确保总和为100%
+    sqePercentages() {
+      const synergy = this.sqe?.phaseB_synergy_score || 0.28883;
+      const conflict = this.sqe?.phaseB_conflict_score || 1.14334;
+      const balance = this.sqe?.phaseB_balance_score || 0.78;
+      const total = synergy + conflict + balance;
+      return {
+        synergy: (synergy / total) * 100,
+        conflict: (conflict / total) * 100,
+        balance: (balance / total) * 100
+      };
+    },
+    // 按类型分组原料
+    ingredientsByType() {
+      const grouped = {};
+      this.ingredients.forEach(ingredient => {
+        const type = ingredient.role || '其他';
+        if (!grouped[type]) {
+          grouped[type] = [];
+        }
+        grouped[type].push(ingredient);
+      });
+      return grouped;
+    },
+    // 为每个替代方案计算评分
+    scoreMap() {
+      const map = {};
+      (this.substitutes || []).forEach((substitute, index) => {
+        // 首先尝试从 explanation 中解析 compatibility_score
+        let score = 0.5; // 默认值
+        if (substitute.explanation) {
+          try {
+            const parsed = JSON.parse(substitute.explanation);
+            if (parsed.compatibility_score) {
+              score = parsed.compatibility_score;
+            }
+          } catch (e) {}
+        }
+        // 然后尝试其他字段
+        if (score === 0.5) {
+          const scoreFields = ['similarity_score', 'compatibility', 'score', 'similarity'];
+          for (const field of scoreFields) {
+            if (substitute[field] !== undefined && substitute[field] !== null) {
+              score = substitute[field];
+              break;
+            }
+          }
+        }
+        // 使用 candidate_canonical_id 或 index 作为键
+        map[substitute.candidate_canonical_id || index] = score;
+      });
+      return map;
+    },
+    sortedSubstitutes() {
+      return [...(this.substitutes || [])].sort((a, b) => {
+        // 首先按可接受性排序
+        if (a.accept_flag && !b.accept_flag) return -1;
+        if (!a.accept_flag && b.accept_flag) return 1;
+        // 然后按相似度排序
+        const similarityA = a.similarity_score || 0;
+        const similarityB = b.similarity_score || 0;
+        if (similarityA !== similarityB) {
+          return similarityB - similarityA;
+        }
+        // 最后按SQE变化排序
+        const sqeA = a.delta_sqe || 0;
+        const sqeB = b.delta_sqe || 0;
+        return sqeB - sqeA;
+      });
     }
   }
 };
@@ -503,21 +753,61 @@ export default {
 
 /* 卡片 */
 .card {
-  background: #2a2a2a;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  background: rgba(42, 42, 42, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   padding: 1.5rem;
   transition: all 0.3s ease;
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(212, 175, 55, 0.3), 
+    transparent
+  );
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(212, 175, 55, 0.05) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
 }
 
 .card:hover {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(42, 42, 42, 0.7);
 }
 
 .card-title {
@@ -829,6 +1119,413 @@ export default {
   font-size: 0.75rem;
   color: #888;
   font-style: italic;
+}
+
+/* 原料分组样式 */
+.ingredient-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.ingredient-group {
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.ingredient-group:hover {
+  border-color: rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.group-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.5px;
+}
+
+.group-count {
+  font-size: 0.75rem;
+  color: #999;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* 结构解释图样式 */
+.local-graph-section {
+  width: 100%;
+}
+
+.local-graph {
+  width: 100%;
+}
+
+.graph-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.graph-control-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.graph-control-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.graph-control-btn.active {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.graph-control-separator {
+  width: 1px;
+  height: 1.5rem;
+  background: rgba(212, 175, 55, 0.3);
+  margin: 0 0.5rem;
+}
+
+.graph-container {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.graph-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+}
+
+.graph-placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.graph-placeholder-text {
+  font-size: 1rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.graph-placeholder-subtext {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+.graph-canvas {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.graph-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.graph-node {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.graph-node:hover circle {
+  filter: brightness(1.2);
+}
+
+.graph-node.selected {
+  opacity: 1;
+}
+
+.graph-node:not(.selected):not(.hovered) {
+  opacity: 0.7;
+}
+
+.node-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  fill: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.node-role {
+  font-size: 0.625rem;
+  fill: #d4af37;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.node-contribution {
+  font-size: 0.625rem;
+  fill: #e0e0e0;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.edge-label {
+  font-size: 0.625rem;
+  fill: #999;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.node-details {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.node-details-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 0.75rem;
+}
+
+.node-details-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.metric-item {
+  font-size: 0.875rem;
+  color: #e0e0e0;
+}
+
+.node-details-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edge-details {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(33, 150, 243, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.edge-details-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2196f3;
+  margin-bottom: 0.75rem;
+}
+
+.edge-details-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* 气泡提示样式 */
+.node-tooltip,
+.edge-tooltip {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  will-change: opacity, left, top;
+}
+
+.tooltip-content {
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  min-width: 200px;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.tooltip-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 0.75rem;
+}
+
+.tooltip-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(30, 30, 30, 0.95);
+}
+
+/* 按钮样式 */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+}
+
+.btn-secondary {
+  background: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: #d4af37;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #e0e0e0;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-outline:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.group-ingredients {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ingredient-item {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ingredient-item:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.05);
+  transform: translateX(4px);
+}
+
+.ingredient-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ingredient-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #e0e0e0;
+  margin: 0;
+  flex: 1;
+}
+
+.ingredient-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.ingredient-amount {
+  font-weight: 500;
+  color: #d4af37;
+}
+
+.ingredient-category {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  font-size: 0.75rem;
+  color: #888;
 }
 
 /* SQE分析 */
@@ -1315,68 +2012,21 @@ export default {
   margin: 0;
 }
 
-/* 局部风味关系图 */
-.graph-controls {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.graph-control-btn {
-  padding: 0.5rem 1rem;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 6px;
-  font-size: 0.875rem;
-  color: #999;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.graph-control-btn:hover {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: #d4af37;
+/* 中英文名称样式 */
+.name-zh {
   color: #e0e0e0;
+  font-weight: 600;
 }
 
-.graph-control-btn.active {
-  background: #d4af37;
-  border-color: #d4af37;
-  color: #2a2a2a;
-  font-weight: 500;
-}
-
-.graph-container {
-  height: 350px;
-  background: rgba(212, 175, 55, 0.05);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-}
-
-.graph-placeholder {
-  text-align: center;
-}
-
-.graph-placeholder-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  opacity: 0.3;
-}
-
-.graph-placeholder-text {
-  font-size: 1.125rem;
+.name-en {
   color: #999;
-  margin-bottom: 0.5rem;
+  font-weight: 400;
+  font-size: 0.9em;
 }
 
-.graph-placeholder-subtext {
-  font-size: 0.875rem;
-  color: #888;
+.name-separator {
+  color: #d4af37;
+  margin: 0 0.25rem;
 }
 
 /* 替代建议 */
@@ -1403,6 +2053,151 @@ export default {
   font-size: 1rem;
   color: #999;
   max-width: 400px;
+}
+
+.substitute-item {
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  background: rgba(25, 25, 25, 0.5);
+}
+
+.substitute-item:hover {
+  background: rgba(25, 25, 25, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+}
+
+.substitute-item:last-child {
+  margin-bottom: 0;
+}
+
+.substitute-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.substitute-name-section {
+  flex: 1;
+}
+
+.substitute-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e0e0e0;
+  margin-bottom: 0.5rem;
+}
+
+.substitute-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.star {
+  font-size: 1rem;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #d4af37;
+}
+
+.rating-score {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #d4af37;
+  min-width: 40px;
+}
+
+.substitute-flag {
+  padding: 0.375rem 1rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.substitute-flag.accept {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.substitute-flag.reject {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  border: 1px solid rgba(244, 67, 54, 0.4);
+}
+
+.substitute-details {
+  font-size: 0.875rem;
+  color: #b0b0b0;
+}
+
+.substitute-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 6px;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metric-label {
+  font-weight: 500;
+  color: #999;
+  min-width: 70px;
+}
+
+.metric-value {
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.metric-value.positive {
+  color: #4caf50;
+}
+
+.metric-value.negative {
+  color: #f44336;
+}
+
+.substitute-explanation {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.explanation-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}
+
+.explanation-text {
+  line-height: 1.6;
+  color: #b0b0b0;
+  margin: 0;
 }
 
 .substitute-list {

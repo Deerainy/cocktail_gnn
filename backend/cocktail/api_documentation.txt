@@ -8,6 +8,8 @@
 
 ## API 接口列表
 
+## Recipe 相关接口
+
 ### 1. 获取所有配方信息
 - **接口**: GET /api/recipes
 - **用途**: 获取所有配方的基本信息列表
@@ -284,9 +286,245 @@
 }
 ```
 
+## 风味图谱相关接口
+
+### 9. 获取全局风味图谱主图
+- **接口**: GET /api/flavor-graph/graph
+- **用途**: 获取全局风味图谱的主图数据，支持多种过滤和裁剪选项
+- **参数**:
+  - layer: 图谱类型 (查询参数，可选值: compat, cooccur, flavor，默认: compat)
+  - ingredient_type: 原料类型 (查询参数，可选，支持逗号分隔，如: spirit,juice)
+  - min_weight: 最小边权阈值 (查询参数，可选，默认: 0.0)
+  - topk: 每个节点保留的最强邻边数量 (查询参数，可选，默认: 8)
+  - keyword: 按名称搜索后返回相关子图 (查询参数，可选)
+  - limit_nodes: 最大节点数 (查询参数，可选，默认: 100)
+  - only_key_nodes: 是否只返回关键节点 (查询参数，可选，默认: false)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "meta": {
+      "layer": "compat",
+      "node_count": 50,
+      "edge_count": 120,
+      "filters": {
+        "ingredient_type": ["spirit", "juice"],
+        "min_weight": 0.5,
+        "topk": 8,
+        "keyword": null,
+        "limit_nodes": 100,
+        "only_key_nodes": false
+      }
+    },
+    "nodes": [
+      {
+        "id": "c_101",
+        "label": "mezcal",
+        "label_zh": "梅斯卡尔",
+        "ingredient_type": "spirit",
+        "role": "base",
+        "freq": 186,
+        "importance_score": 0.3588,
+        "anchor_name": "agave",
+        "is_key_node": true
+      }
+    ],
+    "edges": [
+      {
+        "source": "c_101",
+        "target": "c_205",
+        "type": "compat",
+        "weight": 0.72
+      }
+    ]
+  }
+}
+```
+
+### 10. 获取节点详情
+- **接口**: GET /api/flavor-graph/nodes/{node_id}
+- **用途**: 获取指定节点的详细信息，包括anchor、风味特征、邻居等
+- **参数**:
+  - node_id: 节点ID (路径参数，格式: c_xxx)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "id": "c_101",
+    "label": "mezcal",
+    "label_zh": "梅斯卡尔",
+    "ingredient_type": "spirit",
+    "role": "base",
+    "freq": 186,
+    "importance_score": 0.3588,
+    "is_key_node": true,
+    "anchor": {
+      "anchor_name": "agave",
+      "anchor_source": "FlavorDB",
+      "match_confidence": 0.94
+    },
+    "features": {
+      "sour": 0.0,
+      "sweet": 0.1,
+      "bitter": 0.2,
+      "aroma": 0.8,
+      "fruity": 0.1,
+      "body": 0.7
+    },
+    "top_neighbors": [
+      {
+        "id": "c_205",
+        "label": "lime",
+        "weight": 0.72,
+        "type": "compat"
+      }
+    ],
+    "summary": "mezcal is a spirit with 186 occurrences."
+  }
+}
+```
+
+### 11. 获取边详情
+- **接口**: GET /api/flavor-graph/edges/detail
+- **用途**: 获取指定边的详细信息，包括metrics和summary
+- **参数**:
+  - source: 源节点ID (查询参数，必填，格式: c_xxx)
+  - target: 目标节点ID (查询参数，必填，格式: c_xxx)
+  - layer: 图谱类型 (查询参数，可选值: compat, cooccur, flavor，默认: compat)
+- **返回格式** (layer=compat):
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "source": {
+      "id": "c_101",
+      "label": "mezcal",
+      "label_zh": "梅斯卡尔"
+    },
+    "target": {
+      "id": "c_205",
+      "label": "lime",
+      "label_zh": "青柠"
+    },
+    "type": "compat",
+    "weight": 0.72,
+    "metrics": {
+      "compat_score": 0.72,
+      "role_bonus": 0.10,
+      "taste_complement_score": 0.24,
+      "anchor_bonus": 0.08,
+      "cooccur_bonus": 0.12,
+      "penalty_score": 0.03
+    },
+    "summary": "mezcal and lime have a compat relationship with weight 0.72."
+  }
+}
+```
+- **返回格式** (layer=cooccur):
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "source": {
+      "id": "c_101",
+      "label": "mezcal",
+      "label_zh": "梅斯卡尔"
+    },
+    "target": {
+      "id": "c_205",
+      "label": "lime",
+      "label_zh": "青柠"
+    },
+    "type": "cooccur",
+    "weight": 0.85,
+    "metrics": {
+      "co_count": 120,
+      "pmi": 2.5,
+      "weight": 0.85
+    },
+    "summary": "mezcal and lime have a cooccur relationship with weight 0.85."
+  }
+}
+```
+- **返回格式** (layer=flavor):
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "source": {
+      "id": "c_101",
+      "label": "mezcal",
+      "label_zh": "梅斯卡尔"
+    },
+    "target": {
+      "id": "c_205",
+      "label": "lime",
+      "label_zh": "青柠"
+    },
+    "type": "flavor",
+    "weight": 0.65,
+    "metrics": {
+      "cosine_sim": 0.65,
+      "l2_distance": 0.35,
+      "weight": 0.65
+    },
+    "summary": "mezcal and lime have a flavor relationship with weight 0.65."
+  }
+}
+```
+
+### 12. 获取图谱统计
+- **接口**: GET /api/flavor-graph/stats
+- **用途**: 获取图谱的统计信息和排行榜数据
+- **参数**:
+  - layer: 图谱类型 (查询参数，可选值: compat, cooccur, flavor，默认: compat)
+  - ingredient_type: 原料类型 (查询参数，可选，支持逗号分隔)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "summary": {
+      "node_count": 150,
+      "edge_count": 450,
+      "avg_degree": 6.0,
+      "max_weight": 0.95
+    },
+    "top_nodes": [
+      {
+        "id": "c_101",
+        "label": "mezcal",
+        "score": 0.3588
+      }
+    ],
+    "top_freq": [
+      {
+        "id": "c_205",
+        "label": "lime",
+        "freq": 260
+      }
+    ],
+    "top_anchors": [
+      {
+        "anchor_name": "citrus",
+        "count": 18
+      }
+    ]
+  }
+}
+```
+
 ## 错误处理
-- **404错误**: 当配方不存在或数据不存在时返回
-- **400错误**: 当请求参数缺失时返回
+- **404错误**: 当配方、节点或边不存在时返回
+- **400错误**: 当请求参数缺失或无效时返回
 - **其他错误**: 服务器内部错误时返回
 
 ## 前端调用示例
@@ -310,6 +548,18 @@ axios.get('http://127.0.0.1:8000/api/recipes/123')
     if (data.code === 0) {
       console.log('配方信息:', data.data);
       // 处理配方数据
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+
+// 获取全局风味图谱
+fetch('http://127.0.0.1:8000/api/flavor-graph/graph?layer=compat&min_weight=0.5&limit_nodes=50')
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 0) {
+      console.log('图谱数据:', data.data);
+      // 处理图谱数据
     } else {
       console.error('错误:', data.message);
     }

@@ -1,0 +1,53 @@
+{
+  "overall": {
+    "accuracy": 0.9938186813186813,
+    "avg_margin": 0.4208275879504698,
+    "avg_loss": 0.5863242105004334
+  },
+  "by_perturb_type": {
+    "accuracy": {
+      "balance_change_role": 0.9886104783599089,
+      "balance_remove_key_ingredient": 0.9938144329896907,
+      "balance_minor_amount_adjustment_hard": 0.9941520467836257,
+      "synergy_similar_ingredient_replacement_hard": 0.9941520467836257,
+      "synergy_insert_different_type": 0.9974683544303797,
+      "conflict_acid_sweetener_ratio_break": 1.0,
+      "conflict_create_incompatible_type_pair": 1.0,
+      "conflict_add_extra_base_spirit": 0.9866666666666667,
+      "balance_change_amount": 1.0,
+      "synergy_replace_with_different_type": 0.9917582417582418,
+      "synergy_replace_with_different_anchor": 0.9899244332493703
+    },
+    "margin": {
+      "balance_change_role": 0.4217052664056183,
+      "balance_remove_key_ingredient": 0.4006833031619947,
+      "balance_minor_amount_adjustment_hard": 0.4084640745269625,
+      "synergy_similar_ingredient_replacement_hard": 0.40846407439625054,
+      "synergy_insert_different_type": 0.4481242054625402,
+      "conflict_acid_sweetener_ratio_break": 0.42935655012235535,
+      "conflict_create_incompatible_type_pair": 0.4673227704677385,
+      "conflict_add_extra_base_spirit": 0.4459698674413893,
+      "balance_change_amount": 0.43154096823472243,
+      "synergy_replace_with_different_type": 0.41647387746271197,
+      "synergy_replace_with_different_anchor": 0.42365693197742815
+    },
+    "loss": {
+      "balance_change_role": 0.5855974541438196,
+      "balance_remove_key_ingredient": 0.5898499079586305,
+      "balance_minor_amount_adjustment_hard": 0.5909349428631409,
+      "synergy_similar_ingredient_replacement_hard": 0.590934942601717,
+      "synergy_insert_different_type": 0.5812892726705045,
+      "conflict_acid_sweetener_ratio_break": 0.5829310345125722,
+      "conflict_create_incompatible_type_pair": 0.5749199236791158,
+      "conflict_add_extra_base_spirit": 0.5760618930392795,
+      "balance_change_amount": 0.5819741868972779,
+      "synergy_replace_with_different_type": 0.5872126861915483,
+      "synergy_replace_with_different_anchor": 0.5856247856574935
+    }
+  },
+  "phaseB_comparison": {
+    "phaseB_accuracy": 0.0,
+    "phaseC_accuracy": 0.9938186813186813,
+    "improvement": 0.9938186813186813
+  }
+}

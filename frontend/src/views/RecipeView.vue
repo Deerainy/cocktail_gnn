@@ -34,7 +34,11 @@
           @click="navigateToDetails(recipe.recipe_id)"
         >
           <div class="recipe-card-header">
-            <h3 class="recipe-card-name">{{ recipe.name }}</h3>
+            <h3 class="recipe-card-name">
+              <span v-if="recipe.recipe_name_zh" class="name-zh">{{ recipe.recipe_name_zh }}</span>
+              <span v-if="recipe.recipe_name_zh && recipe.name" class="name-separator"> / </span>
+              <span v-if="recipe.name" class="name-en">{{ recipe.name }}</span>
+            </h3>
             <div class="recipe-card-meta">
               <span class="recipe-card-category">{{ recipe.source || '未知来源' }}</span>
               <span class="recipe-card-origin">{{ recipe.is_alcoholic ? '含酒精' : '无酒精' }}</span>
@@ -924,6 +928,22 @@ export default {
   color: var(--color-gold-200);
   margin-bottom: var(--spacing-sm);
   letter-spacing: -0.01em;
+}
+
+.recipe-card-name .name-zh {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.recipe-card-name .name-en {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.recipe-card-name .name-separator {
+  color: var(--color-gold-400);
+  margin: 0 0.25rem;
 }
 
 .recipe-card-meta {

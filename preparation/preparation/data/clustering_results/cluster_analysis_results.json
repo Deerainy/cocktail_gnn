@@ -1,0 +1,32 @@
+{
+  "0": {
+    "candidate_label": "柑橘草本酸酒",
+    "description": "该簇鸡尾酒以均衡的酸甜风味为核心，平均风味向量显示酸度（sour: 0.33）和甜度（sweet: 0.51）适中，苦味（bitter: 0.36）轻微，同时具有突出的芳香（aroma: 0.70）和果味（fruity: 0.54），酒体中等（body: 0.52）。结构上，基酒（base: 0.37）和酸味成分（acid: 0.22）占主导，辅以甜味剂（sweetener: 0.14）和修饰剂（modifier: 0.17），苦精（bitters: 0.04）使用较少，稀释（dilution: 0.02）和装饰（garnish: 0.01）成分轻微。高频原料包括柠檬汁、青柠汁、伦敦干金酒（如No.3和Junipero）、Luxardo Maraschino利口酒、蛋清和Green Chartreuse，表明配方常结合柑橘酸度、草本金酒和复杂利口酒，可能包含蛋清以增加绵密口感。典型特征为明亮柑橘酸味、草本芳香和微甜平衡，结构清晰，适合作为清爽或复杂风格的酸酒变体。",
+    "possible_classic_family_alignment": "sour",
+    "confidence_note": "高置信度。该簇的风味特征（酸度、甜度、果味突出）和结构特点（基酒和酸味成分主导，甜味剂和修饰剂辅助）与经典酸酒家族（sour）高度一致，酸酒通常以基酒、柑橘汁和甜味剂为核心，本簇的平均角色分布（base: 0.37, acid: 0.22, sweetener: 0.14）符合这一模式。高频原料如柠檬汁、青柠汁和蛋清是酸酒的常见元素，而金酒和利口酒（如Maraschino和Chartreuse）提供了草本和复杂风味，这属于酸酒家族的典型变体。平均风味向量中酸度和甜度均衡，进一步支持酸酒分类。尽管苦味和芳香略高，可能反映个别配方的创新，但整体特征仍紧密对齐酸酒家族。"
+  },
+  "1": {
+    "candidate_label": "苦味主导的芳香型鸡尾酒",
+    "description": "该簇鸡尾酒以高苦味（平均0.598）和浓郁香气（平均0.775）为核心特征，甜度中等（平均0.370），酸度较低（平均0.188）。结构上，苦精（bitters）是主要角色（平均占比0.422），基酒（base）次之（平均占比0.269），修饰剂（modifier）和甜味剂（sweetener）起辅助作用，酸度（acid）和装饰（garnish）贡献较小。高频原料包括多种苦精（如Angostura Bitters、Orange Bitters）、烈酒（如H by HINE、Junipero Gin）以及少量利口酒（如Luxardo Maraschino Liqueur、King's Ginger Liqueur），辅以柠檬汁和简单糖浆平衡风味。整体呈现复杂、干爽、芳香的风味轮廓，苦味突出但通过甜味和果味（平均0.383）缓和，酒体中等（平均0.412）。",
+    "possible_classic_family_alignment": "old fashioned",
+    "confidence_note": "高置信度。该簇特征与Old Fashioned家族高度一致：以苦精和基酒为核心，甜味剂辅助平衡，酸度低，强调芳香和苦味复杂度。高频原料中苦精和烈酒的普遍使用、平均角色分布中苦精的主导地位，以及风味向量中苦味和香气的突出，都强烈支持这一分类。尽管部分配方包含柠檬汁（常见于Sour家族），但其酸度平均值较低且非主要角色，因此不影响整体归类。"
+  },
+  "3": {
+    "candidate_label": "芳香型金酒鸡尾酒",
+    "description": "这个簇的鸡尾酒以金酒（如 No.3 London Dry Gin）为主要基酒，平均风味向量显示高香气（0.75）、中等甜度（0.52）和酒体（0.62），酸度较低（0.20），苦味适中（0.38），果味中等（0.47）。结构上，基酒占比高（0.47），修饰剂（如利口酒）显著（0.31），甜味剂（0.11）和苦精（0.04）使用较少，酸度成分低（0.03），装饰和稀释作用微弱。高频原料包括金酒、利口酒（如 Luxardo Maraschino、King's Ginger、Luxardo Apricot）和少量柠檬汁，体现了复杂、芳香、略带甜味和苦味的平衡特点，整体风格优雅、干爽，适合作为开胃酒或餐后饮品。",
+    "possible_classic_family_alignment": "martini",
+    "confidence_note": "置信度高。这个簇的风味特征（高香气、中等甜度和酒体）和结构（高基酒占比、显著修饰剂）与经典马天尼家族（如干马天尼）高度一致，后者通常以金酒为基础，强调芳香和平衡，使用利口酒作为修饰。高频原料中金酒和利口酒的组合进一步支持这一分类，尽管甜度略高于传统马天尼，但整体仍符合其变体或现代演绎的特点。"
+  },
+  "2": {
+    "candidate_label": "Gin-based Sour with Aromatic Complexity",
+    "description": "This cluster features a balanced sour-sweet profile with moderate bitterness and prominent aromatic notes, supported by a fruity undertone and medium body. Structurally, it is characterized by a high dilution level (indicating shaken or stirred preparation), significant garnish presence, and a dominant base role, primarily from gin and vodka. The frequent use of citrus juices (lime and lemon) and sweeteners (simple syrup, ginger liqueur) suggests a sour-style framework, while ingredients like 'muddled' elements add textural complexity. The aroma score is notably high, likely from botanicals in gin and aromatic modifiers.",
+    "possible_classic_family_alignment": "sour",
+    "confidence_note": "High confidence. The cluster aligns strongly with the sour family due to the sour-sweet balance, use of citrus and sweetener, and shaken/stirred preparation indicated by high dilution. The prominence of gin as a base and aromatic notes is typical in gin-based sours like the Gimlet or variations. Minor uncertainty arises from the moderate bitterness and fruity elements, which could hint at overlaps with families like the daiquiri, but the overall structure and ingredient patterns are consistent with a sour framework."
+  },
+  "4": {
+    "candidate_label": "柑橘香草蛋清酸酒",
+    "description": "这个鸡尾酒配方簇以中等酸度（平均风味向量中 sour 为 0.245）和较高甜度（sweet 为 0.494）为特点，苦味适中（bitter 为 0.347），香气浓郁（aroma 为 0.658），果味明显（fruity 为 0.452），酒体中等（body 为 0.503）。结构上，基酒比例较低（base 为 0.232），酸味成分（acid 为 0.081）和甜味剂（sweetener 为 0.096）用量适中，蛋清（高频原料中的 '1 Egg White'）作为关键成分提供绵密泡沫和顺滑口感，柑橘汁（如 '.75 oz Lemon Juice'）主导酸味，辅以姜味利口酒（如 \".5 oz King's Ginger Liqueur\"）和樱桃利口酒（如 '.5 oz Luxardo Sangue Morlacco Cherry Liqueur'）增添复杂风味。典型特征包括使用蛋清、柑橘汁和利口酒调制，风味平衡且层次丰富。",
+    "possible_classic_family_alignment": "sour",
+    "confidence_note": "高置信度。这个簇明确符合酸酒（sour）家族的核心特征：以酸味（柠檬汁）和甜味（简单糖浆）为基础，加入蛋清增强口感，并使用利口酒作为修饰剂。平均风味向量显示酸度和甜度突出，与酸酒典型风味一致；高频原料包括柠檬汁、简单糖浆和蛋清，是酸酒的标准成分；平均角色分布中酸味和甜味剂比例适中，支持这一分类。尽管苦味和香气较高，可能受利口酒影响，但整体结构仍以酸酒框架为主。"
+  }
+}

@@ -4,6 +4,9 @@ from .views_recipe import (
     RecipeBalanceView, RecipeKeyNodesView, RecipeGraphView, 
     RecipeSubstitutesView, RecipeListView
 )
+from .views_flavor_graph import (
+    FlavorGraphView, FlavorNodeDetailView, FlavorEdgeDetailView, FlavorGraphStatsView
+)
 
 urlpatterns = [
     path('api/recipes', RecipeListView.as_view(), name='recipe-list'),
@@ -14,4 +17,8 @@ urlpatterns = [
     path('api/recipes/<str:recipe_id>/key-nodes', RecipeKeyNodesView.as_view(), name='recipe-key-nodes'),
     path('api/recipes/<str:recipe_id>/graph', RecipeGraphView.as_view(), name='recipe-graph'),
     path('api/recipes/<str:recipe_id>/substitutes', RecipeSubstitutesView.as_view(), name='recipe-substitutes'),
+    path('api/flavor-graph/graph', FlavorGraphView.as_view(), name='flavor-graph'),
+    path('api/flavor-graph/nodes/<str:node_id>', FlavorNodeDetailView.as_view(), name='flavor-node-detail'),
+    path('api/flavor-graph/edges/detail', FlavorEdgeDetailView.as_view(), name='flavor-edge-detail'),
+    path('api/flavor-graph/stats', FlavorGraphStatsView.as_view(), name='flavor-graph-stats'),
 ]

@@ -1,0 +1,5 @@
+{
+	"dependencies": {
+		"@sylphx/pdf-reader-mcp": "^2.3.0"
+	}
+}

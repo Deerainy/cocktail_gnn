@@ -141,3 +141,24 @@ export async function fetchAllRecipes() {
     throw error;
   }
 }
+
+/**
+ * 获取局部图谱
+ * @param {string} recipeId - 配方 ID
+ * @param {string} layer - 图谱类型 (cooccur, flavor, compat, mixed)
+ * @returns {Promise<Object>} 图谱数据
+ */
+export async function fetchGraph(recipeId, layer = 'compat') {
+  try {
+    const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}/graph?layer=${layer}`);
+    const data = await response.json();
+    if (data.code === 0) {
+      return data.data;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching graph:', error);
+    throw error;
+  }
+}

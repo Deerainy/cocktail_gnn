@@ -1,0 +1,132 @@
+[
+  {
+    "recipe_id": 1,
+    "flavor_vector": {
+      "sour": 0.30000000000000004,
+      "sweet": 0.6166666666666667,
+      "bitter": 0.4,
+      "aroma": 0.6,
+      "fruity": 0.4666666666666666,
+      "body": 0.5833333333333333
+    },
+    "num_ingredients": 3,
+    "total_amount": 3.0
+  },
+  {
+    "recipe_id": 2,
+    "flavor_vector": {
+      "sour": 0.22499999999999998,
+      "sweet": 0.27499999999999997,
+      "bitter": 0.64375,
+      "aroma": 0.775,
+      "fruity": 0.40625,
+      "body": 0.34062499999999996
+    },
+    "num_ingredients": 6,
+    "total_amount": 8.0
+  },
+  {
+    "recipe_id": 3,
+    "flavor_vector": {
+      "sour": 0.3499916708312511,
+      "sweet": 0.5,
+      "bitter": 0.32512077294685987,
+      "aroma": 0.7250374812593703,
+      "fruity": 0.7249541895718807,
+      "body": 0.500016658337498
+    },
+    "num_ingredients": 5,
+    "total_amount": 3001.5
+  },
+  {
+    "recipe_id": 4,
+    "flavor_vector": {
+      "sour": 0.18750000000000006,
+      "sweet": 0.51875,
+      "bitter": 0.44999999999999996,
+      "aroma": 0.80625,
+      "fruity": 0.5375,
+      "body": 0.60625
+    },
+    "num_ingredients": 5,
+    "total_amount": 4.0
+  },
+  {
+    "recipe_id": 5,
+    "flavor_vector": {
+      "sour": 0.4088888888888889,
+      "sweet": 0.2644444444444444,
+      "bitter": 0.44666666666666666,
+      "aroma": 0.5955555555555556,
+      "fruity": 0.3044444444444444,
+      "body": 0.29555555555555557
+    },
+    "num_ingredients": 6,
+    "total_amount": 11.25
+  },
+  {
+    "recipe_id": 6,
+    "flavor_vector": {
+      "sour": 0.1803921568627451,
+      "sweet": 0.6058823529411765,
+      "bitter": 0.38431372549019605,
+      "aroma": 0.6549019607843137,
+      "fruity": 0.6215686274509804,
+      "body": 0.4666666666666667
+    },
+    "num_ingredients": 6,
+    "total_amount": 12.75
+  },
+  {
+    "recipe_id": 7,
+    "flavor_vector": {
+      "sour": 0.2777777777777778,
+      "sweet": 0.5444444444444445,
+      "bitter": 0.35555555555555557,
+      "aroma": 0.6777777777777777,
+      "fruity": 0.5555555555555556,
+      "body": 0.5333333333333332
+    },
+    "num_ingredients": 5,
+    "total_amount": 4.5
+  },
+  {
+    "recipe_id": 8,
+    "flavor_vector": {
+      "sour": 0.30476190476190473,
+      "sweet": 0.30952380952380953,
+      "bitter": 0.4857142857142857,
+      "aroma": 0.6476190476190475,
+      "fruity": 0.36666666666666664,
+      "body": 0.49523809523809514
+    },
+    "num_ingredients": 5,
+    "total_amount": 5.25
+  },
+  {
+    "recipe_id": 9,
+    "flavor_vector": {
+      "sour": 0.2894736842105263,
+      "sweet": 0.6157894736842104,
+      "bitter": 0.4,
+      "aroma": 0.7578947368421052,
+      "fruity": 0.763157894736842,
+      "body": 0.5473684210526315
+    },
+    "num_ingredients": 5,
+    "total_amount": 4.75
+  },
+  {
+    "recipe_id": 10,
+    "flavor_vector": {
+      "sour": 0.1,
+      "sweet": 0.7307692307692308,
+      "bitter": 0.39230769230769236,
+      "aroma": 0.7615384615384616,
+      "fruity": 0.3076923076923077,
+      "body": 0.7230769230769232
+    },
+    "num_ingredients": 3,
+    "total_amount": 3.25
+  }
+]
