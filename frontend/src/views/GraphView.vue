@@ -30,7 +30,7 @@
             <div class="sidebar-card card">
               <h3 class="sidebar-title">类型筛选</h3>
               <div class="filter-options">
-                <label 
+                <div 
                   v-for="type in ingredientTypes" 
                   :key="type.value"
                   class="filter-checkbox"
@@ -40,9 +40,13 @@
                     :value="type.value"
                     v-model="selectedTypes"
                     @change="applyFilters"
+                    :id="`type-${type.value}`"
                   >
-                  <span class="filter-label">{{ type.label }}</span>
-                </label>
+                  <label :for="`type-${type.value}`" class="filter-label">{{ type.label }}</label>
+                </div>
+              </div>
+              <div style="margin-top: 10px; padding: 10px; background: var(--color-bg-3); border-radius: 4px; font-size: 0.85rem; color: var(--color-text-secondary);">
+                <strong>当前选择:</strong> {{ selectedTypes.length > 0 ? selectedTypes.join(', ') : '无' }}
               </div>
             </div>
 
@@ -175,7 +179,7 @@
                   </div>
                   <div class="anchor-row">
                     <span class="anchor-label">匹配置信度:</span>
-                    <span class="anchor-value">{{ (selectedNode.anchor.match_confidence * 100).toFixed(1) }}%</span>
+                    <span class="anchor-value">{{ selectedNode.anchor?.match_confidence ? (selectedNode.anchor.match_confidence * 100).toFixed(1) : 'N/A' }}%</span>
                   </div>
                 </div>
               </div>
@@ -237,7 +241,7 @@
                     class="neighbor-item"
                   >
                     <span class="neighbor-name">{{ neighbor.label }}</span>
-                    <span class="neighbor-weight">{{ neighbor.weight.toFixed(2) }}</span>
+                    <span class="neighbor-weight">{{ neighbor.weight?.toFixed(2) || 'N/A' }}</span>
                   </div>
                 </div>
               </div>
@@ -265,7 +269,7 @@
                 </div>
                 <div class="edge-meta">
                   <span class="meta-tag">{{ getLayerLabel(currentLayer) }}</span>
-                  <span class="meta-tag">权重: {{ selectedEdge.weight.toFixed(2) }}</span>
+                  <span class="meta-tag">权重: {{ selectedEdge.weight?.toFixed(2) || 'N/A' }}</span>
                 </div>
               </div>
 
@@ -308,7 +312,7 @@
                 >
                   <span class="stat-rank">{{ index + 1 }}</span>
                   <span class="stat-name">{{ item.label }}</span>
-                  <span class="stat-score">{{ item.score.toFixed(3) }}</span>
+                  <span class="stat-score">{{ item.score?.toFixed(3) || 'N/A' }}</span>
                 </div>
               </div>
             </div>
@@ -473,6 +477,7 @@ export default {
         const params = new URLSearchParams({
           layer: this.currentLayer,
           min_weight: this.minWeight,
+          min_freq: this.minFreq,
           limit_nodes: 100
         })
         
@@ -492,7 +497,7 @@ export default {
         
         if (data.code === 0) {
           this.graphData = {
-            nodes: data.data.nodes.map(node => ({
+            nodes: (data.data.nodes || []).map(node => ({
               id: String(node.id),
               name: node.label,
               label: node.label,
@@ -503,7 +508,7 @@ export default {
               importance_score: node.importance_score,
               is_key_node: node.is_key_node
             })),
-            edges: data.data.edges.map(edge => ({
+            edges: (data.data.edges || []).map(edge => ({
               source: String(edge.source),
               target: String(edge.target),
               value: edge.weight
@@ -643,7 +648,7 @@ export default {
               `
             } else if (params.dataType === 'edge') {
               return `
-                <div>权重: ${params.data.value.toFixed(2)}</div>
+                <div>权重: ${params.data.value?.toFixed(2) || 'N/A'}</div>
               `
             }
           }
@@ -692,6 +697,14 @@ export default {
       }
       
       console.log('Chart option:', option)
+      
+      // 处理空数据情况
+      if (this.graphData.nodes.length === 0) {
+        option.title.subtext = `${this.getLayerLabel(this.currentLayer)} - 无数据`
+        option.series[0].data = []
+        option.series[0].links = []
+      }
+      
       this.chart.setOption(option)
       
       // 添加点击事件
@@ -738,18 +751,22 @@ export default {
     changeLayer(layer) {
       this.currentLayer = layer
       this.clearSelection()
+      this.clearCache()
       this.fetchGraphData()
       this.fetchGraphStats()
     },
     
     applyFilters() {
+      console.log('applyFilters called, selectedTypes:', this.selectedTypes)
       this.clearSelection()
+      this.clearCache()
       this.fetchGraphData()
       this.fetchGraphStats()
     },
     
     handleSearch() {
       this.clearSelection()
+      this.clearCache()
       this.fetchGraphData()
     },
     
@@ -778,8 +795,8 @@ export default {
     },
     
     getCacheKey() {
-      const types = this.selectedTypes.sort().join(',')
-      return `graph_data_${this.currentLayer}_${this.minWeight}_${types}_${this.searchKeyword}`
+      const types = [...this.selectedTypes].sort().join(',')
+      return `graph_data_${this.currentLayer}_${this.minWeight}_${this.minFreq}_${types}_${this.searchKeyword}`
     },
     
     getFromCache(key) {
@@ -808,6 +825,20 @@ export default {
         console.log('数据已保存到缓存:', key)
       } catch (err) {
         console.error('保存缓存失败:', err)
+      }
+    },
+    
+    clearCache() {
+      try {
+        const keys = Object.keys(localStorage)
+        keys.forEach(key => {
+          if (key.startsWith('graph_data_')) {
+            localStorage.removeItem(key)
+            console.log('清除缓存:', key)
+          }
+        })
+      } catch (err) {
+        console.error('清除缓存失败:', err)
       }
     }
   }
@@ -920,7 +951,6 @@ export default {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  cursor: pointer;
   padding: var(--spacing-xs) 0;
 }
 
@@ -929,6 +959,11 @@ export default {
   height: 16px;
   cursor: pointer;
   accent-color: var(--color-gold-400);
+}
+
+.filter-checkbox label {
+  cursor: pointer;
+  user-select: none;
 }
 
 .filter-label {

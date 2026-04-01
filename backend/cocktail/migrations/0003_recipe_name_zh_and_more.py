@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("cocktail", "0001_initial"),
+        ("cocktail", "0002_llm_canonical_map"),
     ]
 
     operations = [

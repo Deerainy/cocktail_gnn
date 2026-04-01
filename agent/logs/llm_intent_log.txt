@@ -1,0 +1,72 @@
+
+=== LLM 意图分类 ===
+用户查询: 找一下 margarita
+LLM 提示: 
+            请将以下用户查询分类到以下意图之一：
+            1. recipe_search: 搜索食谱，如"找一下 margarita"、"搜索鸡尾酒"
+            2. recipe_structure: 询问食谱结构，如"这个配方结构是什么样的"、"查看食谱子图"
+            3. ingredient_neighbors: 询问食材邻域，如"lime 的邻域有什么"、"与 gin 相关的食材"
+            4. substitute_recommendation: 询问替代推荐，如"lime 可以换成什么"、"没有 gin 怎么办"
+            5. general_chat: 一般聊天，如"你好"、"在吗"
+            
+            请只返回意图名称，不要返回其他内容。
+            
+            查询：找一下 margarita
+            
+发送请求到: http://localhost:8000/v1/chat/completions
+LLM 分类失败: Expecting value: line 1 column 1 (char 0)
+分类结果 (错误): {"intent": "general_chat", "confidence": 0.5, "query": "找一下 margarita", "method": "llm_error"}
+
+=== LLM 意图分类 ===
+用户查询: ??????????????????? Margarita ???????
+LLM 提示: 
+            请将以下用户查询分类到以下意图之一：
+            1. recipe_search: 搜索食谱，如"找一下 margarita"、"搜索鸡尾酒"
+            2. recipe_structure: 询问食谱结构，如"这个配方结构是什么样的"、"查看食谱子图"
+            3. ingredient_neighbors: 询问食材邻域，如"lime 的邻域有什么"、"与 gin 相关的食材"
+            4. substitute_recommendation: 询问替代推荐，如"lime 可以换成什么"、"没有 gin 怎么办"
+            5. general_chat: 一般聊天，如"你好"、"在吗"
+            
+            请只返回意图名称，不要返回其他内容。
+            
+            查询：??????????????????? Margarita ???????
+            
+发送请求到: http://localhost:8000/v1/chat/completions
+LLM 分类失败: Expecting value: line 1 column 1 (char 0)
+分类结果 (错误): {"intent": "general_chat", "confidence": 0.5, "query": "??????????????????? Margarita ???????", "method": "llm_error"}
+
+=== LLM 意图分类 ===
+用户查询: 找一下 margarita
+LLM 提示: 
+            请将以下用户查询分类到以下意图之一：
+            1. recipe_search: 搜索食谱，如"找一下 margarita"、"搜索鸡尾酒"
+            2. recipe_structure: 询问食谱结构，如"这个配方结构是什么样的"、"查看食谱子图"
+            3. ingredient_neighbors: 询问食材邻域，如"lime 的邻域有什么"、"与 gin 相关的食材"
+            4. substitute_recommendation: 询问替代推荐，如"lime 可以换成什么"、"没有 gin 怎么办"
+            5. general_chat: 一般聊天，如"你好"、"在吗"
+            
+            请只返回意图名称，不要返回其他内容。
+            
+            查询：找一下 margarita
+            
+发送请求到: http://localhost:8000/v1/chat/completions
+LLM 分类失败: Expecting value: line 1 column 1 (char 0)
+分类结果 (错误): {"intent": "general_chat", "confidence": 0.5, "query": "找一下 margarita", "method": "llm_error"}
+
+=== LLM 意图分类 ===
+用户查询: 找一下 margarita
+LLM 提示: 
+            请将以下用户查询分类到以下意图之一：
+            1. recipe_search: 搜索食谱，如"找一下 margarita"、"搜索鸡尾酒"
+            2. recipe_structure: 询问食谱结构，如"这个配方结构是什么样的"、"查看食谱子图"
+            3. ingredient_neighbors: 询问食材邻域，如"lime 的邻域有什么"、"与 gin 相关的食材"
+            4. substitute_recommendation: 询问替代推荐，如"lime 可以换成什么"、"没有 gin 怎么办"
+            5. general_chat: 一般聊天，如"你好"、"在吗"
+            
+            请只返回意图名称，不要返回其他内容。
+            
+            查询：找一下 margarita
+            
+发送请求到: http://localhost:8000/v1/chat/completions
+LLM 分类失败: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='localhost', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))
+分类结果 (错误): {"intent": "general_chat", "confidence": 0.5, "query": "找一下 margarita", "method": "llm_error"}

@@ -286,9 +286,266 @@
 }
 ```
 
+## 组合调整相关接口
+
+### 9. 获取组合调整页面概览
+- **接口**: GET /api/recipes/{recipe_id}/combo-adjust/overview
+- **用途**: 获取组合调整页面的概览信息，包括配方基本信息、原始原料、SQE评分、可用目标、方案统计等
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "recipe": {
+      "recipe_id": "1",
+      "source": "kaggle_hotaling",
+      "source_recipe_key": "0_Flor de Amaras",
+      "name": "Flor de Amaras",
+      "recipe_name_zh": "阿玛拉之花",
+      "instructions": "*Hibiscus Simple Syrup:\n1:1 w/ a cup of dried hibiscus flowers...",
+      "glass": "coupe",
+      "tags": "tequila, mezcal, cocktail",
+      "image_url": "https://example.com/image.jpg",
+      "is_alcoholic": true,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    "original_ingredients": [
+      {
+        "ingredient_id": "ing1",
+        "line_no": 1,
+        "amount": 2.0,
+        "unit": "oz",
+        "role": "base",
+        "raw_text": "2 oz Tequila",
+        "ingredient": {
+          "ingredient_id": "ing1",
+          "name_norm": "Tequila",
+          "canonical_id": "can1",
+          "canonical_name": "Tequila Blanco",
+          "canonical_name_zh": "白龙舌兰",
+          "category": "Spirit",
+          "abv": 40.0,
+          "is_alcoholic": true,
+          "anchor_name": "Tequila",
+          "anchor_form": "Liquid",
+          "flavor_feature": {
+            "sour": 0.2,
+            "sweet": 0.1,
+            "bitter": 0.3,
+            "aroma": 0.8,
+            "fruity": 0.2,
+            "body": 0.6
+          }
+        }
+      }
+    ],
+    "original_sqe": {
+      "snapshot_id": "snap1",
+      "param_version": "v1",
+      "model_version": "v2",
+      "phaseA_synergy_raw": 0.8,
+      "phaseA_conflict_raw": 0.2,
+      "phaseA_balance_raw": 0.7,
+      "phaseA_synergy_norm": 0.85,
+      "phaseA_conflict_norm": 0.15,
+      "phaseA_balance_norm": 0.75,
+      "phaseA_total": 0.8,
+      "phaseB_synergy_score": 0.82,
+      "phaseB_conflict_score": 0.18,
+      "phaseB_balance_score": 0.78,
+      "phaseB_total": 0.8,
+      "phaseC_residual": 0.1,
+      "phaseC_pred_score": 0.85,
+      "phaseC_margin": 0.15,
+      "phaseC_confidence": 0.9,
+      "final_sqe_total": 0.82,
+      "rank_in_snapshot": 1,
+      "is_valid": true,
+      "note": "Excellent recipe"
+    },
+    "available_targets": ["can1", "can2", "can3"],
+    "total_plans": 5,
+    "accepted_plans": 3,
+    "best_plan_summary": {
+      "plan_id": 1,
+      "rank_no": 1,
+      "target_canonical": "Tequila Blanco",
+      "candidate_canonical": "Mezcal",
+      "repair_canonical": null,
+      "repair_role": null,
+      "repair_factor": 1.0,
+      "old_sqe_total": 0.82,
+      "single_sqe_total": 0.77,
+      "combo_sqe_total": 0.85,
+      "delta_sqe_single": -0.05,
+      "delta_sqe_combo": 0.03,
+      "delta_synergy_combo": 0.05,
+      "delta_conflict_combo": -0.02,
+      "delta_balance_combo": 0.08,
+      "accept_flag": true,
+      "reason_code": "STRUCTURE_RECOVERY",
+      "summary_text": "替换 Tequila Blanco 为 Mezcal",
+      "plan_type": "单步替代",
+      "trend_tags": ["SQE提升", "协同增强", "冲突缓解", "平衡改善"]
+    },
+    "available_snapshots": ["snap1", "snap2"],
+    "available_model_versions": ["v1", "v2"]
+  }
+}
+```
+
+### 10. 获取组合调整方案列表
+- **接口**: GET /api/recipes/{recipe_id}/combo-adjust/plans
+- **用途**: 获取指定配方的组合调整方案列表，支持多种过滤和排序条件
+- **参数**:
+  - recipe_id: 配方ID (路径参数)
+  - snapshot_id: 快照ID (查询参数，可选)
+  - target_canonical_id: 目标原料canonical ID (查询参数，可选)
+  - accept_flag: 接受状态 (查询参数，可选，true/false)
+  - model_version: 模型版本 (查询参数，可选)
+  - ordering: 排序字段 (查询参数，可选，支持多字段，如: -accept_flag,rank_no，默认: -accept_flag,rank_no)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": [
+    {
+      "plan_id": 1,
+      "rank_no": 1,
+      "target_canonical": "Tequila Blanco",
+      "candidate_canonical": "Mezcal",
+      "repair_canonical": null,
+      "repair_role": null,
+      "repair_factor": 1.0,
+      "old_sqe_total": 0.82,
+      "single_sqe_total": 0.77,
+      "combo_sqe_total": 0.85,
+      "delta_sqe_single": -0.05,
+      "delta_sqe_combo": 0.03,
+      "delta_synergy_combo": 0.05,
+      "delta_conflict_combo": -0.02,
+      "delta_balance_combo": 0.08,
+      "accept_flag": true,
+      "reason_code": "STRUCTURE_RECOVERY",
+      "summary_text": "替换 Tequila Blanco 为 Mezcal",
+      "plan_type": "单步替代",
+      "trend_tags": ["SQE提升", "协同增强", "冲突缓解", "平衡改善"]
+    },
+    {
+      "plan_id": 2,
+      "rank_no": 2,
+      "target_canonical": "Tequila Blanco",
+      "candidate_canonical": "Mezcal",
+      "repair_canonical": "Lime Juice",
+      "repair_role": "acid",
+      "repair_factor": 0.9,
+      "old_sqe_total": 0.82,
+      "single_sqe_total": 0.77,
+      "combo_sqe_total": 0.88,
+      "delta_sqe_single": -0.05,
+      "delta_sqe_combo": 0.06,
+      "delta_synergy_combo": 0.07,
+      "delta_conflict_combo": -0.03,
+      "delta_balance_combo": 0.11,
+      "accept_flag": true,
+      "reason_code": "BALANCE_IMPROVED",
+      "summary_text": "替换 Tequila Blanco 为 Mezcal，并对 acid 做局部微调",
+      "plan_type": "组合调整",
+      "trend_tags": ["SQE提升", "协同增强", "冲突缓解", "平衡改善"]
+    }
+  ]
+}
+```
+
+### 11. 获取组合调整方案详情
+- **接口**: GET /api/combo-adjust/plans/{plan_id}
+- **用途**: 获取指定组合调整方案的详细信息，包括步骤列表、判定说明、阶段对比等
+- **参数**:
+  - plan_id: 方案ID (路径参数)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "plan_id": 1,
+    "snapshot_id": "snap1",
+    "recipe_id": "1",
+    "target_canonical_id": "can1",
+    "candidate_canonical_id": "can3",
+    "repair_canonical_id": null,
+    "repair_role": null,
+    "repair_factor": 1.0,
+    "old_sqe_total": 0.82,
+    "single_sqe_total": 0.77,
+    "combo_sqe_total": 0.85,
+    "delta_sqe_single": -0.05,
+    "delta_sqe_combo": 0.03,
+    "delta_synergy_combo": 0.05,
+    "delta_conflict_combo": -0.02,
+    "delta_balance_combo": 0.08,
+    "accept_flag": true,
+    "reason_code": "STRUCTURE_RECOVERY",
+    "explanation": "该方案在单步替代基础上通过局部比例修正恢复了平衡项，并提升了整体结构质量。",
+    "plan_json": null,
+    "rank_no": 1,
+    "model_version": "v2",
+    "created_at": "2024-01-01T00:00:00Z",
+    "updated_at": "2024-01-01T00:00:00Z",
+    "target_canonical": "Tequila Blanco",
+    "candidate_canonical": "Mezcal",
+    "repair_canonical": null,
+    "steps": [
+      {
+        "step_id": 1,
+        "step_no": 1,
+        "op_type": "replace",
+        "target_ingredient": "Tequila",
+        "target_canonical": "Tequila Blanco",
+        "candidate_ingredient": "Mezcal",
+        "candidate_canonical": "Mezcal",
+        "amount_factor": null,
+        "role_info": "base",
+        "before_sqe_total": 0.82,
+        "after_sqe_total": 0.77,
+        "delta_sqe": -0.05,
+        "note": null,
+        "step_text": "将 Tequila 替换为 Mezcal"
+      }
+    ],
+    "judgement": {
+      "accepted": true,
+      "judgement_text": "该方案在单步替代基础上通过局部比例修正恢复了平衡项，并提升了整体结构质量。",
+      "diagnosis": [
+        "单步替代后SQE下降",
+        "组合修正后协同项上升",
+        "组合修正后冲突项下降",
+        "组合修正后平衡项提升"
+      ]
+    },
+    "stages": {
+      "original": 0.82,
+      "single_replace": 0.77,
+      "combo_adjust": 0.85
+    },
+    "acceptance_info": {
+      "accept_flag": true,
+      "accepted_label": "已接受",
+      "reason_label": "结构恢复有效",
+      "reason_text": "组合调整后的整体 SQE 高于原始配方，且局部修正范围有限。"
+    }
+  }
+}
+```
+
 ## 风味图谱相关接口
 
-### 9. 获取全局风味图谱主图
+### 12. 获取全局风味图谱主图
 - **接口**: GET /api/flavor-graph/graph
 - **用途**: 获取全局风味图谱的主图数据，支持多种过滤和裁剪选项
 - **参数**:
@@ -343,7 +600,7 @@
 }
 ```
 
-### 10. 获取节点详情
+### 13. 获取节点详情
 - **接口**: GET /api/flavor-graph/nodes/{node_id}
 - **用途**: 获取指定节点的详细信息，包括anchor、风味特征、邻居等
 - **参数**:
@@ -388,7 +645,7 @@
 }
 ```
 
-### 11. 获取边详情
+### 14. 获取边详情
 - **接口**: GET /api/flavor-graph/edges/detail
 - **用途**: 获取指定边的详细信息，包括metrics和summary
 - **参数**:
@@ -480,7 +737,7 @@
 }
 ```
 
-### 12. 获取图谱统计
+### 15. 获取图谱统计
 - **接口**: GET /api/flavor-graph/stats
 - **用途**: 获取图谱的统计信息和排行榜数据
 - **参数**:
@@ -560,6 +817,53 @@ fetch('http://127.0.0.1:8000/api/flavor-graph/graph?layer=compat&min_weight=0.5&
     if (data.code === 0) {
       console.log('图谱数据:', data.data);
       // 处理图谱数据
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+
+// 获取组合调整页面概览
+fetch('http://127.0.0.1:8000/api/recipes/1/combo-adjust/overview')
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 0) {
+      console.log('组合调整概览:', data.data);
+      // 处理概览数据
+      const { recipe, original_ingredients, original_sqe, available_targets, 
+               total_plans, accepted_plans, best_plan_summary } = data.data;
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+
+// 获取组合调整方案列表
+fetch('http://127.0.0.1:8000/api/recipes/1/combo-adjust/plans?accept_flag=true&ordering=-accept_flag,rank_no')
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 0) {
+      console.log('组合调整方案列表:', data.data);
+      // 处理方案列表数据
+      data.data.forEach(plan => {
+        console.log(`方案 ${plan.plan_id}: ${plan.summary_text}`);
+        console.log(`趋势标签: ${plan.trend_tags.join(', ')}`);
+      });
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+
+// 获取组合调整方案详情
+fetch('http://127.0.0.1:8000/api/combo-adjust/plans/1')
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 0) {
+      console.log('组合调整方案详情:', data.data);
+      // 处理方案详情数据
+      const { plan_id, steps, judgement, stages, acceptance_info } = data.data;
+      console.log(`方案 ${plan_id} 的步骤:`, steps);
+      console.log(`判定结果:`, judgement);
+      console.log(`阶段对比:`, stages);
+      console.log(`接受信息:`, acceptance_info);
     } else {
       console.error('错误:', data.message);
     }

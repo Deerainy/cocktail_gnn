@@ -1,0 +1,148 @@
+
+=== Neo4j 检索 ===
+搜索食谱: Margarita
+请求 URL: http://127.0.0.1:8000/api/graph/search/recipe/
+请求参数: {'keyword': 'Margarita'}
+响应状态码: 200
+响应结果: [
+  {
+    "id": 325,
+    "name": "Prickly Pear Margarita",
+    "raw": {
+      "instructions": "Mint salt on the rim. Garnish with mint sprig.",
+      "recipe_id": 325,
+      "updated_at": "18/2/2026 21:12:46",
+      "name": "Prickly Pear Margarita",
+      "created_at": "18/2/2026 21:12:46",
+      "source_recipe_key": "274_Prickly Pear Margarita",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 448,
+    "name": "Tamaulipas Margarita",
+    "raw": {
+      "instructions": "Served in v-shaped rocks glass with \"vintage ice\".\n",
+      "recipe_id": 448,
+      "updated_at": "18/2/2026 21:12:49",
+      "name": "Tamaulipas Margarita",
+      "created_at": "18/2/2026 21:12:49",
+      "source_recipe_key": "397_Tamaulipas Margarita",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 582,
+    "name": "Italian Margarita",
+    "raw": {
+      "instructions": "Shaken and served over ice.",
+      "recipe_id": 582,
+      "updated_at": "18/2/2026 21:12:52",
+      "name": "Italian Margarita",
+      "created_at": "18/2/2026 21:12:52",
+      "source_recipe_key": "531_Italian Margarita",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 723,
+    "name": "Margarita",
+    "raw": {
+      "recipe_id": 723,
+      "updated_at": "18/2/2026 21:12:55",
+      "name": "Margarita",
+      "source_recipe_key": "672_Margarita",
+      "created_at": "18/2/2026 21:12:55",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 725,
+    "name": "Margarita Ahumeada",
+    "raw": {
+      "recipe_id": 725,
+      "updated_at": "18/2/2026 21:12:55",
+      "name": "Margarita Ahumeada",
+      "created_at": "18/2/2026 21:12:55",
+      "source_recipe_key": "674_Margarita Ahumeada",
+      "source": "kaggle_hotaling"
+    }
+  }
+]
+
+=== Neo4j 检索 ===
+搜索食谱: Margarita
+请求 URL: http://127.0.0.1:8000/api/graph/search/recipe/
+请求参数: {'keyword': 'Margarita'}
+响应状态码: 200
+响应结果: [
+  {
+    "id": 325,
+    "name": "Prickly Pear Margarita",
+    "raw": {
+      "instructions": "Mint salt on the rim. Garnish with mint sprig.",
+      "recipe_id": 325,
+      "updated_at": "18/2/2026 21:12:46",
+      "name": "Prickly Pear Margarita",
+      "created_at": "18/2/2026 21:12:46",
+      "source_recipe_key": "274_Prickly Pear Margarita",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 448,
+    "name": "Tamaulipas Margarita",
+    "raw": {
+      "instructions": "Served in v-shaped rocks glass with \"vintage ice\".\n",
+      "recipe_id": 448,
+      "updated_at": "18/2/2026 21:12:49",
+      "name": "Tamaulipas Margarita",
+      "created_at": "18/2/2026 21:12:49",
+      "source_recipe_key": "397_Tamaulipas Margarita",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 582,
+    "name": "Italian Margarita",
+    "raw": {
+      "instructions": "Shaken and served over ice.",
+      "recipe_id": 582,
+      "updated_at": "18/2/2026 21:12:52",
+      "name": "Italian Margarita",
+      "created_at": "18/2/2026 21:12:52",
+      "source_recipe_key": "531_Italian Margarita",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 723,
+    "name": "Margarita",
+    "raw": {
+      "recipe_id": 723,
+      "updated_at": "18/2/2026 21:12:55",
+      "name": "Margarita",
+      "source_recipe_key": "672_Margarita",
+      "created_at": "18/2/2026 21:12:55",
+      "source": "kaggle_hotaling"
+    }
+  },
+  {
+    "id": 725,
+    "name": "Margarita Ahumeada",
+    "raw": {
+      "recipe_id": 725,
+      "updated_at": "18/2/2026 21:12:55",
+      "name": "Margarita Ahumeada",
+      "created_at": "18/2/2026 21:12:55",
+      "source_recipe_key": "674_Margarita Ahumeada",
+      "source": "kaggle_hotaling"
+    }
+  }
+]
+
+=== Neo4j 检索 ===
+搜索食谱: Margarita
+请求 URL: http://127.0.0.1:8000/api/graph/search/recipe/
+请求参数: {'keyword': 'Margarita'}
+搜索食谱失败: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /api/graph/search/recipe/?keyword=Margarita (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。"))

@@ -3,8 +3,10 @@ from .models_recipe import (
     Recipe, RecipeIngredient, Ingredient, IngredientFlavorAnchor, 
     IngredientFlavorFeature, SqeRecipeScore, RecipeBalanceFeature, 
     SqeNodeImportance, GraphEdgeStatsV2, GraphFlavorEdgeStats, 
-    GraphFlavorCompatEdgeStats, RecipeSubstituteResult, LlmCanonicalMap
+    GraphFlavorCompatEdgeStats, RecipeSubstituteResult, LlmCanonicalMap,
+    RecipeComboAdjustResult, RecipeComboAdjustStep
 )
+from .services_combo_adjust import ComboAdjustService
 
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -179,3 +181,111 @@ class RecipeSubstituteResultSerializer(serializers.ModelSerializer):
             'candidate_role', 'delta_sqe', 'accept_flag', 'rank_no',
             'reason_code', 'explanation', 'score_breakdown'
         ]
+
+class RecipeComboAdjustStepSerializer(serializers.ModelSerializer):
+    step_text = serializers.SerializerMethodField()
+
+    def get_step_text(self, obj):
+        return ComboAdjustService.generate_step_text(obj)
+
+    class Meta:
+        model = RecipeComboAdjustStep
+        fields = [
+            'step_id', 'step_no', 'op_type', 'target_ingredient',
+            'target_canonical', 'candidate_ingredient', 'candidate_canonical',
+            'amount_factor', 'role_info', 'before_sqe_total', 'after_sqe_total',
+            'delta_sqe', 'note', 'step_text'
+        ]
+
+class RecipeComboAdjustResultSerializer(serializers.ModelSerializer):
+    target_canonical = serializers.SerializerMethodField()
+    candidate_canonical = serializers.SerializerMethodField()
+    repair_canonical = serializers.SerializerMethodField()
+    steps = RecipeComboAdjustStepSerializer(many=True, read_only=True)
+
+    def get_target_canonical(self, obj):
+        anchor = IngredientFlavorAnchor.objects.filter(canonical_id=obj.target_canonical_id).first()
+        return anchor.canonical_name if anchor else obj.target_canonical_id
+
+    def get_candidate_canonical(self, obj):
+        anchor = IngredientFlavorAnchor.objects.filter(canonical_id=obj.candidate_canonical_id).first()
+        return anchor.canonical_name if anchor else obj.candidate_canonical_id
+
+    def get_repair_canonical(self, obj):
+        if obj.repair_canonical_id:
+            anchor = IngredientFlavorAnchor.objects.filter(canonical_id=obj.repair_canonical_id).first()
+            return anchor.canonical_name if anchor else obj.repair_canonical_id
+        return None
+
+    class Meta:
+        model = RecipeComboAdjustResult
+        fields = [
+            'plan_id', 'snapshot_id', 'recipe_id', 'target_canonical_id',
+            'candidate_canonical_id', 'repair_canonical_id', 'repair_role',
+            'repair_factor', 'old_sqe_total', 'single_sqe_total',
+            'combo_sqe_total', 'delta_sqe_single', 'delta_sqe_combo',
+            'delta_synergy_combo', 'delta_conflict_combo', 'delta_balance_combo',
+            'accept_flag', 'reason_code', 'explanation', 'plan_json',
+            'rank_no', 'model_version', 'created_at', 'updated_at',
+            'target_canonical', 'candidate_canonical', 'repair_canonical', 'steps'
+        ]
+
+class ComboAdjustPlanCardSerializer(serializers.ModelSerializer):
+    target_canonical = serializers.SerializerMethodField()
+    candidate_canonical = serializers.SerializerMethodField()
+    repair_canonical = serializers.SerializerMethodField()
+    summary_text = serializers.SerializerMethodField()
+    plan_type = serializers.SerializerMethodField()
+    trend_tags = serializers.SerializerMethodField()
+
+    def get_target_canonical(self, obj):
+        return ComboAdjustService.get_canonical_name(obj.target_canonical_id)
+
+    def get_candidate_canonical(self, obj):
+        return ComboAdjustService.get_canonical_name(obj.candidate_canonical_id)
+
+    def get_repair_canonical(self, obj):
+        if obj.repair_canonical_id:
+            return ComboAdjustService.get_canonical_name(obj.repair_canonical_id)
+        return None
+
+    def get_summary_text(self, obj):
+        return ComboAdjustService.generate_plan_summary(obj)
+
+    def get_plan_type(self, obj):
+        return ComboAdjustService.generate_plan_type(obj)
+
+    def get_trend_tags(self, obj):
+        return ComboAdjustService.generate_trend_tags(obj)
+
+    class Meta:
+        model = RecipeComboAdjustResult
+        fields = [
+            'plan_id', 'rank_no', 'target_canonical', 'candidate_canonical',
+            'repair_canonical', 'repair_role', 'repair_factor', 'old_sqe_total',
+            'single_sqe_total', 'combo_sqe_total', 'delta_sqe_single',
+            'delta_sqe_combo', 'delta_synergy_combo', 'delta_conflict_combo',
+            'delta_balance_combo', 'accept_flag', 'reason_code', 'summary_text',
+            'plan_type', 'trend_tags'
+        ]
+
+class ComboAdjustJudgementSerializer(serializers.Serializer):
+    accepted = serializers.BooleanField()
+    judgement_text = serializers.CharField()
+    diagnosis = serializers.ListField(child=serializers.CharField())
+
+class ComboAdjustStagesSerializer(serializers.Serializer):
+    original = serializers.FloatField()
+    single_replace = serializers.FloatField()
+    combo_adjust = serializers.FloatField()
+
+class ComboAdjustOverviewSerializer(serializers.Serializer):
+    recipe = RecipeSerializer()
+    original_ingredients = RecipeIngredientSerializer(many=True)
+    original_sqe = SqeRecipeScoreSerializer()
+    available_targets = serializers.ListField(child=serializers.CharField())
+    total_plans = serializers.IntegerField()
+    accepted_plans = serializers.IntegerField()
+    best_plan_summary = ComboAdjustPlanCardSerializer()
+    available_snapshots = serializers.ListField(child=serializers.CharField())
+    available_model_versions = serializers.ListField(child=serializers.CharField())

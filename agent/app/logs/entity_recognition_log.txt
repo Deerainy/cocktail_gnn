@@ -1,0 +1,72 @@
+
+=== 实体识别 ===
+用户查询: 找一下 margarita
+识别结果: {
+  "entities": {
+    "RECIPE": [
+      "Margarita"
+    ],
+    "INGREDIENT": [],
+    "CANONICAL": [],
+    "FLAVOR": [],
+    "ROLE": [],
+    "ACTION": [],
+    "CONSTRAINT": [],
+    "TARGET": []
+  },
+  "query": "找一下 margarita"
+}
+
+=== 实体识别 ===
+用户查询: ??????????????????? Margarita ???????
+识别结果: {
+  "entities": {
+    "RECIPE": [
+      "Margarita"
+    ],
+    "INGREDIENT": [],
+    "CANONICAL": [],
+    "FLAVOR": [],
+    "ROLE": [],
+    "ACTION": [],
+    "CONSTRAINT": [],
+    "TARGET": []
+  },
+  "query": "??????????????????? Margarita ???????"
+}
+
+=== 实体识别 ===
+用户查询: 找一下 margarita
+识别结果: {
+  "entities": {
+    "RECIPE": [
+      "Margarita"
+    ],
+    "INGREDIENT": [],
+    "CANONICAL": [],
+    "FLAVOR": [],
+    "ROLE": [],
+    "ACTION": [],
+    "CONSTRAINT": [],
+    "TARGET": []
+  },
+  "query": "找一下 margarita"
+}
+
+=== 实体识别 ===
+用户查询: 找一下 margarita
+识别结果: {
+  "entities": {
+    "RECIPE": [
+      "Margarita"
+    ],
+    "INGREDIENT": [],
+    "CANONICAL": [],
+    "FLAVOR": [],
+    "ROLE": [],
+    "ACTION": [],
+    "CONSTRAINT": [],
+    "TARGET": []
+  },
+  "query": "找一下 margarita"
+}

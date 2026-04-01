@@ -92,7 +92,7 @@
                       <div 
                         v-for="(ingredient, index) in group" 
                         :key="ingredient.ingredient_id || index"
-                        class="ingredient-item"
+                        :class="['ingredient-item', { selected: selectedIngredient?.ingredient?.ingredient_id === ingredient.ingredient?.ingredient_id || selectedIngredient === ingredient }]"
                         @click="selectIngredient(ingredient)"
                       >
                         <div class="ingredient-header">
@@ -112,6 +112,8 @@
                   </div>
                 </div>
               </div>
+              
+
             </div>
             
             <!-- SQE分析 + 风味分布 -->
@@ -166,28 +168,7 @@
                 <div class="flavor-charts">
                   <!-- 风味雷达图 -->
                   <div class="radar-chart-container">
-                    <div class="radar-chart">
-                      <div class="radar-chart-grid">
-                        <div class="radar-chart-circle"></div>
-                        <div class="radar-chart-circle"></div>
-                        <div class="radar-chart-circle"></div>
-                        <div class="radar-chart-line"></div>
-                        <div class="radar-chart-line"></div>
-                        <div class="radar-chart-line"></div>
-                        <div class="radar-chart-line"></div>
-                        <div class="radar-chart-line"></div>
-                        <div class="radar-chart-line"></div>
-                      </div>
-                      <div class="radar-chart-data" :style="getRadarChartStyle()"></div>
-                      <div class="radar-chart-labels">
-                        <div class="radar-label">酸味</div>
-                        <div class="radar-label">甜味</div>
-                        <div class="radar-label">苦味</div>
-                        <div class="radar-label">香气</div>
-                        <div class="radar-label">果味</div>
-                        <div class="radar-label">酒体</div>
-                      </div>
-                    </div>
+                    <div ref="flavorRadarChart" class="radar-chart-echarts"></div>
                   </div>
                   <!-- 风味条形图 -->
                   <div class="flavor-bars-container">
@@ -236,6 +217,11 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                
+                <h3 class="card-title mt-4">所有原料的风味贡献</h3>
+                <div class="contribution-chart-container" style="height: 400px;">
+                  <div ref="ingredientContributionChart" class="contribution-chart"></div>
                 </div>
               </div>
             </div>
@@ -292,66 +278,23 @@
             </div>
           </div>
           
-          <!-- 第三行：替代建议 -->
-          <div class="substitute-section mb-6">
-            <div class="substitute-suggestions card">
-              <h3 class="card-title">替代建议</h3>
-              <div v-if="!selectedIngredient" class="substitute-prompt">
-                <div class="prompt-icon">🔄</div>
-                <p class="prompt-text">点击上方原料列表中的任意原料，查看可能的替代建议</p>
-              </div>
-              <div v-else-if="substitutes.length === 0" class="substitute-loading">
-                <div class="loading-spinner small"></div>
-                <p class="loading-text">加载替代建议中...</p>
-              </div>
-              <div v-else class="substitute-list">
-                <div 
-                  v-for="(substitute, index) in sortedSubstitutes" 
-                  :key="substitute.candidate_canonical_id || index"
-                  class="substitute-item"
-                >
-                  <div class="substitute-header">
-                    <div class="substitute-name-section">
-                      <h4 class="substitute-name">
-                        <span v-if="substitute.candidate_name_zh" class="name-zh">{{ substitute.candidate_name_zh }}</span>
-                        <span v-if="substitute.candidate_name_zh && substitute.candidate_name" class="name-separator"> / </span>
-                        <span v-if="substitute.candidate_name" class="name-en">{{ substitute.candidate_name }}</span>
-                        <span v-if="!substitute.candidate_name_zh && !substitute.candidate_name">金朗姆酒</span>
-                      </h4>
-                      <div class="substitute-rating">
-                        <div class="rating-stars">
-                          <span v-for="star in 5" :key="star" :class="['star', star <= Math.round((substitute.compatibility_score || 0.5) * 5) ? 'filled' : 'empty']">★</span>
-                        </div>
-                        <span class="rating-score">{{ ((substitute.compatibility_score || 0.5) * 100).toFixed(0) }}%</span>
-                      </div>
-                    </div>
-                    <span :class="['substitute-flag', substitute.accept_flag ? 'accept' : 'reject']">
-                      {{ substitute.accept_flag ? '可接受' : '不推荐' }}
-                    </span>
-                  </div>
-                  <div class="substitute-details">
-                    <div class="substitute-metrics">
-                      <div class="metric-item">
-                        <span class="metric-label">原角色:</span>
-                        <span class="metric-value">{{ substitute.target_role }}</span>
-                      </div>
-                      <div class="metric-item">
-                        <span class="metric-label">新角色:</span>
-                        <span class="metric-value">{{ substitute.candidate_role }}</span>
-                      </div>
-                      <div class="metric-item">
-                        <span class="metric-label">SQE变化:</span>
-                        <span :class="['metric-value', substitute.delta_sqe >= 0 ? 'positive' : 'negative']">
-                          {{ substitute.delta_sqe >= 0 ? '+' : '' }}{{ substitute.delta_sqe.toFixed(2) }}
-                        </span>
-                      </div>
-                    </div>
-                    <div class="substitute-explanation" v-if="substitute.explanation_summary">
-                      <h5 class="explanation-title">说明</h5>
-                      <p class="explanation-text">{{ substitute.explanation_summary }}</p>
-                    </div>
-                  </div>
+          <!-- 第三行：组合调整入口 -->
+          <div class="adjust-entry-section mb-6">
+            <div class="adjust-entry-card card">
+              <div class="entry-content">
+                <div class="entry-icon">🔄</div>
+                <div class="entry-info">
+                  <h3 class="entry-title">组合调整分析</h3>
+                  <p class="entry-description">
+                    探索原料替代的多种可能性，通过单步替代和组合调整优化配方
+                  </p>
                 </div>
+                <router-link 
+                  :to="{ path: '/adjust', query: { recipe_id: recipe?.recipe_id } }"
+                  class="btn btn-primary"
+                >
+                  进入组合调整工作台
+                </router-link>
               </div>
             </div>
           </div>
@@ -395,6 +338,7 @@
 <script>
 import { fetchRecipe, fetchIngredients, fetchSQE, fetchBalance, fetchKeyNodes, fetchSubstitutes, fetchGraph } from '../api/recipeApi';
 import RecipeLocalGraph from '../components/RecipeLocalGraph.vue';
+import * as echarts from 'echarts';
 
 export default {
   name: 'VisualizationView',
@@ -413,13 +357,158 @@ export default {
       graphData: null,
       graphLayer: 'mixed',
       loading: false,
-      error: null
+      error: null,
+      flavorRadarChart: null,
+      ingredientContributionChart: null
     };
   },
   mounted() {
     this.fetchRecipeData();
+    window.addEventListener('resize', this.handleResize);
   },
+  beforeUnmount() {
+      if (this.flavorRadarChart) {
+        this.flavorRadarChart.dispose();
+      }
+      if (this.ingredientContributionChart) {
+        // 移除图例点击事件监听器
+        this.ingredientContributionChart.off('legendselectchanged');
+        this.ingredientContributionChart.dispose();
+      }
+      window.removeEventListener('resize', this.handleResize);
+    },
   methods: {
+    initFlavorRadarChart() {
+      if (!this.$refs.flavorRadarChart) {
+        console.warn('flavorRadarChart ref not found');
+        return false;
+      }
+      
+      try {
+        if (this.flavorRadarChart) {
+          this.flavorRadarChart.dispose();
+        }
+        this.flavorRadarChart = echarts.init(this.$refs.flavorRadarChart);
+        return true;
+      } catch (error) {
+        console.error('Error initializing flavor radar chart:', error);
+        return false;
+      }
+    },
+    
+    updateFlavorRadarChart() {
+      if (!this.balance) {
+        console.warn('Balance data not available');
+        return;
+      }
+      
+      if (!this.flavorRadarChart) {
+        if (!this.initFlavorRadarChart()) return;
+      }
+      
+      const flavorData = [
+        this.balance?.f_sour || 0,
+        this.balance?.f_sweet || 0,
+        this.balance?.f_bitter || 0,
+        this.balance?.f_aroma || 0,
+        this.balance?.f_fruity || 0,
+        this.balance?.f_body || 0
+      ];
+      
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          borderColor: '#d4af37',
+          textStyle: {
+            color: '#fff'
+          },
+          formatter: function(params) {
+            const data = params[0];
+            const dimensions = ['酸味', '甜味', '苦味', '香气', '果味', '酒体'];
+            let result = '<div style="font-weight:bold;margin-bottom:5px;">风味分布</div>';
+            data.value.forEach((val, idx) => {
+              result += `<div style="display:flex;justify-content:space-between;gap:15px;">
+                <span>${dimensions[idx]}:</span>
+                <span style="font-weight:bold;color:#d4af37">${(val * 100).toFixed(1)}%</span>
+              </div>`;
+            });
+            return result;
+          }
+        },
+        radar: {
+          indicator: [
+            { name: '酸味', max: 1 },
+            { name: '甜味', max: 1 },
+            { name: '苦味', max: 1 },
+            { name: '香气', max: 1 },
+            { name: '果味', max: 1 },
+            { name: '酒体', max: 1 }
+          ],
+          shape: 'polygon',
+          splitNumber: 4,
+          center: ['50%', '50%'],
+          radius: '65%',
+          axisName: {
+            color: '#d4af37',
+            fontSize: 12,
+            fontWeight: 'bold'
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(212, 175, 55, 0.3)'
+            }
+          },
+          splitArea: {
+            show: true,
+            areaStyle: {
+              color: ['rgba(212, 175, 55, 0.05)', 'rgba(212, 175, 55, 0.1)']
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(212, 175, 55, 0.5)'
+            }
+          }
+        },
+        series: [
+          {
+            name: '风味分布',
+            type: 'radar',
+            data: [
+              {
+                value: flavorData,
+                name: '当前配方',
+                areaStyle: {
+                  color: 'rgba(212, 175, 55, 0.3)'
+                },
+                lineStyle: {
+                  color: '#d4af37',
+                  width: 2
+                },
+                itemStyle: {
+                  color: '#d4af37'
+                }
+              }
+            ]
+          }
+        ]
+      };
+      
+      try {
+        this.flavorRadarChart.setOption(option);
+        console.log('Flavor radar chart updated with data:', flavorData);
+      } catch (error) {
+        console.error('Error setting radar chart option:', error);
+      }
+    },
+    
+    handleResize() {
+      if (this.flavorRadarChart) {
+        this.flavorRadarChart.resize();
+      }
+    },
+    
     async fetchRecipeData() {
       const recipeId = this.$route.query.recipe_id || '123';
       this.loading = true;
@@ -439,6 +528,43 @@ export default {
         this.keyNodes = keyNodesData;
         this.graphData = graphData;
         
+        // 等待DOM更新后初始化图表
+        this.$nextTick(() => {
+          // 确保数据已经完全加载
+          if (this.ingredients && this.ingredients.length > 0) {
+            // 延迟初始化，确保DOM完全渲染
+            setTimeout(() => {
+              try {
+                console.log('开始初始化所有图表');
+                this.initFlavorRadarChart();
+                this.updateFlavorRadarChart();
+                
+                // 先确保DOM元素存在
+                if (this.$refs.ingredientContributionChart) {
+                  console.log('ingredientContributionChart ref found, initializing...');
+                  this.initIngredientContributionChart();
+                } else {
+                  console.warn('ingredientContributionChart ref not found, will try again later');
+                  // 再次尝试初始化
+                  setTimeout(() => {
+                    if (this.$refs.ingredientContributionChart) {
+                      console.log('Retry: ingredientContributionChart ref found, initializing...');
+                      this.initIngredientContributionChart();
+                    } else {
+                      console.error('Failed to find ingredientContributionChart ref after retry');
+                    }
+                  }, 500);
+                }
+              } catch (error) {
+                console.error('Error initializing charts:', error);
+                console.error('Error stack:', error.stack);
+              }
+            }, 300); // 增加延迟时间
+          } else {
+            console.warn('No ingredients data available, skipping chart initialization');
+          }
+        });
+        
         // 调试：打印数据结构
         console.log('Recipe data:', recipeData);
         console.log('Ingredients data:', ingredientsData);
@@ -455,6 +581,20 @@ export default {
     },
     async selectIngredient(ingredient) {
       this.selectedIngredient = ingredient;
+      
+      // 延迟更新原料贡献图表，而不是重新初始化
+      this.$nextTick(() => {
+        setTimeout(() => {
+          if (this.ingredientContributionChart) {
+            console.log('Updating ingredient contribution chart for selected ingredient');
+            this.updateIngredientContributionChart();
+          } else {
+            console.log('Chart not initialized, initializing now');
+            this.initIngredientContributionChart();
+          }
+        }, 100);
+      });
+      
       const recipeId = this.$route.query.recipe_id || '123';
       const targetCanonicalId = ingredient.ingredient?.canonical_id;
       if (targetCanonicalId) {
@@ -491,6 +631,303 @@ export default {
         this.substitutes = [];
       }
     },
+    
+    // 计算原料对风味维度的贡献
+    getIngredientFlavorContribution(flavorType) {
+      if (!this.selectedIngredient || !this.balance) return 0;
+      
+      // 获取原料在配方中的占比（基于用量）
+      const totalAmount = this.ingredients.reduce((sum, ing) => sum + (parseFloat(ing.amount) || 0), 0);
+      const ingredientAmount = parseFloat(this.selectedIngredient.amount) || 0;
+      const amountRatio = totalAmount > 0 ? ingredientAmount / totalAmount : 0;
+      
+      // 获取原料的风味属性（如果有的话）
+      const ingredient = this.selectedIngredient.ingredient;
+      if (!ingredient) return amountRatio * 0.5; // 如果没有详细信息，按用量占比的50%计算
+      
+      // 根据原料类型和风味维度计算贡献
+      const flavorMap = {
+        'sour': ingredient.is_sour || ingredient.f_sour || 0,
+        'sweet': ingredient.is_sweet || ingredient.f_sweet || 0,
+        'bitter': ingredient.is_bitter || ingredient.f_bitter || 0,
+        'aroma': ingredient.has_aroma || ingredient.f_aroma || 0,
+        'fruity': ingredient.is_fruity || ingredient.f_fruity || 0,
+        'body': ingredient.has_body || ingredient.f_body || 0
+      };
+      
+      // 获取当前配方的总风味值
+      const totalFlavor = this.balance[`f_${flavorType}`] || 0;
+      
+      // 计算贡献：原料风味属性 * 用量占比
+      const ingredientFlavor = flavorMap[flavorType] || 0;
+      const contribution = ingredientFlavor * amountRatio;
+      
+      // 如果配方总风味为0，返回原料自身的风味贡献
+      if (totalFlavor === 0) return contribution;
+      
+      // 否则返回相对于配方总风味的贡献比例
+      return Math.min(contribution / totalFlavor, 1);
+    },
+    
+    // 计算原料的总贡献度
+    getTotalContribution() {
+      if (!this.selectedIngredient) return 0;
+      
+      const flavors = ['sour', 'sweet', 'bitter', 'aroma', 'fruity', 'body'];
+      const totalContribution = flavors.reduce((sum, flavor) => {
+        return sum + this.getIngredientFlavorContribution(flavor);
+      }, 0);
+      
+      return Math.min(totalContribution / flavors.length, 1);
+    },
+    
+    // 初始化原料贡献图表
+    initIngredientContributionChart() {
+      console.log('=== 开始初始化原料贡献图表 ===');
+      
+      if (!this.$refs.ingredientContributionChart) {
+        console.warn('ingredientContributionChart ref not found');
+        return false;
+      }
+      
+      try {
+        // 确保图表实例被正确dispose
+        if (this.ingredientContributionChart) {
+          try {
+            console.log('Disposing existing chart instance');
+            this.ingredientContributionChart.dispose();
+          } catch (e) {
+            console.warn('Error disposing chart:', e);
+          }
+          this.ingredientContributionChart = null;
+        }
+        
+        // 重新初始化图表
+        console.log('Initializing new chart instance');
+        this.ingredientContributionChart = echarts.init(this.$refs.ingredientContributionChart);
+        
+        // 确保DOM元素存在且有尺寸
+        const chartDom = this.$refs.ingredientContributionChart;
+        console.log('Chart DOM element:', chartDom);
+        console.log('Chart DOM dimensions:', {
+          offsetWidth: chartDom?.offsetWidth,
+          offsetHeight: chartDom?.offsetHeight,
+          clientWidth: chartDom?.clientWidth,
+          clientHeight: chartDom?.clientHeight
+        });
+        
+        if (!chartDom || chartDom.offsetWidth === 0 || chartDom.offsetHeight === 0) {
+          console.warn('Chart DOM element has no dimensions, skipping initialization');
+          return false;
+        }
+        
+        console.log('Chart DOM is ready, updating chart');
+        this.updateIngredientContributionChart();
+        return true;
+      } catch (error) {
+        console.error('Error initializing ingredient contribution chart:', error);
+        console.error('Error stack:', error.stack);
+        return false;
+      }
+    },
+    
+    // 更新原料贡献图表
+    updateIngredientContributionChart() {
+      console.log('=== 开始更新原料贡献图表 ===');
+      
+      // 确保图表实例存在
+      if (!this.ingredientContributionChart) {
+        console.warn('Ingredient contribution chart not initialized');
+        return;
+      }
+      
+      // 确保原料数据存在
+      if (!this.ingredients || !Array.isArray(this.ingredients) || this.ingredients.length === 0) {
+        console.warn('No ingredients data available');
+        return;
+      }
+      
+      try {
+        const flavorTypes = ['sour', 'sweet', 'bitter', 'aroma', 'fruity', 'body'];
+        const flavorNames = ['酸味', '甜味', '苦味', '香气', '果味', '酒体'];
+        
+        console.log('原料数据:', this.ingredients);
+        
+        // 为每个原料生成数据系列
+        const series = [];
+        
+        this.ingredients.forEach((ingredient, index) => {
+          console.log(`处理原料 ${index}:`, ingredient);
+          
+          // 跳过无效的原料项
+          if (!ingredient) {
+            console.log(`原料 ${index} 为空，跳过`);
+            return;
+          }
+          
+          const ingredientName = ingredient.ingredient?.canonical_name_zh || 
+                                ingredient.ingredient?.canonical_name || 
+                                ingredient.ingredient?.name_norm || 
+                                ingredient.raw_text || 
+                                `原料${index + 1}`;
+          
+          const data = flavorTypes.map(flavorType => {
+            // 计算原料对该风味维度的贡献
+            const totalAmount = this.ingredients.reduce((sum, ing) => sum + (parseFloat(ing.amount) || 0), 0);
+            const ingredientAmount = parseFloat(ingredient.amount) || 0;
+            const amountRatio = totalAmount > 0 ? ingredientAmount / totalAmount : 0;
+            
+            // 获取原料的风味属性
+            const ingredientObj = ingredient.ingredient;
+            if (!ingredientObj) {
+              console.log(`原料 ${index} (${ingredientName}) 没有ingredient对象`);
+              return 0;
+            }
+            
+            // 从flavor_feature对象中获取风味属性
+            const flavorFeature = ingredientObj.flavor_feature || {};
+            
+            const flavorMap = {
+              'sour': flavorFeature.sour || 0,
+              'sweet': flavorFeature.sweet || 0,
+              'bitter': flavorFeature.bitter || 0,
+              'aroma': flavorFeature.aroma || 0,
+              'fruity': flavorFeature.fruity || 0,
+              'body': flavorFeature.body || 0
+            };
+            
+            const ingredientFlavor = flavorMap[flavorType] || 0;
+            const result = ingredientFlavor * amountRatio;
+            // 确保返回有效的数字
+            const finalResult = isNaN(result) ? 0 : Math.max(0, result);
+            console.log(`原料 ${index} (${ingredientName}) ${flavorType}: ${ingredientFlavor} * ${amountRatio} = ${finalResult}`);
+            return finalResult;
+          });
+          
+          console.log(`原料 ${index} (${ingredientName}) 数据:`, data);
+          
+          // 确保生成有效的series项
+          if (ingredientName && data && data.length === flavorTypes.length) {
+            series.push({
+              name: ingredientName,
+              type: 'bar',
+              stack: 'total',
+              emphasis: {
+                focus: 'series'
+              },
+              data: data,
+              // 添加id以确保ECharts能正确识别系列
+              id: `ingredient-${index}`
+            });
+          }
+        });
+        
+        // 确保series数组不为空且所有项都有效
+        const validSeries = series.filter(Boolean).map((s, index) => {
+          // 确保每个series都有完整的结构
+          return {
+            name: s.name || `系列${index}`,
+            type: 'bar', // 固定为bar类型
+            stack: 'total',
+            emphasis: {
+              focus: 'series'
+            },
+            data: s.data || [],
+            id: s.id || `series-${index}`
+          };
+        });
+        
+        // 确保series数组不为空
+        if (validSeries.length === 0) {
+          console.warn('No valid series data, creating placeholder');
+          // 创建一个空的占位系列
+          validSeries.push({
+            name: '无数据',
+            type: 'bar',
+            stack: 'total',
+            data: [0, 0, 0, 0, 0, 0],
+            id: 'placeholder-series'
+          });
+        }
+        
+        // 打印series数组，用于调试
+        console.log('Ingredient contribution chart series:', JSON.stringify(validSeries, null, 2));
+        
+        // 创建一个简化的图表配置
+        const option = {
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow'
+            },
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            borderColor: '#d4af37',
+            textStyle: { color: '#fff' }
+          },
+          legend: {
+            data: validSeries.map(s => s.name),
+            textStyle: {
+              color: '#d4af37'
+            },
+            bottom: 0,
+            // 禁用图例点击事件，避免ECharts内部错误
+            selectedMode: false
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '15%',
+            top: '10%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            data: flavorNames,
+            axisLabel: {
+              color: '#d4af37'
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'rgba(212, 175, 55, 0.3)'
+              }
+            }
+          },
+          yAxis: {
+            type: 'value',
+            name: '贡献度',
+            nameTextStyle: {
+              color: '#d4af37'
+            },
+            axisLabel: {
+              color: '#d4af37',
+              formatter: '{value}'
+            },
+            axisLine: {
+              lineStyle: {
+                color: 'rgba(212, 175, 55, 0.3)'
+              }
+            },
+            splitLine: {
+              lineStyle: {
+                color: 'rgba(212, 175, 55, 0.1)'
+              }
+            }
+          },
+          series: validSeries
+        };
+        
+        console.log('ECharts option:', JSON.stringify(option, null, 2));
+        
+        // 清除之前的配置，避免合并导致的问题
+        this.ingredientContributionChart.clear();
+        // 设置新的配置，使用replaceMerge确保完全替换
+        this.ingredientContributionChart.setOption(option, true);
+        console.log('=== 原料贡献图表更新成功 ===');
+      } catch (error) {
+        console.error('Error updating ingredient contribution chart:', error);
+        console.error('Error stack:', error.stack);
+      }
+    },
     switchGraphLayer(layer) {
       this.graphLayer = layer;
       const recipeId = this.$route.query.recipe_id || '123';
@@ -510,29 +947,6 @@ export default {
       if (score >= 0.7) return '良好';
       if (score >= 0.6) return '一般';
       return '需要改进';
-    },
-    getRadarChartStyle() {
-      const center = 50;
-      const radius = 45;
-      const flavors = [
-        this.balance?.f_sour || 0,
-        this.balance?.f_sweet || 0,
-        this.balance?.f_bitter || 0,
-        this.balance?.f_aroma || 0,
-        this.balance?.f_fruity || 0,
-        this.balance?.f_body || 0
-      ];
-      
-      const points = flavors.map((value, index) => {
-        const angle = (Math.PI * 2 / 6) * index - Math.PI / 2;
-        const x = center + radius * value * Math.cos(angle);
-        const y = center + radius * value * Math.sin(angle);
-        return `${x}% ${y}%`;
-      });
-      
-      return {
-        clipPath: `polygon(${points.join(', ')})`
-      };
     },
     handleGraphNodeClick(node) {
       const ingredient = this.ingredients.find(ing => 
@@ -1490,6 +1904,12 @@ export default {
   transform: translateX(4px);
 }
 
+.ingredient-item.selected {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
 .ingredient-header {
   display: flex;
   justify-content: space-between;
@@ -1701,7 +2121,7 @@ export default {
 
 .radar-chart-container,
 .flavor-bars-container {
-  height: 200px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1711,131 +2131,10 @@ export default {
   border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
-.radar-chart {
-  position: relative;
+.radar-chart-echarts {
   width: 100%;
   height: 100%;
-}
-
-.radar-chart-grid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.radar-chart-circle {
-  position: absolute;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 50%;
-}
-
-.radar-chart-circle:nth-child(1) {
-  width: 80%;
-  height: 80%;
-}
-
-.radar-chart-circle:nth-child(2) {
-  width: 60%;
-  height: 60%;
-}
-
-.radar-chart-circle:nth-child(3) {
-  width: 40%;
-  height: 40%;
-}
-
-.radar-chart-line {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background: rgba(212, 175, 55, 0.3);
-  transform-origin: center center;
-}
-
-.radar-chart-line:nth-child(4) {
-  transform: rotate(0deg);
-}
-
-.radar-chart-line:nth-child(5) {
-  transform: rotate(60deg);
-}
-
-.radar-chart-line:nth-child(6) {
-  transform: rotate(120deg);
-}
-
-.radar-chart-line:nth-child(7) {
-  transform: rotate(180deg);
-}
-
-.radar-chart-line:nth-child(8) {
-  transform: rotate(240deg);
-}
-
-.radar-chart-line:nth-child(9) {
-  transform: rotate(300deg);
-}
-
-.radar-chart-data {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(212, 175, 55, 0.3);
-  transition: clip-path 1s ease-out;
-  opacity: 0.8;
-}
-
-.radar-chart-labels {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.radar-label {
-  position: absolute;
-  font-size: 0.875rem;
-  color: #999;
-  transform: translate(-50%, -50%);
-}
-
-.radar-label:nth-child(1) {
-  top: 5%;
-  left: 50%;
-}
-
-.radar-label:nth-child(2) {
-  top: 50%;
-  left: 95%;
-}
-
-.radar-label:nth-child(3) {
-  top: 95%;
-  left: 75%;
-}
-
-.radar-label:nth-child(4) {
-  top: 95%;
-  left: 25%;
-}
-
-.radar-label:nth-child(5) {
-  top: 50%;
-  left: 5%;
-}
-
-.radar-label:nth-child(6) {
-  top: 5%;
-  left: 50%;
+  min-height: 280px;
 }
 
 .flavor-bars {
@@ -2029,261 +2328,44 @@ export default {
   margin: 0 0.25rem;
 }
 
-/* 替代建议 */
-.substitute-prompt,
-.substitute-loading {
+/* 组合调整入口 */
+.adjust-entry-section {
+  margin-top: var(--spacing-xl);
+}
+
+.adjust-entry-card {
+  padding: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+  border: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.entry-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2.5rem;
-  text-align: center;
-  background: rgba(212, 175, 55, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  gap: var(--spacing-xl);
 }
 
-.prompt-icon {
+.entry-icon {
   font-size: 3rem;
-  margin-bottom: 1rem;
-  opacity: 0.3;
+  opacity: 0.8;
 }
 
-.prompt-text {
-  font-size: 1rem;
-  color: #999;
-  max-width: 400px;
-}
-
-.substitute-item {
-  padding: 1.25rem;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
-  background: rgba(25, 25, 25, 0.5);
-}
-
-.substitute-item:hover {
-  background: rgba(25, 25, 25, 0.8);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
-}
-
-.substitute-item:last-child {
-  margin-bottom: 0;
-}
-
-.substitute-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-}
-
-.substitute-name-section {
+.entry-info {
   flex: 1;
 }
 
-.substitute-name {
-  font-size: 1.1rem;
+.entry-title {
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #e0e0e0;
-  margin-bottom: 0.5rem;
+  color: var(--color-gold-200);
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-serif);
 }
 
-.substitute-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.rating-stars {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.star {
+.entry-description {
   font-size: 1rem;
-  color: #666;
-  transition: color 0.3s ease;
-}
-
-.star.filled {
-  color: #d4af37;
-}
-
-.rating-score {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #d4af37;
-  min-width: 40px;
-}
-
-.substitute-flag {
-  padding: 0.375rem 1rem;
-  border-radius: 16px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.substitute-flag.accept {
-  background-color: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
-  border: 1px solid rgba(76, 175, 80, 0.4);
-}
-
-.substitute-flag.reject {
-  background-color: rgba(244, 67, 54, 0.2);
-  color: #f44336;
-  border: 1px solid rgba(244, 67, 54, 0.4);
-}
-
-.substitute-details {
-  font-size: 0.875rem;
-  color: #b0b0b0;
-}
-
-.substitute-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background: rgba(212, 175, 55, 0.05);
-  border-radius: 6px;
-}
-
-.metric-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.metric-label {
-  font-weight: 500;
-  color: #999;
-  min-width: 70px;
-}
-
-.metric-value {
-  font-weight: 600;
-  color: #e0e0e0;
-}
-
-.metric-value.positive {
-  color: #4caf50;
-}
-
-.metric-value.negative {
-  color: #f44336;
-}
-
-.substitute-explanation {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(212, 175, 55, 0.1);
-}
-
-.explanation-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #d4af37;
-  margin-bottom: 0.5rem;
-}
-
-.explanation-text {
+  color: var(--color-text-secondary);
   line-height: 1.6;
-  color: #b0b0b0;
-  margin: 0;
-}
-
-.substitute-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.substitute-item {
-  padding: 1.25rem;
-  background: rgba(212, 175, 55, 0.05);
-  border-radius: 8px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  transition: all 0.3s ease;
-}
-
-.substitute-item:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: rgba(212, 175, 55, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.substitute-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.625rem;
-}
-
-.substitute-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #e0e0e0;
-}
-
-.substitute-flag {
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.substitute-flag.accept {
-  background: rgba(76, 175, 80, 0.1);
-  color: #4caf50;
-  border: 1px solid rgba(76, 175, 80, 0.3);
-}
-
-.substitute-flag.reject {
-  background: rgba(244, 67, 54, 0.1);
-  color: #f44336;
-  border: 1px solid rgba(244, 67, 54, 0.3);
-}
-
-.substitute-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
-}
-
-.substitute-roles {
-  display: flex;
-  gap: 1.25rem;
-  font-size: 0.875rem;
-  color: #999;
-  flex-wrap: wrap;
-}
-
-.substitute-score {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.625rem;
-  background: rgba(212, 175, 55, 0.05);
-  border-radius: 6px;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-}
-
-.substitute-explanation {
-  font-size: 0.875rem;
-  color: #888;
-  line-height: 1.5;
-  font-style: italic;
 }
 
 /* 操作区 */
@@ -2350,6 +2432,82 @@ export default {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
+/* 原料风味贡献 */
+.ingredient-flavor-contribution {
+  margin-top: 1rem;
+}
+
+.contribution-chart-container {
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.contribution-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.contribution-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contribution-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contribution-label {
+  flex: 0 0 50px;
+  font-size: 0.875rem;
+  color: #999;
+  text-align: right;
+}
+
+.contribution-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.contribution-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+.contribution-value {
+  flex: 0 0 50px;
+  font-size: 0.875rem;
+  color: #d4af37;
+  font-weight: 600;
+  text-align: left;
+}
+
+.contribution-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.total-label {
+  font-size: 1rem;
+  color: #999;
+}
+
+.total-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #d4af37;
+}
+
 /* 响应式设计 */
 @media (max-width: 1024px) {
   .lg\:grid-cols-4 {
@@ -2414,6 +2572,15 @@ export default {
   
   .btn {
     width: 100%;
+  }
+  
+  .flavor-charts {
+    grid-template-columns: 1fr;
+  }
+  
+  .radar-chart-container,
+  .flavor-bars-container {
+    height: 250px;
   }
 }
 </style>

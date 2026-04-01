@@ -37,12 +37,18 @@ class FlavorGraphView(APIView):
             if layer == 'compat':
                 edge_model = GraphFlavorCompatEdgeStats
                 edge_field = 'weight'
+                i_field = 'i_canonical_id'
+                j_field = 'j_canonical_id'
             elif layer == 'cooccur':
                 edge_model = GraphEdgeStatsV2
                 edge_field = 'weight'
+                i_field = 'i_id'
+                j_field = 'j_id'
             elif layer == 'flavor':
                 edge_model = GraphFlavorEdgeStats
                 edge_field = 'weight'
+                i_field = 'i_id'
+                j_field = 'j_id'
             else:
                 return Response({
                     'code': 400,
@@ -58,11 +64,11 @@ class FlavorGraphView(APIView):
                 types = [t.strip() for t in ingredient_type.split(',')]
                 # 获取符合类型的canonical_id
                 anchors = IngredientFlavorAnchor.objects.filter(
-                    anchor_source__in=types
+                    anchor_form__in=types
                 ).values_list('canonical_id', flat=True)
                 # 过滤边，只保留两端都在类型列表中的边
                 edges = edges.filter(
-                    Q(i_canonical_id__in=anchors) | Q(j_canonical_id__in=anchors)
+                    Q(**{i_field + '__in': anchors}) | Q(**{j_field + '__in': anchors})
                 )
             
             # 3. 如果有keyword，返回匹配节点及其邻域子图
@@ -86,8 +92,8 @@ class FlavorGraphView(APIView):
                 
                 # 过滤边，只保留与匹配节点相关的边
                 edges = edges.filter(
-                    Q(i_canonical_id__in=matching_nodes) | 
-                    Q(j_canonical_id__in=matching_nodes)
+                    Q(**{i_field + '__in': matching_nodes}) | 
+                    Q(**{j_field + '__in': matching_nodes})
                 )
             
             # 4. 如果only_key_nodes=true，只保留关键节点
@@ -98,15 +104,15 @@ class FlavorGraphView(APIView):
                 
                 # 过滤边，只保留关键节点之间的边
                 edges = edges.filter(
-                    Q(i_canonical_id__in=key_nodes) | 
-                    Q(j_canonical_id__in=key_nodes)
+                    Q(**{i_field + '__in': key_nodes}) | 
+                    Q(**{j_field + '__in': key_nodes})
                 )
             
             # 5. 获取所有节点ID
             node_ids = set()
             for edge in edges:
-                node_ids.add(str(edge.i_canonical_id))
-                node_ids.add(str(edge.j_canonical_id))
+                node_ids.add(str(getattr(edge, i_field)))
+                node_ids.add(str(getattr(edge, j_field)))
             
             # 6. 按limit_nodes限制节点总数
             if len(node_ids) > limit_nodes:
@@ -124,8 +130,8 @@ class FlavorGraphView(APIView):
                 
                 # 过滤边，只保留这些节点之间的边
                 edges = edges.filter(
-                    Q(i_canonical_id__in=node_ids) | 
-                    Q(j_canonical_id__in=node_ids)
+                    Q(**{i_field + '__in': node_ids}) | 
+                    Q(**{j_field + '__in': node_ids})
                 )
             
             # 7. topk邻边裁剪
@@ -133,16 +139,16 @@ class FlavorGraphView(APIView):
                 # 统计每个节点的边数
                 edge_count = {}
                 for edge in edges:
-                    i_id = str(edge.i_canonical_id)
-                    j_id = str(edge.j_canonical_id)
+                    i_id = str(getattr(edge, i_field))
+                    j_id = str(getattr(edge, j_field))
                     edge_count[i_id] = edge_count.get(i_id, 0) + 1
                     edge_count[j_id] = edge_count.get(j_id, 0) + 1
                 
                 # 对每个节点，只保留权重最高的topk条边
                 node_edges = {}
                 for edge in edges:
-                    i_id = str(edge.i_canonical_id)
-                    j_id = str(edge.j_canonical_id)
+                    i_id = str(getattr(edge, i_field))
+                    j_id = str(getattr(edge, j_field))
                     
                     # 为i节点添加边
                     if i_id not in node_edges:
@@ -201,7 +207,7 @@ class FlavorGraphView(APIView):
                 
                 node_data = {
                     'id': f'c_{node_id}',
-                    'label': mapping.canonical_name if mapping else str(node_id),
+                    'label': mapping.canonical_name if mapping else (anchor.canonical_name if anchor else str(node_id)),
                     'label_zh': mapping.canonical_name_zh if mapping else None,
                     'ingredient_type': anchor.anchor_source if anchor else None,
                     'role': anchor.anchor_form if anchor else None,
@@ -216,8 +222,8 @@ class FlavorGraphView(APIView):
             edges_data = []
             for edge in edges:
                 edges_data.append({
-                    'source': f'c_{edge.i_canonical_id}',
-                    'target': f'c_{edge.j_canonical_id}',
+                    'source': f'c_{getattr(edge, i_field)}',
+                    'target': f'c_{getattr(edge, j_field)}',
                     'type': layer,
                     'weight': float(getattr(edge, edge_field))
                 })
@@ -510,11 +516,10 @@ class FlavorGraphStatsView(APIView):
             if ingredient_type:
                 types = [t.strip() for t in ingredient_type.split(',')]
                 anchors = IngredientFlavorAnchor.objects.filter(
-                    anchor_source__in=types
+                    anchor_form__in=types
                 ).values_list('canonical_id', flat=True)
                 edges = edges.filter(
-                    Q(**{i_field + '__in': anchors}) | 
-                    Q(**{j_field + '__in': anchors})
+                    Q(**{i_field + '__in': anchors}) | Q(**{j_field + '__in': anchors})
                 )
             
             # 统计信息

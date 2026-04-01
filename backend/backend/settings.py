@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "cocktail",
+    "graph",
     'corsheaders',
+    'django_neomodel',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,12 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Neo4j Configuration
+# 配置 Neo4j 的连接信息
+NEOMODEL_NEO4J_BOLT_URL = 'neo4j://neo4j:Lyx040410@localhost:7687'
+NEO4J_URI = 'neo4j://localhost:7687'
+NEO4J_USER = 'neo4j'
+NEO4J_PASSWORD = 'Lyx040410'
+
+
