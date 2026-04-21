@@ -1,6 +1,6 @@
 // 配方相关 API 调用封装
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+const API_BASE_URL = '/api';
 
 /**
  * 获取配方基础信息
@@ -159,6 +159,68 @@ export async function fetchGraph(recipeId, layer = 'compat') {
     }
   } catch (error) {
     console.error('Error fetching graph:', error);
+    throw error;
+  }
+}
+
+/**
+ * 获取组合调整概览
+ * @param {string} recipeId - 配方 ID
+ * @returns {Promise<Object>} 概览数据
+ */
+export async function fetchComboAdjustOverview(recipeId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}/combo-adjust/overview`);
+    const data = await response.json();
+    if (data.code === 0) {
+      return data.data;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching combo adjust overview:', error);
+    throw error;
+  }
+}
+
+/**
+ * 获取组合调整计划
+ * @param {string} recipeId - 配方 ID
+ * @param {Object} params - 查询参数
+ * @returns {Promise<Array>} 计划列表
+ */
+export async function fetchComboAdjustPlans(recipeId, params = {}) {
+  try {
+    const queryString = new URLSearchParams(params).toString();
+    const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}/combo-adjust/plans?${queryString}`);
+    const data = await response.json();
+    if (data.code === 0) {
+      return data.data;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching combo adjust plans:', error);
+    throw error;
+  }
+}
+
+/**
+ * 获取组合调整计划详情
+ * @param {string} planId - 计划 ID
+ * @returns {Promise<Object>} 计划详情
+ */
+export async function fetchComboAdjustPlanDetail(planId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/combo-adjust/plans/${planId}`);
+    const data = await response.json();
+    if (data.code === 0) {
+      return data.data;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    console.error('Error fetching combo adjust plan detail:', error);
     throw error;
   }
 }

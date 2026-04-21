@@ -79,6 +79,19 @@
                   >
                   <span class="control-value">{{ minFreq }}</span>
                 </div>
+                <div class="control-item">
+                  <label class="control-label">节点数量</label>
+                  <input 
+                    type="range" 
+                    v-model.number="nodeLimit" 
+                    min="10" 
+                    max="500" 
+                    step="10"
+                    class="control-range"
+                    @change="applyFilters"
+                  >
+                  <span class="control-value">{{ nodeLimit }}</span>
+                </div>
               </div>
             </div>
 
@@ -240,7 +253,11 @@
                     :key="neighbor.id"
                     class="neighbor-item"
                   >
-                    <span class="neighbor-name">{{ neighbor.label }}</span>
+                    <span class="neighbor-name">
+                      <span v-if="neighbor.label_zh" class="name-zh">{{ neighbor.label_zh }}</span>
+                      <span v-if="neighbor.label_zh && neighbor.label" class="name-separator"> / </span>
+                      <span v-if="neighbor.label" class="name-en">{{ neighbor.label }}</span>
+                    </span>
                     <span class="neighbor-weight">{{ neighbor.weight?.toFixed(2) || 'N/A' }}</span>
                   </div>
                 </div>
@@ -308,12 +325,19 @@
                 <div 
                   v-for="(item, index) in topNodes.slice(0, 10)" 
                   :key="item.id"
-                  class="stat-list-item"
+                  :class="['stat-list-item', { 'common-item': commonItems.has(item.label) }]"
                 >
                   <span class="stat-rank">{{ index + 1 }}</span>
-                  <span class="stat-name">{{ item.label }}</span>
+                  <span class="stat-name">
+                    <span v-if="item.label_zh" class="name-zh">{{ item.label_zh }}</span>
+                    <span v-if="item.label_zh && item.label" class="name-separator"> / </span>
+                    <span v-if="item.label" class="name-en">{{ item.label }}</span>
+                  </span>
                   <span class="stat-score">{{ item.score?.toFixed(3) || 'N/A' }}</span>
                 </div>
+              </div>
+              <div class="stat-card-footer">
+                <small>数值表示：使用频次</small>
               </div>
             </div>
 
@@ -323,12 +347,19 @@
                 <div 
                   v-for="(item, index) in topAnchors.slice(0, 10)" 
                   :key="item.anchor_name"
-                  class="stat-list-item"
+                  :class="['stat-list-item', { 'common-item': commonItems.has(item.anchor_name) }]"
                 >
                   <span class="stat-rank">{{ index + 1 }}</span>
-                  <span class="stat-name">{{ item.anchor_name }}</span>
+                  <span class="stat-name">
+                    <span v-if="item.anchor_name_zh" class="name-zh">{{ item.anchor_name_zh }}</span>
+                    <span v-if="item.anchor_name_zh && item.anchor_name" class="name-separator"> / </span>
+                    <span v-if="item.anchor_name" class="name-en">{{ item.anchor_name }}</span>
+                  </span>
                   <span class="stat-count">{{ item.count }}</span>
                 </div>
+              </div>
+              <div class="stat-card-footer">
+                <small>数值表示：出现次数</small>
               </div>
             </div>
 
@@ -338,12 +369,19 @@
                 <div 
                   v-for="(item, index) in keyNodes.slice(0, 10)" 
                   :key="item.id"
-                  class="stat-list-item"
+                  :class="['stat-list-item', { 'common-item': commonItems.has(item.label) }]"
                 >
                   <span class="stat-rank">{{ index + 1 }}</span>
-                  <span class="stat-name">{{ item.label }}</span>
+                  <span class="stat-name">
+                    <span v-if="item.label_zh" class="name-zh">{{ item.label_zh }}</span>
+                    <span v-if="item.label_zh && item.label" class="name-separator"> / </span>
+                    <span v-if="item.label" class="name-en">{{ item.label }}</span>
+                  </span>
                   <span class="stat-score">{{ item.importance_score?.toFixed(3) || 'N/A' }}</span>
                 </div>
+              </div>
+              <div class="stat-card-footer">
+                <small>数值表示：重要性分数</small>
               </div>
             </div>
 
@@ -377,6 +415,7 @@
 
 <script>
 import * as echarts from 'echarts'
+import graphApi from '../api/graphApi'
 
 export default {
   name: 'GraphView',
@@ -406,6 +445,7 @@ export default {
       
       minWeight: 0.0,
       minFreq: 0,
+      nodeLimit: 100,
       searchKeyword: '',
       
       graphData: {
@@ -438,12 +478,37 @@ export default {
     
     keyNodes() {
       return this.graphData.nodes.filter(node => node.is_key_node) || []
+    },
+    
+    // 检测在多个榜单中出现的项目
+    commonItems() {
+      const topNodeNames = new Set(this.topNodes.map(item => item.label))
+      const topAnchorNames = new Set(this.topAnchors.map(item => item.anchor_name))
+      const keyNodeNames = new Set(this.keyNodes.map(item => item.label))
+      
+      const common = new Set()
+      
+      // 检查在两个或更多榜单中出现的项目
+      topNodeNames.forEach(name => {
+        if (topAnchorNames.has(name) || keyNodeNames.has(name)) {
+          common.add(name)
+        }
+      })
+      
+      topAnchorNames.forEach(name => {
+        if (keyNodeNames.has(name)) {
+          common.add(name)
+        }
+      })
+      
+      return common
     }
   },
   
   mounted() {
-    this.fetchGraphData()
-    this.fetchGraphStats()
+    this.fetchGraphData().then(() => {
+      this.fetchGraphStats()
+    })
     
     // 添加点击空白区域清除选择的事件
     document.addEventListener('click', (e) => {
@@ -468,6 +533,34 @@ export default {
         if (cachedData) {
           console.log('使用缓存数据:', cachedData)
           this.graphData = cachedData
+          
+          // 计算统计摘要
+          const nodeCount = this.graphData.nodes.length
+          const edgeCount = this.graphData.edges.length
+          let totalDegree = 0
+          let maxWeight = 0
+          
+          // 计算总度数和最大边权
+          this.graphData.edges.forEach(edge => {
+            totalDegree += 2 // 每条边对两个节点的度数各贡献1
+            if (edge.value > maxWeight) {
+              maxWeight = edge.value
+            }
+          })
+          
+          const avgDegree = nodeCount > 0 ? totalDegree / nodeCount : 0
+          
+          // 更新统计数据
+          this.graphStats = {
+            ...this.graphStats,
+            summary: {
+              node_count: nodeCount,
+              edge_count: edgeCount,
+              avg_degree: avgDegree,
+              max_weight: maxWeight
+            }
+          }
+          
           this.loading = false
           await this.$nextTick()
           this.initChart()
@@ -478,7 +571,7 @@ export default {
           layer: this.currentLayer,
           min_weight: this.minWeight,
           min_freq: this.minFreq,
-          limit_nodes: 100
+          limit_nodes: this.nodeLimit
         })
         
         if (this.selectedTypes.length > 0) {
@@ -490,9 +583,9 @@ export default {
         }
         
         console.log('Fetching graph data with params:', params.toString())
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/graph?${params}`)
+        const response = await graphApi.getFlavorGraph(Object.fromEntries(params))
         console.log('Response status:', response.status)
-        const data = await response.json()
+        const data = response.data
         console.log('Response data:', data)
         
         if (data.code === 0) {
@@ -513,6 +606,33 @@ export default {
               target: String(edge.target),
               value: edge.weight
             }))
+          }
+          
+          // 计算统计摘要
+          const nodeCount = this.graphData.nodes.length
+          const edgeCount = this.graphData.edges.length
+          let totalDegree = 0
+          let maxWeight = 0
+          
+          // 计算总度数和最大边权
+          this.graphData.edges.forEach(edge => {
+            totalDegree += 2 // 每条边对两个节点的度数各贡献1
+            if (edge.value > maxWeight) {
+              maxWeight = edge.value
+            }
+          })
+          
+          const avgDegree = nodeCount > 0 ? totalDegree / nodeCount : 0
+          
+          // 更新统计数据
+          this.graphStats = {
+            ...this.graphStats,
+            summary: {
+              node_count: nodeCount,
+              edge_count: edgeCount,
+              avg_degree: avgDegree,
+              max_weight: maxWeight
+            }
           }
           
           // 保存数据到缓存
@@ -537,18 +657,36 @@ export default {
     async fetchGraphStats() {
       try {
         const params = new URLSearchParams({
-          layer: this.currentLayer
+          limit: 10
         })
         
         if (this.selectedTypes.length > 0) {
           params.append('ingredient_type', this.selectedTypes.join(','))
         }
         
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/stats?${params}`)
-        const data = await response.json()
+        const response = await graphApi.getRankings(Object.fromEntries(params))
+        const data = response.data
         
-        if (data.code === 0) {
-          this.graphStats = data.data
+        if (data.code === 0 && data.data) {
+          // 处理新接口返回的数据
+          this.graphStats = {
+            ...this.graphStats, // 保留原有的summary字段
+            top_nodes: (data.data.top_ingredients || []).map(item => ({
+              id: String(item.id),
+              label: item.name,
+              label_zh: item.name_zh,
+              score: item.frequency,
+              ingredient_type: item.ingredient_type,
+              role: item.role
+            })),
+            top_anchors: (data.data.top_canonicals || []).map(item => ({
+              anchor_name: item.canonical_name,
+              anchor_name_zh: item.canonical_name_zh,
+              count: item.count,
+              description: item.description
+            }))
+            // 不再覆盖summary字段，保留fetchGraphData中计算的统计摘要
+          }
         }
       } catch (err) {
         console.error('获取图谱统计失败:', err)
@@ -557,8 +695,8 @@ export default {
     
     async fetchNodeDetails(nodeId) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/nodes/${nodeId}`)
-        const data = await response.json()
+        const response = await graphApi.getNodeDetail(nodeId)
+        const data = response.data
         
         if (data.code === 0) {
           return data.data
@@ -577,8 +715,8 @@ export default {
           layer: this.currentLayer
         })
         
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/edges/detail?${params}`)
-        const data = await response.json()
+        const response = await graphApi.getEdgeDetail(Object.fromEntries(params))
+        const data = response.data
         
         if (data.code === 0) {
           return data.data
@@ -653,6 +791,22 @@ export default {
             }
           }
         },
+        // 添加工具栏
+        toolbox: {
+          feature: {
+            saveAsImage: {
+              title: '保存为图片',
+              type: 'png',
+              name: '风味图谱'
+            },
+            restore: {
+              title: '还原'
+            }
+          },
+          right: 20,
+          top: 20
+        },
+
         animationDurationUpdate: 1500,
         animationEasingUpdate: 'quinticInOut',
         series: [
@@ -681,7 +835,10 @@ export default {
             label: {
               show: true,
               position: 'right',
-              formatter: '{b}'
+              formatter: '{b}',
+              fontSize: 12,
+              fontWeight: 'normal',
+              color: '#fff'
             },
             lineStyle: {
               opacity: 0.9,
@@ -690,7 +847,30 @@ export default {
             },
             force: {
               repulsion: 1000,
-              edgeLength: [80, 120]
+              edgeLength: [80, 120],
+              gravity: 0.1,
+              friction: 0.2,
+              layoutAnimation: false
+            },
+            // 优化交互
+            focusNodeAdjacency: false,
+            itemStyle: {
+              borderColor: '#fff',
+              borderWidth: 1
+            },
+            emphasis: {
+              lineStyle: {
+                width: 4,
+                color: '#D4AF37'
+              },
+              itemStyle: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(212, 175, 55, 0.5)'
+              },
+              label: {
+                fontSize: 14,
+                fontWeight: 'bold'
+              }
             }
           }
         ]
@@ -732,7 +912,9 @@ export default {
       
       this.fetchNodeDetails(node.id).then(detail => {
         if (detail) {
-          this.selectedNode = { ...node, ...detail }
+          // 保留原来的label和label_zh字段，不被API返回的数据覆盖
+          const { label, label_zh, ...otherDetail } = detail
+          this.selectedNode = { ...node, ...otherDetail }
         }
       })
     },
@@ -752,22 +934,26 @@ export default {
       this.currentLayer = layer
       this.clearSelection()
       this.clearCache()
-      this.fetchGraphData()
-      this.fetchGraphStats()
+      this.fetchGraphData().then(() => {
+        this.fetchGraphStats()
+      })
     },
     
     applyFilters() {
       console.log('applyFilters called, selectedTypes:', this.selectedTypes)
       this.clearSelection()
       this.clearCache()
-      this.fetchGraphData()
-      this.fetchGraphStats()
+      this.fetchGraphData().then(() => {
+        this.fetchGraphStats()
+      })
     },
     
     handleSearch() {
       this.clearSelection()
       this.clearCache()
-      this.fetchGraphData()
+      this.fetchGraphData().then(() => {
+        this.fetchGraphStats()
+      })
     },
     
     formatMetricKey(key) {
@@ -796,7 +982,7 @@ export default {
     
     getCacheKey() {
       const types = [...this.selectedTypes].sort().join(',')
-      return `graph_data_${this.currentLayer}_${this.minWeight}_${this.minFreq}_${types}_${this.searchKeyword}`
+      return `graph_data_${this.currentLayer}_${this.minWeight}_${this.minFreq}_${this.nodeLimit}_${types}_${this.searchKeyword}`
     },
     
     getFromCache(key) {
@@ -1486,6 +1672,26 @@ export default {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.stat-card-footer {
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--color-border-subtle);
+  text-align: right;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+}
+
+.common-item {
+  background: rgba(212, 175, 55, 0.1);
+  border-left: 3px solid var(--color-gold-400);
+  padding-left: var(--spacing-xs);
+  transition: all var(--transition-normal);
+}
+
+.common-item:hover {
+  background: rgba(212, 175, 55, 0.2);
 }
 
 .stat-list-item {

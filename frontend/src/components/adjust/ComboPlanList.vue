@@ -1,22 +1,22 @@
 <template>
   <div class="combo-plan-list card">
     <div class="list-header">
-      <h3 class="list-title">组合调整方案</h3>
+      <h3 class="list-title">组合调整方案 Combo Adjustment Plans</h3>
       <div class="list-filters">
         <select 
           v-model="localFilters.accept_flag" 
           @change="handleFilterChange"
           class="filter-select"
         >
-          <option :value="null">全部方案</option>
-          <option :value="true">已接受</option>
-          <option :value="false">已拒绝</option>
+          <option :value="null">全部方案 / All Plans</option>
+          <option :value="true">已接受 / Accepted</option>
+          <option :value="false">已拒绝 / Rejected</option>
         </select>
       </div>
     </div>
     
     <div class="plan-count">
-      共 {{ plans.length }} 个方案
+      共 {{ plans.length }} 个方案 / {{ plans.length }} Plans
     </div>
     
     <div class="plans-container">
@@ -35,7 +35,7 @@
             <span class="rank-number">{{ plan.rank_no }}</span>
           </div>
           <span :class="['plan-status', plan.accept_flag ? 'accept' : 'reject']">
-            {{ plan.accept_flag ? '已接受' : '已拒绝' }}
+            {{ plan.accept_flag ? '已接受 / Accepted' : '已拒绝 / Rejected' }}
           </span>
         </div>
         
@@ -44,8 +44,8 @@
         </div>
         
         <div class="plan-type">
-          <span class="type-label">类型:</span>
-          <span class="type-value">{{ plan.plan_type || '单步替代' }}</span>
+          <span class="type-label">类型 Type:</span>
+          <span class="type-value">{{ plan.plan_type || '单步替代 / Single Step' }}</span>
         </div>
         
         <div class="plan-scores">
@@ -63,19 +63,19 @@
         
         <div class="plan-metrics">
           <div class="metric-item">
-            <span class="metric-label">协同</span>
+            <span class="metric-label">协同 Synergy</span>
             <span :class="['metric-value', plan.delta_synergy_combo >= 0 ? 'positive' : 'negative']">
               {{ plan.delta_synergy_combo >= 0 ? '+' : '' }}{{ (plan.delta_synergy_combo || 0).toFixed(3) }}
             </span>
           </div>
           <div class="metric-item">
-            <span class="metric-label">冲突</span>
+            <span class="metric-label">冲突 Conflict</span>
             <span :class="['metric-value', plan.delta_conflict_combo <= 0 ? 'positive' : 'negative']">
               {{ plan.delta_conflict_combo >= 0 ? '+' : '' }}{{ (plan.delta_conflict_combo || 0).toFixed(3) }}
             </span>
           </div>
           <div class="metric-item">
-            <span class="metric-label">平衡</span>
+            <span class="metric-label">平衡 Balance</span>
             <span :class="['metric-value', plan.delta_balance_combo >= 0 ? 'positive' : 'negative']">
               {{ plan.delta_balance_combo >= 0 ? '+' : '' }}{{ (plan.delta_balance_combo || 0).toFixed(3) }}
             </span>
@@ -95,7 +95,7 @@
       
       <div v-if="plans.length === 0" class="no-plans">
         <div class="no-plans-icon">📋</div>
-        <p class="no-plans-text">暂无组合调整方案</p>
+        <p class="no-plans-text">暂无组合调整方案 / No Combo Adjustment Plans</p>
       </div>
     </div>
   </div>

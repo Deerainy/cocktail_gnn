@@ -21,9 +21,15 @@ class SubstituteQueries:
         """
         return """
         MATCH (c:CanonicalIngredient)
-        WHERE c.id = $canonical_id OR c.id = toInteger($canonical_id) OR c.canonical_id = $canonical_id OR c.canonical_id = toInteger($canonical_id)
+        WHERE c.canonical_id = $canonical_id OR c.canonical_id = toInteger($canonical_id)
         MATCH (c)-[gs:GLOBAL_SUBSTITUTE]->(cs:CanonicalIngredient)
-        RETURN c, gs, cs
+        RETURN c.canonical_id, c.canonical_name, 
+               gs.best_rank, gs.accepted_best_rank, gs.avg_delta_balance, 
+               gs.snapshot_count, gs.last_model_version, gs.recipe_count, 
+               gs.avg_delta_sqe, gs.accept_count, gs.avg_delta_synergy, 
+               gs.avg_delta_conflict, gs.support_count, gs.accept_rate, 
+               cs.canonical_id, cs.canonical_name
+        ORDER BY gs.best_rank ASC
         LIMIT $top_k
         """
 

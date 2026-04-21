@@ -22,17 +22,9 @@ if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
 class SQECalculator:
-    """
-    SQE 计算器类
-    """
-    
+    """SQE 计算器类"""
     def __init__(self, use_phaseC: bool = False):
-        """
-        初始化 SQE 计算器
-        
-        参数:
-        use_phaseC: 是否使用 phaseC 的模型进行优化
-        """
+        """初始化 SQE 计算器"""
         self.use_phaseC = use_phaseC
         self.phaseC_model = None
         self.phaseC_config = None

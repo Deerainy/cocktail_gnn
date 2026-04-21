@@ -5,11 +5,12 @@ from .views_recipe import (
     RecipeSubstitutesView, RecipeListView
 )
 from .views_flavor_graph import (
-    FlavorGraphView, FlavorNodeDetailView, FlavorEdgeDetailView, FlavorGraphStatsView
+    FlavorGraphView, FlavorNodeDetailView, FlavorEdgeDetailView, FlavorGraphStatsView, TopRankingView
 )
 from .views_combo_adjust import (
     ComboAdjustOverviewView, ComboAdjustPlansView, ComboAdjustPlanDetailView
 )
+from .views_innovation import InnovationGenerationView
 
 urlpatterns = [
     path('api/recipes', RecipeListView.as_view(), name='recipe-list'),
@@ -27,4 +28,6 @@ urlpatterns = [
     path('api/flavor-graph/nodes/<str:node_id>', FlavorNodeDetailView.as_view(), name='flavor-node-detail'),
     path('api/flavor-graph/edges/detail', FlavorEdgeDetailView.as_view(), name='flavor-edge-detail'),
     path('api/flavor-graph/stats', FlavorGraphStatsView.as_view(), name='flavor-graph-stats'),
+    path('api/flavor-graph/rankings', TopRankingView.as_view(), name='flavor-graph-rankings'),
+    path('api/innovation/generate', InnovationGenerationView.as_view(), name='innovation-generate'),
 ]

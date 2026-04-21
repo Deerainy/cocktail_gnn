@@ -7,7 +7,14 @@
 import requests
 import json
 import os
+import sys
 from typing import Dict, Any, List
+
+# 添加父目录到路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+# 导入配置
+from config import settings
 
 
 class BackendGraphTools:
@@ -16,13 +23,13 @@ class BackendGraphTools:
     封装后端图数据库接口，提供给 agent 使用
     """
 
-    def __init__(self, base_url: str = "http://127.0.0.1:8000/api/graph"):
+    def __init__(self, base_url: str = None):
         """
         初始化后端图数据库工具
         Args:
-            base_url: 后端图数据库接口的基础 URL
+            base_url: 后端图数据库接口的基础 URL，如果为None则从配置文件读取
         """
-        self.base_url = base_url
+        self.base_url = base_url or settings.GRAPH_API_BASE_URL
         # 确保日志目录存在
         self.log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "logs")
         os.makedirs(self.log_dir, exist_ok=True)
@@ -34,9 +41,11 @@ class BackendGraphTools:
         Args:
             message: 日志消息
         """
+        import time
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+        log_message = f"[{timestamp}] {message}"
         with open(self.log_file, "a", encoding="utf-8") as f:
-            f.write(f"{message}\n")
-        print(message)
+            f.write(f"{log_message}\n")
 
     def search_recipe(self, keyword: str) -> Dict[str, Any]:
         """

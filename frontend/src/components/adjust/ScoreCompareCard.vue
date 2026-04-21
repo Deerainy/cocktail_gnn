@@ -1,12 +1,12 @@
 <template>
   <div class="score-compare-card card">
-    <h3 class="card-title">分数对比</h3>
+    <h3 class="card-title">分数对比 Score Comparison</h3>
     
     <div class="compare-section">
-      <h4 class="section-title">总分变化</h4>
+      <h4 class="section-title">总分变化 Total Score Change</h4>
       <div class="total-score-comparison">
         <div class="score-box">
-          <div class="score-label">原始 SQE</div>
+          <div class="score-label">原始 SQE / Original SQE</div>
           <div class="score-value">{{ (plan.old_sqe_total || 0).toFixed(3) }}</div>
         </div>
         
@@ -18,7 +18,7 @@
         </div>
         
         <div class="score-box">
-          <div class="score-label">单步替代</div>
+          <div class="score-label">单步替代 / Single Replace</div>
           <div class="score-value">{{ (plan.single_sqe_total || 0).toFixed(3) }}</div>
         </div>
         
@@ -30,14 +30,14 @@
         </div>
         
         <div class="score-box highlight">
-          <div class="score-label">组合调整</div>
+          <div class="score-label">组合调整 / Combo Adjust</div>
           <div class="score-value">{{ (plan.combo_sqe_total || 0).toFixed(3) }}</div>
         </div>
       </div>
     </div>
     
     <div class="compare-section">
-      <h4 class="section-title">结构项变化</h4>
+      <h4 class="section-title">结构项变化 Structural Changes</h4>
       <div class="structure-changes">
         <div class="change-item">
           <div class="change-header">
@@ -110,19 +110,19 @@
     <div class="trend-summary">
       <div class="trend-item" v-if="plan.delta_sqe_combo > 0">
         <span class="trend-icon">📈</span>
-        <span class="trend-text">SQE 提升</span>
+        <span class="trend-text">SQE 提升 / SQE Increase</span>
       </div>
       <div class="trend-item" v-if="plan.delta_synergy_combo > 0">
         <span class="trend-icon">🤝</span>
-        <span class="trend-text">协同增强</span>
+        <span class="trend-text">协同增强 / Synergy Enhancement</span>
       </div>
       <div class="trend-item" v-if="plan.delta_conflict_combo < 0">
         <span class="trend-icon">✨</span>
-        <span class="trend-text">冲突缓解</span>
+        <span class="trend-text">冲突缓解 / Conflict Mitigation</span>
       </div>
       <div class="trend-item" v-if="plan.delta_balance_combo > 0">
         <span class="trend-icon">⚖️</span>
-        <span class="trend-text">平衡改善</span>
+        <span class="trend-text">平衡改善 / Balance Improvement</span>
       </div>
     </div>
   </div>

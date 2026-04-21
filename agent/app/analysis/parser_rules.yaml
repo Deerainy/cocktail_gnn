@@ -1,0 +1,181 @@
+pronouns:
+- 这个
+- 那个
+- 它
+- 它们
+- 这个里面
+- 那个里面
+- 这个配方
+- 那个配方
+- 这个食材
+- 那个食材
+- 刚才
+- 之前
+- 还是那个
+- 还是刚才
+- 这杯酒
+- 那杯酒
+- 这个酒
+- 那个酒
+followup_cues:
+- 那
+- 还能
+- 还有
+- 还是
+- 继续
+- 另外
+- 其他
+- 别的
+- 换别的
+- 换其他
+- 接下来
+- 还有别的
+- 其他酒
+- 换一杯
+intent_rules:
+  ingredient_substitute:
+    keywords:
+    - 换成
+    - 替换
+    - 替代
+    - 换
+    - 代替
+    - 取代
+    required_slots:
+    - ingredient
+    optional_slots:
+    - recipe
+    - candidate_substitute
+    boost_if_context_has_recipe: true
+    description: 食材替代建议
+  recipe_query:
+    keywords:
+    - 配方
+    - 做法
+    - 怎么做
+    - 食谱
+    - 制作
+    required_slots:
+    - recipe
+    optional_slots: []
+    description: 配方查询
+  ingredient_neighborhood:
+    keywords:
+    - 邻域
+    - 邻居
+    - 附近
+    - 相近
+    - 类似
+    required_slots:
+    - ingredient
+    optional_slots: []
+    description: 食材邻域查询
+  recipe_neighborhood:
+    keywords:
+    - 类似的
+    - 相似的
+    - 同类
+    required_slots:
+    - recipe
+    optional_slots: []
+    description: 配方邻域查询
+  memory_query:
+    keywords:
+    - 记得
+    - 还记得
+    - 叫什么名字
+    - 什么名字
+    - 之前说的
+    required_slots: []
+    optional_slots:
+    - recipe
+    - ingredient
+    description: 记忆查询
+  general_chat:
+    keywords: []
+    required_slots: []
+    optional_slots: []
+    description: 日常交流
+  price_inquiry:
+    keywords:
+    - 价格
+    - 多少钱
+    - 费用
+    - 收费
+    - cost
+    - price
+    - how much
+    required_slots: &id001
+    - recipe
+    optional_slots: &id002
+    - ingredient
+    description: 处理用户对鸡尾酒或其他饮品价格的查询请求，需要获取具体酒品名称才能提供准确价格信息。
+    learned_from: 这杯酒的价格是多少？
+    learned_at: '2026-04-04T11:48:58.704097'
+    confidence: 0.9
+intent_slots:
+  ingredient_substitute:
+    required:
+    - recipe
+    - ingredient
+    optional:
+    - candidate_substitute
+  recipe_query:
+    required:
+    - recipe
+    optional: []
+  ingredient_neighborhood:
+    required:
+    - ingredient
+    optional: []
+  recipe_neighborhood:
+    required:
+    - recipe
+    optional: []
+  memory_query:
+    required: []
+    optional:
+    - recipe
+    - ingredient
+  general_chat:
+    required: []
+    optional: []
+  price_inquiry:
+    required: *id001
+    optional: *id002
+slot_config:
+  recipe:
+    sources:
+    - explicit
+    - session.current_recipe
+    - session.recent_recipes
+    default_confidence:
+      explicit: 1.0
+      session.current_recipe: 0.9
+      session.recent_recipes: 0.7
+  ingredient:
+    sources:
+    - explicit
+    - session.current_canonical
+    - session.recent_ingredients
+    default_confidence:
+      explicit: 1.0
+      session.current_canonical: 0.9
+      session.recent_ingredients: 0.7
+  candidate_substitute:
+    sources:
+    - explicit
+    default_confidence:
+      explicit: 1.0
+context_mode_rules:
+  followup_indicators:
+    has_pronoun: true
+    has_followup_cue: true
+    missing_slots_compatible: true
+  new_topic_indicators:
+    new_recipe_mentioned: true
+    sentence_complete: true
+    action_type_mismatch: true
+  uncertain_indicators:
+    low_confidence: true
+    ambiguous_reference: true

@@ -1,51 +1,51 @@
 <template>
   <div class="diagnosis-judgement-panel card">
-    <h3 class="panel-title">诊断与判定</h3>
+    <h3 class="panel-title">诊断与判定 Diagnosis & Judgement</h3>
     
     <div class="panel-content">
       <div class="diagnosis-section">
         <h4 class="section-title">
           <span class="title-icon">🔍</span>
-          单替代偏移诊断
+          单替代偏移诊断 Single Replacement Diagnosis
         </h4>
         <div class="diagnosis-content">
           <div class="diagnosis-item" v-if="plan.delta_sqe_single < 0">
             <div class="diagnosis-indicator negative"></div>
             <div class="diagnosis-text">
-              <strong>SQE 下降</strong>
-              <p>单步替代后 SQE 下降了 {{ Math.abs(plan.delta_sqe_single || 0).toFixed(3) }}，需要组合调整来恢复</p>
+              <strong>SQE 下降 / SQE Decrease</strong>
+              <p>单步替代后 SQE 下降了 {{ Math.abs(plan.delta_sqe_single || 0).toFixed(3) }}，需要组合调整来恢复 / SQE decreased by {{ Math.abs(plan.delta_sqe_single || 0).toFixed(3) }} after single replacement, combo adjustment needed</p>
             </div>
           </div>
           
           <div class="diagnosis-item" v-if="plan.delta_synergy_combo > 0">
             <div class="diagnosis-indicator positive"></div>
             <div class="diagnosis-text">
-              <strong>协同性提升</strong>
-              <p>组合调整后协同项上升了 {{ (plan.delta_synergy_combo || 0).toFixed(3) }}</p>
+              <strong>协同性提升 / Synergy Improvement</strong>
+              <p>组合调整后协同项上升了 {{ (plan.delta_synergy_combo || 0).toFixed(3) }} / Synergy increased by {{ (plan.delta_synergy_combo || 0).toFixed(3) }} after combo adjustment</p>
             </div>
           </div>
           
           <div class="diagnosis-item" v-if="plan.delta_conflict_combo < 0">
             <div class="diagnosis-indicator positive"></div>
             <div class="diagnosis-text">
-              <strong>冲突度降低</strong>
-              <p>组合调整后冲突项下降了 {{ Math.abs(plan.delta_conflict_combo || 0).toFixed(3) }}</p>
+              <strong>冲突度降低 / Conflict Reduction</strong>
+              <p>组合调整后冲突项下降了 {{ Math.abs(plan.delta_conflict_combo || 0).toFixed(3) }} / Conflict decreased by {{ Math.abs(plan.delta_conflict_combo || 0).toFixed(3) }} after combo adjustment</p>
             </div>
           </div>
           
           <div class="diagnosis-item" v-if="plan.delta_balance_combo > 0">
             <div class="diagnosis-indicator positive"></div>
             <div class="diagnosis-text">
-              <strong>平衡性改善</strong>
-              <p>组合调整后平衡项提升了 {{ (plan.delta_balance_combo || 0).toFixed(3) }}</p>
+              <strong>平衡性改善 / Balance Improvement</strong>
+              <p>组合调整后平衡项提升了 {{ (plan.delta_balance_combo || 0).toFixed(3) }} / Balance increased by {{ (plan.delta_balance_combo || 0).toFixed(3) }} after combo adjustment</p>
             </div>
           </div>
           
           <div class="diagnosis-item" v-if="plan.repair_canonical">
             <div class="diagnosis-indicator info"></div>
             <div class="diagnosis-text">
-              <strong>修复原料引入</strong>
-              <p>引入 {{ plan.repair_canonical }} 作为修复原料，角色为 {{ plan.repair_role || 'N/A' }}</p>
+              <strong>修复原料引入 / Repair Ingredient Added</strong>
+              <p>引入 {{ plan.repair_canonical }} 作为修复原料，角色为 {{ plan.repair_role || 'N/A' }} / Added {{ plan.repair_canonical }} as repair ingredient, role: {{ plan.repair_role || 'N/A' }}</p>
             </div>
           </div>
         </div>
@@ -54,13 +54,13 @@
       <div class="judgement-section">
         <h4 class="section-title">
           <span class="title-icon">⚖️</span>
-          接受判定
+          接受判定 Acceptance Judgement
         </h4>
         <div class="judgement-content">
           <div class="judgement-header">
             <div :class="['judgement-status', plan.accept_flag ? 'accept' : 'reject']">
               <span class="status-icon">{{ plan.accept_flag ? '✓' : '✗' }}</span>
-              <span class="status-text">{{ plan.accept_flag ? '已接受' : '已拒绝' }}</span>
+              <span class="status-text">{{ plan.accept_flag ? '已接受 / Accepted' : '已拒绝 / Rejected' }}</span>
             </div>
             <div class="judgement-reason" v-if="plan.acceptance_info">
               <span class="reason-label">{{ plan.acceptance_info.reason_label }}</span>
@@ -76,23 +76,23 @@
           </div>
           
           <div class="judgement-criteria">
-            <h5 class="criteria-title">判定依据</h5>
+            <h5 class="criteria-title">判定依据 Judgement Criteria</h5>
             <div class="criteria-list">
               <div class="criteria-item" :class="{ met: plan.delta_sqe_combo > 0 }">
                 <span class="criteria-icon">{{ plan.delta_sqe_combo > 0 ? '✓' : '✗' }}</span>
-                <span class="criteria-text">SQE 提升</span>
+                <span class="criteria-text">SQE 提升 / SQE Increase</span>
               </div>
               <div class="criteria-item" :class="{ met: plan.delta_synergy_combo > 0 }">
                 <span class="criteria-icon">{{ plan.delta_synergy_combo > 0 ? '✓' : '✗' }}</span>
-                <span class="criteria-text">协同增强</span>
+                <span class="criteria-text">协同增强 / Synergy Enhancement</span>
               </div>
               <div class="criteria-item" :class="{ met: plan.delta_conflict_combo < 0 }">
                 <span class="criteria-icon">{{ plan.delta_conflict_combo < 0 ? '✓' : '✗' }}</span>
-                <span class="criteria-text">冲突缓解</span>
+                <span class="criteria-text">冲突缓解 / Conflict Mitigation</span>
               </div>
               <div class="criteria-item" :class="{ met: plan.delta_balance_combo > 0 }">
                 <span class="criteria-icon">{{ plan.delta_balance_combo > 0 ? '✓' : '✗' }}</span>
-                <span class="criteria-text">平衡改善</span>
+                <span class="criteria-text">平衡改善 / Balance Improvement</span>
               </div>
             </div>
           </div>
@@ -102,7 +102,7 @@
       <div class="summary-section" v-if="plan.judgement && plan.judgement.diagnosis">
         <h4 class="section-title">
           <span class="title-icon">📋</span>
-          诊断摘要
+          诊断摘要 Diagnosis Summary
         </h4>
         <div class="summary-list">
           <div 

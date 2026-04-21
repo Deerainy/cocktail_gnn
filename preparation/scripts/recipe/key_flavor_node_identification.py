@@ -211,16 +211,7 @@ def calculate_sqe_score(recipe_id: int) -> float:
         return 0.0
 
 def calculate_ingredient_importance(recipe_data: dict, ingredient_names: dict) -> list:
-    """
-    计算配方中每个原料的重要性
-    
-    参数:
-    recipe_data: 配方数据
-    ingredient_names: 原料名称字典
-    
-    返回:
-    原料重要性列表
-    """
+    """计算配方中每个原料的重要性"""
     recipe_id = recipe_data.get('recipe_id')
     nodes = recipe_data.get('nodes', [])
     

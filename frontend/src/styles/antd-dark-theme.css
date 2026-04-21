@@ -1,0 +1,116 @@
+/* Ant Design 深色主题覆盖 */
+.ant-modal {
+  background: rgba(26, 20, 16, 0.95) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.ant-modal-content {
+  background: rgba(26, 20, 16, 0.95) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+.ant-modal-header {
+  background: linear-gradient(135deg, #1a1410 0%, #2c241a 100%) !important;
+  border-bottom: 1px solid var(--color-border-subtle) !important;
+}
+
+.ant-modal-title {
+  color: var(--color-gold-300) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+}
+
+.ant-modal-body {
+  background: rgba(26, 20, 16, 0.95) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.ant-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--color-text-secondary) !important;
+}
+
+.ant-tag {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.ant-tag.active {
+  background: var(--color-gold-400) !important;
+  color: #000000 !important;
+  border: none !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--color-gold-400) !important;
+  border-color: var(--color-gold-400) !important;
+}
+
+.ant-checkbox-inner {
+  border-color: var(--color-border-subtle) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.ant-modal-footer {
+  background: linear-gradient(135deg, #1a1410 0%, #2c241a 100%) !important;
+  border-top: 1px solid var(--color-border-subtle) !important;
+}
+
+.ant-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.ant-btn-primary {
+  background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-400)) !important;
+  border: none !important;
+  color: #000000 !important;
+}
+
+.ant-modal-mask {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* 确保模态框内的所有元素都是深色 */
+.ant-modal * {
+  background: rgba(26, 20, 16, 0.95) !important;
+  color: var(--color-text-primary) !important;
+  border-color: var(--color-border-subtle) !important;
+}
+
+/* 修复输入框和选择框的样式 */
+.ant-select-selector {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--color-border-subtle) !important;
+}
+
+.ant-select-selection-item {
+  color: var(--color-text-primary) !important;
+}
+
+/* 修复滚动条样式 */
+.ant-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ant-modal-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.ant-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.5) !important;
+  border-radius: 4px;
+}
+
+.ant-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.7) !important;
+}

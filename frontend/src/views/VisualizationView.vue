@@ -31,38 +31,68 @@
         <div class="container">
           <div class="recipe-header-card card">
             <div class="recipe-header-content">
-              <div class="recipe-header-info">
-                <h2 class="recipe-name">
-                  <span v-if="recipe?.recipe_name_zh && recipe?.name" class="name-zh">{{ recipe.recipe_name_zh }}</span>
-                  <span v-if="recipe?.recipe_name_zh && recipe?.name" class="name-separator"> / </span>
-                  <span v-if="recipe?.name" class="name-en">{{ recipe.name }}</span>
-                  <span v-if="!recipe?.recipe_name_zh && !recipe?.name">莫吉托</span>
-                </h2>
-                <p class="recipe-subtitle">{{ recipe?.instructions || '清爽型经典鸡尾酒' }}</p>
-                <div class="recipe-meta">
-                  <div class="recipe-meta-item">
-                    <i class="meta-icon">🥃</i>
-                    <span class="meta-label">玻璃类型</span>
-                    <span class="meta-value">{{ recipe?.glass || '高ball杯' }}</span>
+              <div class="recipe-header-top">
+                <div class="recipe-header-info">
+                  <h2 class="recipe-name">
+                    <span v-if="recipe?.recipe_name_zh && recipe?.name" class="name-zh">{{ recipe.recipe_name_zh }}</span>
+                    <span v-if="recipe?.recipe_name_zh && recipe?.name" class="name-separator"> / </span>
+                    <span v-if="recipe?.name" class="name-en">{{ recipe.name }}</span>
+                    <span v-if="!recipe?.recipe_name_zh && !recipe?.name">莫吉托</span>
+                  </h2>
+                  
+                  <!-- 标签显示 -->
+                  <div v-if="recipe?.tags && recipe.tags.length > 0" class="recipe-tags">
+                    <span v-for="(tag, index) in recipe.tags" :key="index" class="recipe-tag">
+                      {{ getTagTranslation(tag) }}
+                    </span>
                   </div>
-                  <div class="recipe-meta-item">
-                    <i class="meta-icon">🏷️</i>
-                    <span class="meta-label">标签</span>
-                    <span class="meta-value">{{ recipe?.tags?.join(', ') || '经典, 清爽, 古巴' }}</span>
-                  </div>
-                  <div class="recipe-meta-item">
-                    <i class="meta-icon">🍷</i>
-                    <span class="meta-label">酒精含量</span>
-                    <span class="meta-value">{{ recipe?.is_alcoholic ? '含酒精' : '无酒精' }}</span>
-                  </div>
+                  
+                </div>
+                <div class="recipe-header-image">
+                  <img 
+                    :src="getRecipeImage(recipe?.recipe_id)"
+                    :alt="recipe?.recipe_name_zh || recipe?.name || '莫吉托'"
+                    class="recipe-image"
+                    @error="$event.target.src = require('@/assets/loss.png')"
+                  />
                 </div>
               </div>
-              <div class="recipe-header-image">
-                <img 
-                  :src="recipe?.image_url || 'https://example.com/margarita.jpg'" 
-                  :alt="recipe?.name || '莫吉托'"
-                  class="recipe-image"
-                />
+              
+              <!-- 配方材料和制作方法 -->
+              <div class="recipe-details">
+                <!-- 配方材料 -->
+                <div class="recipe-ingredients">
+                  <h3 class="ingredients-title">配方材料</h3>
+                  <div class="ingredients-content">
+                    <ul v-if="ingredients && ingredients.length > 0">
+                    <li v-for="(ingredient, index) in ingredients" :key="ingredient.ingredient_id || index">
+                      <span class="ingredient-name">
+                        <span v-if="ingredient.ingredient?.canonical_name_zh" class="name-zh">{{ ingredient.ingredient.canonical_name_zh }}</span>
+                        <span v-if="ingredient.ingredient?.canonical_name_zh && ingredient.ingredient?.canonical_name" class="name-separator"> / </span>
+                        <span v-if="ingredient.ingredient?.canonical_name" class="name-en">{{ ingredient.ingredient.canonical_name }}</span>
+                        <span v-if="!ingredient.ingredient?.canonical_name_zh && !ingredient.ingredient?.canonical_name">{{ ingredient.ingredient?.name_norm || ingredient.raw_text }}</span>
+                      </span>
+                      <span class="ingredient-amount">{{ formatNumber(ingredient.amount) }} {{ ingredient.unit }}</span>
+                      <span v-if="ingredient.ingredient?.category" class="ingredient-category">({{ ingredient.ingredient.category }})</span>
+                    </li>
+                  </ul>
+                    <div v-else class="no-ingredients">
+                      暂无原料信息
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 制作方法 -->
+                <div class="recipe-instructions">
+                  <h3 class="instructions-title">制作方法</h3>
+                  <div v-if="recipe?.instructions_zh" class="instructions-content zh" v-html="formatInstructions(recipe.instructions_zh)">
+                  </div>
+                  <div v-if="recipe?.instructions" class="instructions-content en" v-html="formatInstructions(recipe.instructions)">
+                  </div>
+                  <div v-if="!recipe?.instructions_zh && !recipe?.instructions" class="instructions-content">
+                    清爽型经典鸡尾酒
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -378,6 +408,38 @@ export default {
       window.removeEventListener('resize', this.handleResize);
     },
   methods: {
+    formatNumber(num) {
+      return parseFloat(num).toFixed(2);
+    },
+    
+    formatInstructions(instructions) {
+      if (!instructions) return '';
+      
+      // 处理小数点，保留两位小数
+      let formatted = instructions.replace(/(\d+\.\d{4,})/g, (match) => {
+        return parseFloat(match).toFixed(2);
+      });
+      
+      // 处理<em>标签，确保正确渲染
+      formatted = formatted.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
+      
+      // 先将所有换行符统一为\n
+      formatted = formatted.replace(/\r\n|\r/g, '\n');
+      
+      // 处理以*开头，以:结尾的标题，后面跟着换行
+      // 匹配中文和英文标题
+      formatted = formatted.replace(/(\*[^:\n]+:)(\s*\n)/g, function(match, p1, p2) {
+        return p1 + ' ';
+      });
+      
+      // 为内容添加tab缩进
+      formatted = formatted.replace(/(\*[^:\n]+: )([^\n]+)/g, function(match, p1, p2) {
+        return p1 + '<span style="margin-left: 20px;">' + p2 + '</span>';
+      });
+      
+      return formatted;
+    },
+    
     initFlavorRadarChart() {
       if (!this.$refs.flavorRadarChart) {
         console.warn('flavorRadarChart ref not found');
@@ -508,7 +570,14 @@ export default {
         this.flavorRadarChart.resize();
       }
     },
-    
+    getRecipeImage(id) {
+      try {
+        const imageId = id > 50 ? id - 50 : id;
+        return require(`@/assets/recipe_image/${imageId}.png`)
+      } catch (e) {
+        return require('@/assets/loss.png')
+      }
+    },
     async fetchRecipeData() {
       const recipeId = this.$route.query.recipe_id || '123';
       this.loading = true;
@@ -933,6 +1002,24 @@ export default {
       const recipeId = this.$route.query.recipe_id || '123';
       this.fetchGraphData(recipeId, layer);
     },
+    getTagTranslation(tag) {
+      const tagMap = {
+        'spirit': '烈酒',
+        'mezcal': '梅斯卡尔',
+        'sour': '酸味',
+        'sweet': '甜味',
+        'fruity': '果味',
+        'refreshing': '清爽',
+        'casual': '休闲',
+        'modern': '现代',
+        'bitter': '苦味',
+        'aromatic': '芳香',
+        'wine': '葡萄酒',
+        'liqueur': '利口酒',
+        'bitters': '苦味酒'
+      };
+      return tagMap[tag] || tag;
+    },
     async fetchGraphData(recipeId, layer) {
       try {
         this.graphData = await fetchGraph(recipeId, layer);
@@ -1155,7 +1242,8 @@ export default {
 .page-title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0.2rem;
   font-family: 'Playfair Display', serif;
   letter-spacing: 1px;
 }
@@ -1359,11 +1447,146 @@ export default {
   letter-spacing: 1px;
 }
 
-.recipe-subtitle {
+.recipe-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recipe-header-top {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.recipe-header-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.recipe-header-image {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recipe-image:hover {
+  transform: scale(1.05);
+}
+
+.recipe-details {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.recipe-ingredients {
+  flex: 0.1;
+  min-width: 300px;
+  padding: 1.5rem;
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.ingredients-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  font-family: var(--font-display);
+}
+
+.ingredients-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredients-content li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ingredients-content li:last-child {
+  border-bottom: none;
+}
+
+.ingredient-name {
+  flex: 1;
   font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.ingredient-amount {
+  font-size: 0.9rem;
+  color: #d4af37;
+  font-weight: 500;
+}
+
+.ingredient-category {
+  font-size: 0.8rem;
   color: #999;
-  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.recipe-instructions {
+  flex: 0.9;
+  min-width: 300px;
+  padding: 1.5rem;
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.instructions-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  font-family: var(--font-display);
+}
+
+.instructions-content {
   line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.instructions-content.zh {
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+}
+
+.instructions-content.en {
+  font-size: 0.9rem;
+  color: #999;
+  font-style: italic;
+}
+
+.no-ingredients {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 2rem 0;
 }
 
 .recipe-meta {
@@ -2119,9 +2342,19 @@ export default {
   margin-bottom: 1.25rem;
 }
 
-.radar-chart-container,
+.radar-chart-container {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
 .flavor-bars-container {
-  height: 300px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2134,7 +2367,7 @@ export default {
 .radar-chart-echarts {
   width: 100%;
   height: 100%;
-  min-height: 280px;
+  min-height: 180px;
 }
 
 .flavor-bars {
@@ -2523,9 +2756,12 @@ export default {
     grid-template-columns: 1fr;
   }
   
-  .radar-chart-container,
+  .radar-chart-container {
+    height: 200px;
+  }
+  
   .flavor-bars-container {
-    height: 250px;
+    height: 150px;
   }
 }
 
@@ -2578,9 +2814,53 @@ export default {
     grid-template-columns: 1fr;
   }
   
-  .radar-chart-container,
+  .radar-chart-container {
+    height: 200px;
+  }
+  
   .flavor-bars-container {
-    height: 250px;
+    height: 150px;
+  }
+}
+/* 标签样式 */
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--spacing-md);
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.recipe-tag {
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #d4af37, #f9a825);
+  color: #2d1c00;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.recipe-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #f9a825, #d4af37);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

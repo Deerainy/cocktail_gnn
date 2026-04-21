@@ -6,6 +6,8 @@ import AdjustView from '../views/AdjustView.vue';
 import GraphView from '../views/GraphView.vue';
 import GeneratorView from '../views/GeneratorView.vue';
 import AboutView from '../views/AboutView.vue';
+import AdminView from '../views/admin/AdminView.vue';
+import ChatPage from '../views/ChatPage.vue';
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -14,7 +16,9 @@ const routes = [
   { path: '/adjust', name: 'adjust', component: AdjustView },
   { path: '/graph', name: 'graph', component: GraphView },
   { path: '/generate', name: 'generate', component: GeneratorView },
-  { path: '/about', name: 'about', component: AboutView }
+  { path: '/about', name: 'about', component: AboutView },
+  { path: '/admin', name: 'admin', component: AdminView },
+  { path: '/chat', name: 'chat', component: ChatPage }
 ];
 
 const router = createRouter({

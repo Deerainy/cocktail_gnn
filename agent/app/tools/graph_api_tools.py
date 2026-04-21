@@ -11,6 +11,12 @@
 
 from typing import List, Dict, Optional, Any
 import requests
+import sys
+import os
+
+# 添加父目录到路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 from ..config import settings
 
 
@@ -22,7 +28,7 @@ class GraphApiTools:
 
     def __init__(self):
         """初始化图谱 API 工具"""
-        self.api_base_url = "http://localhost:8000/api/graph"
+        self.api_base_url = settings.GRAPH_API_BASE_URL
 
     def _call_api(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """

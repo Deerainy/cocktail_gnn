@@ -1,0 +1,72 @@
+# 查询模板配置
+# 将硬编码的查询语句模板化，便于维护和扩展
+
+neo4j_queries:
+  # 食谱搜索查询
+  search_recipe:
+    template: |
+      MATCH (r:Recipe) 
+      WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+      RETURN r LIMIT 1
+  
+  # 食谱结构查询
+  get_recipe_structure:
+    template: |
+      MATCH (r:Recipe) 
+      WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+      MATCH (r)-[rel:CONTAINS]->(i:Ingredient)
+      RETURN r.name as recipe, i.name_norm as ingredient, rel.amount as amount, rel.unit as unit, rel.role as role
+  
+  # 食材搜索查询
+  search_ingredient:
+    template: |
+      MATCH (i:Ingredient) 
+      WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+            i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+      RETURN i LIMIT 1
+  
+  # 食材邻域查询
+  get_ingredient_neighbors:
+    template: |
+      MATCH (i:Ingredient) 
+      WHERE i.name_norm = $actual_ingredient_name
+      MATCH (i)-[rel]-(n:Ingredient)
+      RETURN n.name_norm as neighbor_name, type(rel) as relationship_type
+      LIMIT 10
+  
+  # 替代推荐查询
+  get_substitutes:
+    template: |
+      MATCH (i:Ingredient)
+      WHERE i.name_norm = $ingredient_name
+      MATCH (i)-[r:SIMILAR_TO]-(s:Ingredient)
+      RETURN s.name_norm as substitute_name, r.score as similarity_score
+      ORDER BY r.score DESC
+      LIMIT $limit
+
+mysql_queries:
+  # 中英文映射查询
+  get_english_name:
+    template: |
+      SELECT canonical_name FROM llm_canonical_map 
+      WHERE canonical_name_zh = %s LIMIT 1
+  
+  # 获取所有食材
+  get_all_ingredients:
+    template: |
+      SELECT name_norm FROM ingredient
+  
+  # 获取所有配方
+  get_all_recipes:
+    template: |
+      SELECT name, recipe_name_zh FROM recipe
+  
+  # 获取食材详细信息
+  get_ingredient_detail:
+    template: |
+      SELECT * FROM ingredient WHERE name_norm = %s LIMIT 1
+  
+  # 获取配方详细信息
+  get_recipe_detail:
+    template: |
+      SELECT * FROM recipe WHERE name = %s LIMIT 1

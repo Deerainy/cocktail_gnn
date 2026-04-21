@@ -636,6 +636,7 @@
       {
         "id": "c_205",
         "label": "lime",
+        "label_zh": "青柠",
         "weight": 0.72,
         "type": "compat"
       }
@@ -779,6 +780,66 @@
 }
 ```
 
+### 16. 获取Top原料榜和高频Canonical榜
+- **接口**: GET /api/flavor-graph/rankings
+- **用途**: 获取Top原料榜和高频Canonical榜（只包含酒精原料），支持中英文名称
+- **参数**:
+  - limit: 返回数量限制 (查询参数，可选，默认: 10)
+- **返回格式**:
+```json
+{
+  "code": 0,
+  "message": "ok",
+  "data": {
+    "top_ingredients": [
+      {
+        "id": "c_101",
+        "name": "mezcal",
+        "name_zh": "梅斯卡尔",
+        "frequency": 260,
+        "ingredient_type": "Spirit",
+        "role": "Base"
+      },
+      {
+        "id": "c_205",
+        "name": "lime",
+        "name_zh": "青柠",
+        "frequency": 260,
+        "ingredient_type": "Citrus",
+        "role": "Acid"
+      }
+    ],
+    "top_canonicals": [
+      {
+        "canonical_id": "101",
+        "canonical_name": "mezcal",
+        "canonical_name_zh": "梅斯卡尔",
+        "count": 18,
+        "frequency": 260,
+        "ingredient_type": "Spirit",
+        "role": "Base",
+        "description": "mezcal 出现在 18 个酒精原料中"
+      },
+      {
+        "canonical_id": "102",
+        "canonical_name": "gin",
+        "canonical_name_zh": "金酒",
+        "count": 15,
+        "frequency": 240,
+        "ingredient_type": "Spirit",
+        "role": "Base",
+        "description": "gin 出现在 15 个酒精原料中"
+      }
+    ],
+    "meta": {
+      "limit": 10,
+      "total_ingredients": 150,
+      "total_canonicals": 50
+    }
+  }
+}
+```
+
 ## 错误处理
 - **404错误**: 当配方、节点或边不存在时返回
 - **400错误**: 当请求参数缺失或无效时返回
@@ -864,6 +925,34 @@ fetch('http://127.0.0.1:8000/api/combo-adjust/plans/1')
       console.log(`判定结果:`, judgement);
       console.log(`阶段对比:`, stages);
       console.log(`接受信息:`, acceptance_info);
+    } else {
+      console.error('错误:', data.message);
+    }
+  });
+
+// 获取Top原料榜和高频Canonical榜
+fetch('http://127.0.0.1:8000/api/flavor-graph/rankings?limit=20')
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 0) {
+      console.log('Top原料榜和高频Canonical榜:', data.data);
+      // 处理排行榜数据
+      const { top_ingredients, top_canonicals, meta } = data.data;
+      
+      console.log('Top原料榜:');
+      top_ingredients.forEach((ingredient, index) => {
+        console.log(`${index + 1}. ${ingredient.name} (${ingredient.name_zh}) - 频率: ${ingredient.frequency}`);
+      });
+      
+      console.log('\n高频Canonical榜（只包含酒精原料）:');
+      top_canonicals.forEach((canonical, index) => {
+        const canonicalName = canonical.canonical_name_zh ? `${canonical.canonical_name} (${canonical.canonical_name_zh})` : canonical.canonical_name;
+        console.log(`${index + 1}. ${canonicalName} - 出现次数: ${canonical.count} - 频率: ${canonical.frequency}`);
+        console.log(`   类型: ${canonical.ingredient_type} - 角色: ${canonical.role}`);
+        console.log(`   描述: ${canonical.description}`);
+      });
+      
+      console.log(`\n总计: ${meta.total_ingredients} 个原料, ${meta.total_canonicals} 个Canonical`);
     } else {
       console.error('错误:', data.message);
     }

@@ -7,8 +7,12 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "ant-design-vue": "^4.2.6",
+    "axios": "^1.14.0",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.20",
     "echarts": "^5.4.3",
+    "marked": "^17.0.5",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"

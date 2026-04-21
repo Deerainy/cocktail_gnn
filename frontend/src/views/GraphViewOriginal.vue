@@ -544,6 +544,7 @@
 
 <script>
 import * as echarts from 'echarts'
+import graphApi from '../api/graphApi'
 
 export default {
   name: 'GraphView',
@@ -703,9 +704,9 @@ export default {
         }
         
         console.log('Fetching graph data with params:', params.toString())
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/graph?${params}`)
+        const response = await graphApi.getFlavorGraph(Object.fromEntries(params))
         console.log('Response status:', response.status)
-        const data = await response.json()
+        const data = response.data
         console.log('Response data:', data)
         
         if (data.code === 0) {
@@ -762,8 +763,8 @@ export default {
           params.append('ingredient_type', this.selectedTypes.join(','))
         }
         
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/stats?${params}`)
-        const data = await response.json()
+        const response = await graphApi.getFlavorGraph(Object.fromEntries(params))
+        const data = response.data
         
         if (data.code === 0) {
           this.graphStats = data.data
@@ -775,8 +776,8 @@ export default {
     
     async fetchNodeDetails(nodeId) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/nodes/${nodeId}`)
-        const data = await response.json()
+        const response = await graphApi.getNodeDetail(nodeId)
+        const data = response.data
         
         if (data.code === 0) {
           return data.data
@@ -795,8 +796,8 @@ export default {
           layer: this.currentLayer
         })
         
-        const response = await fetch(`http://127.0.0.1:8000/api/flavor-graph/edges/detail?${params}`)
-        const data = await response.json()
+        const response = await graphApi.getEdgeDetail(Object.fromEntries(params))
+        const data = response.data
         
         if (data.code === 0) {
           return data.data

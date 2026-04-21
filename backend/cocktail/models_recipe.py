@@ -7,6 +7,7 @@ class Recipe(models.Model):
     name = models.CharField(max_length=255)
     recipe_name_zh = models.CharField(max_length=255, null=True)
     instructions = models.TextField()
+    instructions_zh = models.TextField(null=True)
     glass = models.CharField(max_length=100)
     tags = models.JSONField()
     image_url = models.URLField()
@@ -309,6 +310,16 @@ class RecipeComboAdjustResult(models.Model):
             models.Index(fields=['rank_no']),
             models.Index(fields=['recipe_id', 'rank_no']),
         ]
+
+class IngredientType(models.Model):
+    ingredient_id = models.CharField(primary_key=True, max_length=100)
+    type_tag = models.CharField(max_length=100)
+    source = models.CharField(max_length=100)
+    confidence = models.FloatField()
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'ingredient_type'
 
 class RecipeComboAdjustStep(models.Model):
     step_id = models.AutoField(primary_key=True)

@@ -39,7 +39,15 @@ class CanonicalService:
         query = CanonicalQueries.get_canonical_basic_info_query(canonical_id)
         results = neo4j_client.execute_query(query, {"canonical_id": canonical_id})
         if results:
-            return format_node(results[0]['c'])
+            record = results[0]
+            return {
+                "id": record.get('c.canonical_id'),
+                "name": record.get('c.canonical_name'),
+                "raw": {
+                    "canonical_id": record.get('c.canonical_id'),
+                    "canonical_name": record.get('c.canonical_name')
+                }
+            }
         return {}
 
     @staticmethod
@@ -52,4 +60,11 @@ class CanonicalService:
         """
         query = CanonicalQueries.search_canonical_by_name_query(keyword)
         results = neo4j_client.execute_query(query, {"keyword": keyword})
-        return [format_node(record['c']) for record in results]
+        return [{
+            "id": record.get('c.canonical_id'),
+            "name": record.get('c.canonical_name'),
+            "raw": {
+                "canonical_id": record.get('c.canonical_id'),
+                "canonical_name": record.get('c.canonical_name')
+            }
+        } for record in results]

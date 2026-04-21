@@ -1,0 +1,1909 @@
+{
+  "recommendation:1de8bb40391f4ae96e4411494fe9d40b": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 104,
+            "name": "The Royal Buck",
+            "recipe_name_zh": "皇家雄鹿",
+            "instructions": "Add ingredients to a mixing glass except club soda. Shake over ice, strain over ice into a collins glass, top with club soda. Garnish with a lemon wedge and candied ginger on a pick.",
+            "flavor_profile": {
+              "sour": 0.180952,
+              "sweet": 0.338095,
+              "bitter": 0.2,
+              "aroma": 0.447619,
+              "fruity": 0.271429,
+              "body": 0.371429
+            },
+            "alcohol_content": "未知",
+            "score": -0.187718,
+            "comprehensive_score": 0.007838807432555578
+          }
+        ],
+        "ingredients": [],
+        "mood": "失落",
+        "flavors": [
+          "sweet"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775356787.039646
+  },
+  "recommendation:807bb2bd85408761277f2ae7d8618d21": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 104,
+            "name": "The Royal Buck",
+            "recipe_name_zh": "皇家雄鹿",
+            "instructions": "Add ingredients to a mixing glass except club soda. Shake over ice, strain over ice into a collins glass, top with club soda. Garnish with a lemon wedge and candied ginger on a pick.",
+            "flavor_profile": {
+              "sour": 0.180952,
+              "sweet": 0.338095,
+              "bitter": 0.2,
+              "aroma": 0.447619,
+              "fruity": 0.271429,
+              "body": 0.371429
+            },
+            "alcohol_content": "未知",
+            "score": -0.187718,
+            "comprehensive_score": 0.007838807432555578
+          }
+        ],
+        "ingredients": [],
+        "mood": "伤心",
+        "flavors": [
+          "sweet"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775357134.9985385
+  },
+  "recommendation:405574b2be83a3c43b82cbb919cff723": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775381958.5124667
+  },
+  "recommendation:94a909ac2f4ab8933f5e5dcd3db5f2c1": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 213,
+            "name": "Hopped-Up Mule",
+            "recipe_name_zh": "酒花骡子",
+            "instructions": "Combine Hophead Vodka, Kings Ginger, and lime juice in a Collins glass and fill with ice. Top with ginger beer. Stir. Garnish with a lime wheel.",
+            "flavor_profile": {
+              "sour": 0.323077,
+              "sweet": 0.253846,
+              "bitter": 0.323077,
+              "aroma": 0.523077,
+              "fruity": 0.223077,
+              "body": 0.523077
+            },
+            "alcohol_content": "未知",
+            "score": -0.198515,
+            "comprehensive_score": -0.005674767455624979
+          },
+          {
+            "recipe_id": 164,
+            "name": "Hopped-Up Mary",
+            "recipe_name_zh": "劲爽玛丽",
+            "instructions": "Combine all ingredients in a chilled mixing glass, rimmed with sea salt and stir. Add ice. Stir again to mix. Garnish with a cocktail shrimp, lemon zest, fresh ground pepper and a celery stalk.",
+            "flavor_profile": {
+              "sour": 0.365,
+              "sweet": 0.275,
+              "bitter": 0.23,
+              "aroma": 0.515,
+              "fruity": 0.47,
+              "body": 0.37
+            },
+            "alcohol_content": "未知",
+            "score": -0.254509,
+            "comprehensive_score": -0.009481569444444421
+          }
+        ],
+        "ingredients": [],
+        "mood": "心情",
+        "flavors": [
+          "sour"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775357642.107527
+  },
+  "recommendation:6fbea5b97f29014ad2fb50e390fe3ce6": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 561,
+            "name": "Hippi Hill",
+            "recipe_name_zh": "嬉皮山丘",
+            "instructions": "Shake, fine strain into chilled coupe. Garnish with lime wheel.",
+            "flavor_profile": {
+              "sour": 0.330769,
+              "sweet": 0.338462,
+              "bitter": 0.315385,
+              "aroma": 0.561538,
+              "fruity": 0.307692,
+              "body": 0.515385
+            },
+            "alcohol_content": "未知",
+            "score": -0.205256,
+            "comprehensive_score": -0.01054856308356944
+          },
+          {
+            "recipe_id": 295,
+            "name": "Tambourine",
+            "recipe_name_zh": "手鼓",
+            "instructions": "In a Boston shaker, combine all liquid ingredients with cracked ice and shake vigorously for 30 seconds. Double strain into a frozen 4.5 oz. coupe glass. Garnish with 1/2 piece kaffir lime leaf. (Clap the leaf several times before placing on top of the cocktail to release the aromatics.)",
+            "flavor_profile": {
+              "sour": 0.413333,
+              "sweet": 0.34,
+              "bitter": 0.313333,
+              "aroma": 0.52,
+              "fruity": 0.366667,
+              "body": 0.506667
+            },
+            "alcohol_content": "未知",
+            "score": -0.21489,
+            "comprehensive_score": -0.018021489629666654
+          },
+          {
+            "recipe_id": 598,
+            "name": "The Cavalier White Lady",
+            "recipe_name_zh": "骑士白佳人",
+            "instructions": "Spray of Lemon Verbana oil on the Martini glass. Combine all other ingredients and dry shake for 20 seconds. Add ice to the mixing tin and shake again. Double strain into a Martini glass. Garnish with fresh lemon verbena. Served in a martini.\n\n",
+            "flavor_profile": {
+              "sour": 0.388235,
+              "sweet": 0.347059,
+              "bitter": 0.323529,
+              "aroma": 0.582353,
+              "fruity": 0.405882,
+              "body": 0.423529
+            },
+            "alcohol_content": "未知",
+            "score": -0.274902,
+            "comprehensive_score": -0.02838528217995831
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [
+          "sweet",
+          "sour",
+          "sour"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775357644.6646461
+  },
+  "recommendation:0e9cf7fba74e8227437c0304aa819673": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 104,
+            "name": "The Royal Buck",
+            "recipe_name_zh": "皇家雄鹿",
+            "instructions": "Add ingredients to a mixing glass except club soda. Shake over ice, strain over ice into a collins glass, top with club soda. Garnish with a lemon wedge and candied ginger on a pick.",
+            "flavor_profile": {
+              "sour": 0.180952,
+              "sweet": 0.338095,
+              "bitter": 0.2,
+              "aroma": 0.447619,
+              "fruity": 0.271429,
+              "body": 0.371429
+            },
+            "alcohol_content": "未知",
+            "score": -0.187718,
+            "comprehensive_score": 0.007838807432555578
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [
+          "sweet"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775357656.5023515
+  },
+  "recommendation:ad297bcbbe5ed4e6ad814ded9b155dd2": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 213,
+            "name": "Hopped-Up Mule",
+            "recipe_name_zh": "酒花骡子",
+            "instructions": "Combine Hophead Vodka, Kings Ginger, and lime juice in a Collins glass and fill with ice. Top with ginger beer. Stir. Garnish with a lime wheel.",
+            "flavor_profile": {
+              "sour": 0.323077,
+              "sweet": 0.253846,
+              "bitter": 0.323077,
+              "aroma": 0.523077,
+              "fruity": 0.223077,
+              "body": 0.523077
+            },
+            "alcohol_content": "未知",
+            "score": -0.198515,
+            "comprehensive_score": -0.005674767455624979
+          },
+          {
+            "recipe_id": 164,
+            "name": "Hopped-Up Mary",
+            "recipe_name_zh": "劲爽玛丽",
+            "instructions": "Combine all ingredients in a chilled mixing glass, rimmed with sea salt and stir. Add ice. Stir again to mix. Garnish with a cocktail shrimp, lemon zest, fresh ground pepper and a celery stalk.",
+            "flavor_profile": {
+              "sour": 0.365,
+              "sweet": 0.275,
+              "bitter": 0.23,
+              "aroma": 0.515,
+              "fruity": 0.47,
+              "body": 0.37
+            },
+            "alcohol_content": "未知",
+            "score": -0.254509,
+            "comprehensive_score": -0.009481569444444421
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [
+          "sour"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775357663.6174924
+  },
+  "recommendation:cfd9893909976591662f7d9e769421ef": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 104,
+            "name": "The Royal Buck",
+            "recipe_name_zh": "皇家雄鹿",
+            "instructions": "Add ingredients to a mixing glass except club soda. Shake over ice, strain over ice into a collins glass, top with club soda. Garnish with a lemon wedge and candied ginger on a pick.",
+            "flavor_profile": {
+              "sour": 0.180952,
+              "sweet": 0.338095,
+              "bitter": 0.2,
+              "aroma": 0.447619,
+              "fruity": 0.271429,
+              "body": 0.371429
+            },
+            "alcohol_content": "未知",
+            "score": -0.187718,
+            "comprehensive_score": 0.007838807432555578
+          },
+          {
+            "recipe_id": 335,
+            "name": "Amaretto Bourbon Punch",
+            "recipe_name_zh": "杏仁波本宾治",
+            "instructions": "Mix ingredients in the punch bowl.",
+            "flavor_profile": {
+              "sour": 0.2,
+              "sweet": 0.411111,
+              "bitter": 0.222222,
+              "aroma": 0.433333,
+              "fruity": 0.355556,
+              "body": 0.383333
+            },
+            "alcohol_content": "未知",
+            "score": -0.201614,
+            "comprehensive_score": -0.005710789626236085
+          }
+        ],
+        "ingredients": [],
+        "mood": "开心",
+        "flavors": [
+          "sweet"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775357800.8329308
+  },
+  "recommendation:f0f11b18dff1ea3086b3dbf65838f0a8": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 213,
+            "name": "Hopped-Up Mule",
+            "recipe_name_zh": "酒花骡子",
+            "instructions": "Combine Hophead Vodka, Kings Ginger, and lime juice in a Collins glass and fill with ice. Top with ginger beer. Stir. Garnish with a lime wheel.",
+            "flavor_profile": {
+              "sour": 0.323077,
+              "sweet": 0.253846,
+              "bitter": 0.323077,
+              "aroma": 0.523077,
+              "fruity": 0.223077,
+              "body": 0.523077
+            },
+            "alcohol_content": "未知",
+            "score": -0.198515,
+            "comprehensive_score": -0.005674767455624979
+          },
+          {
+            "recipe_id": 164,
+            "name": "Hopped-Up Mary",
+            "recipe_name_zh": "劲爽玛丽",
+            "instructions": "Combine all ingredients in a chilled mixing glass, rimmed with sea salt and stir. Add ice. Stir again to mix. Garnish with a cocktail shrimp, lemon zest, fresh ground pepper and a celery stalk.",
+            "flavor_profile": {
+              "sour": 0.365,
+              "sweet": 0.275,
+              "bitter": 0.23,
+              "aroma": 0.515,
+              "fruity": 0.47,
+              "body": 0.37
+            },
+            "alcohol_content": "未知",
+            "score": -0.254509,
+            "comprehensive_score": -0.009481569444444421
+          }
+        ],
+        "ingredients": [],
+        "mood": "失落",
+        "flavors": [
+          "sour"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775358210.8507786
+  },
+  "recommendation:7e1270fc40513282187666ec85580823": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 213,
+            "name": "Hopped-Up Mule",
+            "recipe_name_zh": "酒花骡子",
+            "instructions": "Combine Hophead Vodka, Kings Ginger, and lime juice in a Collins glass and fill with ice. Top with ginger beer. Stir. Garnish with a lime wheel.",
+            "flavor_profile": {
+              "sour": 0.323077,
+              "sweet": 0.253846,
+              "bitter": 0.323077,
+              "aroma": 0.523077,
+              "fruity": 0.223077,
+              "body": 0.523077
+            },
+            "alcohol_content": "未知",
+            "score": -0.198515,
+            "comprehensive_score": -0.005674767455624979
+          },
+          {
+            "recipe_id": 164,
+            "name": "Hopped-Up Mary",
+            "recipe_name_zh": "劲爽玛丽",
+            "instructions": "Combine all ingredients in a chilled mixing glass, rimmed with sea salt and stir. Add ice. Stir again to mix. Garnish with a cocktail shrimp, lemon zest, fresh ground pepper and a celery stalk.",
+            "flavor_profile": {
+              "sour": 0.365,
+              "sweet": 0.275,
+              "bitter": 0.23,
+              "aroma": 0.515,
+              "fruity": 0.47,
+              "body": 0.37
+            },
+            "alcohol_content": "未知",
+            "score": -0.254509,
+            "comprehensive_score": -0.009481569444444421
+          }
+        ],
+        "ingredients": [],
+        "mood": "开心",
+        "flavors": [
+          "sour"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775358952.7311153
+  },
+  "recommendation:5d8c7d7140001fc6f24fa33a4b710afd": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 213,
+            "name": "Hopped-Up Mule",
+            "recipe_name_zh": "酒花骡子",
+            "instructions": "Combine Hophead Vodka, Kings Ginger, and lime juice in a Collins glass and fill with ice. Top with ginger beer. Stir. Garnish with a lime wheel.",
+            "flavor_profile": {
+              "sour": 0.323077,
+              "sweet": 0.253846,
+              "bitter": 0.323077,
+              "aroma": 0.523077,
+              "fruity": 0.223077,
+              "body": 0.523077
+            },
+            "alcohol_content": "未知",
+            "score": -0.198515,
+            "comprehensive_score": -0.005674767455624979
+          },
+          {
+            "recipe_id": 561,
+            "name": "Hippi Hill",
+            "recipe_name_zh": "嬉皮山丘",
+            "instructions": "Shake, fine strain into chilled coupe. Garnish with lime wheel.",
+            "flavor_profile": {
+              "sour": 0.330769,
+              "sweet": 0.338462,
+              "bitter": 0.315385,
+              "aroma": 0.561538,
+              "fruity": 0.307692,
+              "body": 0.515385
+            },
+            "alcohol_content": "未知",
+            "score": -0.205256,
+            "comprehensive_score": -0.01054856308356944
+          }
+        ],
+        "ingredients": [],
+        "mood": "失落",
+        "flavors": [
+          "bitter"
+        ],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775362168.6987078
+  },
+  "recommendation:ebab36ac958b7756f7334259beef7a43": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          }
+        ],
+        "ingredients": [],
+        "mood": "心情",
+        "flavors": [],
+        "constraints": [],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775369738.2444508
+  },
+  "recommendation:f1e5be7b113adb757205d11b86da5e61": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 385,
+            "name": "Brazilian Mai Tai",
+            "recipe_name_zh": "巴西风情迈泰",
+            "instructions": "Pour all ingredients and shake in tin. Pour into bucket. Top with rum float, then garnish.",
+            "flavor_profile": {
+              "sour": 0.330769,
+              "sweet": 0.476923,
+              "bitter": 0.130769,
+              "aroma": 0.476923,
+              "fruity": 0.530769,
+              "body": 0.484615
+            },
+            "alcohol_content": "未知",
+            "score": -0.310564,
+            "comprehensive_score": 0.4800014158448333
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 101,
+            "name": "Cuba Liberation",
+            "recipe_name_zh": "古巴解放",
+            "instructions": "Add first three ingredients to a mixing glass with shaker and lightly shake with ice. Pour mixture into a Collins or highball glass over ice. Top with Mexican Coke (or any coca cola as a substitute) and pour Luxardo Fernet on top to float. Garnish with a lime wheel and fresh mint sprig.",
+            "flavor_profile": {
+              "sour": 0.321053,
+              "sweet": 0.352632,
+              "bitter": 0.363158,
+              "aroma": 0.663158,
+              "fruity": 0.368421,
+              "body": 0.484211
+            },
+            "alcohol_content": "未知",
+            "score": -0.322516,
+            "comprehensive_score": -0.029456978539569467
+          },
+          {
+            "recipe_id": 281,
+            "name": "Mauritian Made",
+            "recipe_name_zh": "毛里求斯风情",
+            "instructions": "Garnish: mint and lime wheel",
+            "flavor_profile": {
+              "sour": 0.315385,
+              "sweet": 0.484615,
+              "bitter": 0.215385,
+              "aroma": 0.553846,
+              "fruity": 0.353846,
+              "body": 0.546154
+            },
+            "alcohol_content": "未知",
+            "score": -0.251504,
+            "comprehensive_score": -0.05940092066079167
+          },
+          {
+            "recipe_id": 256,
+            "name": "Dry Mauritian Sour",
+            "recipe_name_zh": "毛里求斯干酸",
+            "instructions": "Dry shake, shake with cubed ice, double strain into chilled glass.",
+            "flavor_profile": {
+              "sour": 0.233333,
+              "sweet": 0.4,
+              "bitter": 0.233333,
+              "aroma": 0.595238,
+              "fruity": 0.380952,
+              "body": 0.571429
+            },
+            "alcohol_content": "未知",
+            "score": -0.255595,
+            "comprehensive_score": -0.06587753104690278
+          }
+        ],
+        "ingredients": [
+          "rum"
+        ],
+        "mood": "",
+        "flavors": [],
+        "constraints": [
+          "家里只有朗姆酒"
+        ],
+        "count": 5,
+        "analysis_source": "hybrid_with_llm"
+      }
+    },
+    "timestamp": 1775373609.7316103
+  },
+  "recommendation:f623ff8ce41b240a60cc8dc0a18d251e": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [],
+        "constraints": [
+          {
+            "text": "春天",
+            "label": "CONSTRAINT",
+            "start": 2,
+            "end": 4,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          },
+          {
+            "text": "有",
+            "label": "CONSTRAINT",
+            "start": 8,
+            "end": 9,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          }
+        ],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775374098.0057218
+  },
+  "recommendation:0e149b0797a7d6d1abe70417506b1255": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [],
+        "constraints": [
+          {
+            "text": "秋天",
+            "label": "CONSTRAINT",
+            "start": 2,
+            "end": 4,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          },
+          {
+            "text": "有",
+            "label": "CONSTRAINT",
+            "start": 8,
+            "end": 9,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          }
+        ],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775374410.712965
+  },
+  "recommendation:6eec5cc417c6cf09ed02e4bde46d8da8": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [],
+        "constraints": [
+          {
+            "text": "冬天",
+            "label": "CONSTRAINT",
+            "start": 6,
+            "end": 8,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          }
+        ],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775375211.699672
+  },
+  "recommendation:2b67ef68b98d48d9b7f70150f9b72f20": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          },
+          {
+            "recipe_id": 677,
+            "name": "Pink Mojito",
+            "recipe_name_zh": "粉红莫吉托",
+            "instructions": "To make simple syrup, mix equal parts hot water and sugar until sugar is dissolved. Place mint in bottom of glass. Add ice and remaining ingredients except club soda then stir. Top with club soda and garnish with a mint sprig.",
+            "flavor_profile": {
+              "sour": 0.356,
+              "sweet": 0.34,
+              "bitter": 0.196,
+              "aroma": 0.504,
+              "fruity": 0.416,
+              "body": 0.448
+            },
+            "alcohol_content": "未知",
+            "score": -0.178124,
+            "comprehensive_score": 0.017104222222222243
+          },
+          {
+            "recipe_id": 335,
+            "name": "Amaretto Bourbon Punch",
+            "recipe_name_zh": "杏仁波本宾治",
+            "instructions": "Mix ingredients in the punch bowl.",
+            "flavor_profile": {
+              "sour": 0.2,
+              "sweet": 0.411111,
+              "bitter": 0.222222,
+              "aroma": 0.433333,
+              "fruity": 0.355556,
+              "body": 0.383333
+            },
+            "alcohol_content": "未知",
+            "score": -0.201614,
+            "comprehensive_score": -0.005710789626236085
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [
+          "fruity"
+        ],
+        "constraints": [
+          {
+            "text": "果味",
+            "label": "CONSTRAINT",
+            "start": 5,
+            "end": 7,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          }
+        ],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1775383882.5662267
+  },
+  "recommendation:6274d2fa962fbab336393b32db8b8695": {
+    "value": {
+      "success": true,
+      "data": {
+        "recommendations": [
+          {
+            "recipe_id": 177,
+            "name": "La Hops Vie",
+            "recipe_name_zh": "酒花人生",
+            "instructions": "Combine all ingredients in a shaker and shake until proper dilution. Double strain into a chilled martini or coupe glass and garnish with 2 fresh basil leaves that have been lightly \"spanked\" to release aromatics.",
+            "flavor_profile": {
+              "sour": 0.39375,
+              "sweet": 0.29375,
+              "bitter": 0.35,
+              "aroma": 0.43125,
+              "fruity": 0.28125,
+              "body": 0.44375
+            },
+            "alcohol_content": "未知",
+            "score": -0.189263,
+            "comprehensive_score": 0.10875946093750002
+          },
+          {
+            "recipe_id": 205,
+            "name": "L.E.S. Is More",
+            "recipe_name_zh": "简约至上",
+            "instructions": "Combine all liquid ingredients in a highball or Collins glass with ice.\nStir lightly and garnish with a lemon twist making sure to release all the essential oils out of the twist. Also make sure to rub the entire rim of the glass with the twist before dropping it into the cocktail.",
+            "flavor_profile": {
+              "sour": 0.276923,
+              "sweet": 0.3,
+              "bitter": 0.307692,
+              "aroma": 0.515385,
+              "fruity": 0.223077,
+              "body": 0.530769
+            },
+            "alcohol_content": "未知",
+            "score": -0.179743,
+            "comprehensive_score": 0.06314982830372223
+          },
+          {
+            "recipe_id": 320,
+            "name": "And The Cherry On Top Is...",
+            "recipe_name_zh": "樱桃之巅",
+            "instructions": "In the bottom of a cocktail shaker, muddle pitted cherries if using. Add Luxardo Maraschino, vodka, fresh lemon juice and simple syrup. Shake hard, then double strain (though a fine mesh strainer) into a tall glass with fresh ice. Add a splash of soda and stick a cherry on top.",
+            "flavor_profile": {
+              "sour": 0.281818,
+              "sweet": 0.336364,
+              "bitter": 0.336364,
+              "aroma": 0.554545,
+              "fruity": 0.309091,
+              "body": 0.518182
+            },
+            "alcohol_content": "未知",
+            "score": -0.211058,
+            "comprehensive_score": 0.03331643907250004
+          },
+          {
+            "recipe_id": 583,
+            "name": "A Bloody Shame",
+            "recipe_name_zh": "血色遗憾",
+            "instructions": "Shaken and strained into a large coupe. Garnish with a dehydrated lime wheel soaked in Angostura Bitters.\n\n*Blood Orange Vanilla Mint Puree:\n-- 1 container Boiron Blood Orange Puree (34 oz.)\n-- 39 grams Mint (stems and leaves)\n-- 1 tsp Vanilla Extract\n-- 30 oz White Sugar\n\nCombine all the ingredients except the mint in a pot. \nBring to a light simmer, stirring to incorporate everything.\nThen add the mint and cook for 5 minutes, then remove the pot from the heat and strain through a chinois to remove the mint.\nLabel and date a container, then place in your fridge. Use within a week.",
+            "flavor_profile": {
+              "sour": 0.421429,
+              "sweet": 0.364286,
+              "bitter": 0.3,
+              "aroma": 0.521429,
+              "fruity": 0.378571,
+              "body": 0.485714
+            },
+            "alcohol_content": "未知",
+            "score": -0.223607,
+            "comprehensive_score": 0.023606713718763883
+          },
+          {
+            "recipe_id": 299,
+            "name": "Apple Shrub Spritz",
+            "recipe_name_zh": "苹果醋栗气泡酒",
+            "instructions": "In a chilled mixing glass combine the Karlsson's gold vodka and the spiced apple shrub with cracked ice and stir for 20 seconds. Add the chilled club soda to the mixing glass, stir just until mixed and strain into a frozen champagne flute. Garnish with two apple slices placed on the rim.",
+            "flavor_profile": {
+              "sour": 0.218182,
+              "sweet": 0.336364,
+              "bitter": 0.190909,
+              "aroma": 0.345455,
+              "fruity": 0.363636,
+              "body": 0.372727
+            },
+            "alcohol_content": "未知",
+            "score": -0.176981,
+            "comprehensive_score": 0.020419140289208354
+          }
+        ],
+        "ingredients": [],
+        "mood": "",
+        "flavors": [],
+        "constraints": [
+          {
+            "text": "夏天",
+            "label": "CONSTRAINT",
+            "start": 6,
+            "end": 8,
+            "processing_level": "unrecognized",
+            "confidence": 0.0
+          }
+        ],
+        "count": 5,
+        "analysis_source": "hybrid"
+      }
+    },
+    "timestamp": 1776600107.5752363
+  }
+}

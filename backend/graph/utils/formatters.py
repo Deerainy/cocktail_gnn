@@ -118,20 +118,46 @@ def format_global_substitutes(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     for record in results:
         # 处理目标规范食材
-        if 'c' in record and not target:
-            target = format_node(record['c'])
+        if not target:
+            target = {
+                "id": record.get('c.canonical_id'),
+                "name": record.get('c.canonical_name'),
+                "raw": {
+                    "canonical_id": record.get('c.canonical_id'),
+                    "canonical_name": record.get('c.canonical_name')
+                }
+            }
 
         # 处理候选替代规范食材
-        if 'cs' in record and 'gs' in record:
-            canonical = format_node(record['cs'])
-            relation = {
-                "type": record['gs'].get('type'),
-                "properties": {k: v for k, v in record['gs'].items() if k not in ['type', 'id']}
+        canonical = {
+            "id": record.get('cs.canonical_id'),
+            "name": record.get('cs.canonical_name'),
+            "raw": {
+                "canonical_id": record.get('cs.canonical_id'),
+                "canonical_name": record.get('cs.canonical_name')
             }
-            candidates.append({
-                "canonical": canonical,
-                "relation": relation
-            })
+        }
+        relation = {
+            "type": "GLOBAL_SUBSTITUTE",
+            "properties": {
+                "best_rank": record.get('gs.best_rank'),
+                "accepted_best_rank": record.get('gs.accepted_best_rank'),
+                "avg_delta_balance": record.get('gs.avg_delta_balance'),
+                "snapshot_count": record.get('gs.snapshot_count'),
+                "last_model_version": record.get('gs.last_model_version'),
+                "recipe_count": record.get('gs.recipe_count'),
+                "avg_delta_sqe": record.get('gs.avg_delta_sqe'),
+                "accept_count": record.get('gs.accept_count'),
+                "avg_delta_synergy": record.get('gs.avg_delta_synergy'),
+                "avg_delta_conflict": record.get('gs.avg_delta_conflict'),
+                "support_count": record.get('gs.support_count'),
+                "accept_rate": record.get('gs.accept_rate')
+            }
+        }
+        candidates.append({
+            "canonical": canonical,
+            "relation": relation
+        })
 
     return {
         "target": target,
@@ -199,19 +225,32 @@ def format_canonical_neighbors(results: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     for record in results:
         # 处理中心节点
-        if 'c' in record and not center:
-            center = format_node(record['c'])
-
-        # 处理邻居节点
-        if 'n' in record and 'rel' in record:
-            neighbor = {
-                "node": format_node(record['n']),
-                "edge": {
-                    "type": record['rel'].get('type'),
-                    "properties": {k: v for k, v in record['rel'].items() if k not in ['type', 'id']}
+        if not center:
+            center = {
+                "id": record.get('c.canonical_id'),
+                "name": record.get('c.canonical_name'),
+                "raw": {
+                    "canonical_id": record.get('c.canonical_id'),
+                    "canonical_name": record.get('c.canonical_name')
                 }
             }
-            neighbors.append(neighbor)
+
+        # 处理邻居节点
+        neighbor = {
+            "node": {
+                "id": record.get('neighbor.canonical_id'),
+                "name": record.get('neighbor.canonical_name'),
+                "raw": {
+                    "canonical_id": record.get('neighbor.canonical_id'),
+                    "canonical_name": record.get('neighbor.canonical_name')
+                }
+            },
+            "edge": {
+                "type": record.get('relationship_type'),
+                "properties": record.get('properties(r)', {})
+            }
+        }
+        neighbors.append(neighbor)
 
     return {
         "center": center,

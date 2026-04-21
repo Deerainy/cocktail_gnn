@@ -8,233 +8,226 @@
     </section>
     
     <section class="about-content">
-      <div class="about-card card">
-        <div class="about-card-header">
-          <h2 class="about-card-title">技术路线图</h2>
+      <div class="about-tabs">
+        <div class="tabs">
+          <button 
+            v-for="tab in tabs" 
+            :key="tab.id"
+            :class="{ active: activeTab === tab.id }"
+            @click="activeTab = tab.id"
+            class="tab-button"
+          >
+            {{ tab.title }}
+          </button>
         </div>
-        <div class="about-card-body">
-          <div class="roadmap">
-            <div class="roadmap-item">
-              <div class="roadmap-step">01</div>
-              <div class="roadmap-content">
-                <h3 class="roadmap-title">数据采集与预处理</h3>
-                <p class="roadmap-desc">收集鸡尾酒配方数据，进行规范化处理，提取原料和风味特征</p>
-              </div>
-            </div>
-            <div class="roadmap-item">
-              <div class="roadmap-step">02</div>
-              <div class="roadmap-content">
-                <h3 class="roadmap-title">图结构构建</h3>
-                <p class="roadmap-desc">基于原料共现关系和风味相似性构建图结构，节点为原料，边为关系强度</p>
-              </div>
-            </div>
-            <div class="roadmap-item">
-              <div class="roadmap-step">03</div>
-              <div class="roadmap-content">
-                <h3 class="roadmap-title">SQE 评分模型</h3>
-                <p class="roadmap-desc">构建协同、冲突、平衡三大组件的评分模型，计算配方的整体SQE得分</p>
-              </div>
-            </div>
-            <div class="roadmap-item">
-              <div class="roadmap-step">04</div>
-              <div class="roadmap-content">
-                <h3 class="roadmap-title">优化算法</h3>
-                <p class="roadmap-desc">基于图结构和SQE模型，开发原料替代和配方优化算法</p>
-              </div>
-            </div>
-            <div class="roadmap-item">
-              <div class="roadmap-step">05</div>
-              <div class="roadmap-content">
-                <h3 class="roadmap-title">前端实现</h3>
-                <p class="roadmap-desc">开发交互式前端界面，实现配方分析、风味图谱、组合调整等功能</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="about-card card">
-        <div class="about-card-header">
-          <h2 class="about-card-title">SQE 方法说明</h2>
-        </div>
-        <div class="about-card-body">
-          <div class="sqe-method">
-            <div class="sqe-component">
-              <h3 class="component-title">协同 (Synergy)</h3>
-              <p class="component-desc">衡量原料之间的风味协同效应，计算不同原料组合产生的正面交互</p>
-              <div class="component-details">
-                <span class="detail-item">计算方法: 基于历史配方中原料共现频率和用户评价</span>
-                <span class="detail-item">权重: 40%</span>
-              </div>
-            </div>
-            <div class="sqe-component">
-              <h3 class="component-title">冲突 (Conflict)</h3>
-              <p class="component-desc">评估原料之间的风味冲突，识别可能产生负面交互的组合</p>
-              <div class="component-details">
-                <span class="detail-item">计算方法: 基于风味特征的不兼容性分析</span>
-                <span class="detail-item">权重: 30%</span>
-              </div>
-            </div>
-            <div class="sqe-component">
-              <h3 class="component-title">平衡 (Balance)</h3>
-              <p class="component-desc">分析配方中各原料的比例和角色平衡，确保整体口感协调</p>
-              <div class="component-details">
-                <span class="detail-item">计算方法: 基于原料比例分布和角色多样性</span>
-                <span class="detail-item">权重: 30%</span>
-              </div>
-            </div>
-            <div class="sqe-formula">
-              <h3 class="formula-title">SQE 计算公式</h3>
-              <div class="formula-content">
-                <p>SQE(G) = 0.4 × Synergy + 0.3 × (1 - Conflict) + 0.3 × Balance</p>
-                <p>其中，各组件得分范围均为 0-1，SQE 总得分范围为 0-1</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="about-card card">
-        <div class="about-card-header">
-          <h2 class="about-card-title">图建模流程</h2>
-        </div>
-        <div class="about-card-body">
-          <div class="graph-modeling">
-            <div class="modeling-step">
-              <h3 class="step-title">1. 节点定义</h3>
-              <p class="step-desc">每个原料作为图中的一个节点，包含原料名称、类型、风味特征等属性</p>
-            </div>
-            <div class="modeling-step">
-              <h3 class="step-title">2. 边的构建</h3>
-              <p class="step-desc">基于原料共现关系和风味相似性构建边，边的权重表示关系强度</p>
-            </div>
-            <div class="modeling-step">
-              <h3 class="step-title">3. 权重计算</h3>
-              <p class="step-desc">综合考虑共现频率、风味相似度、用户评价等因素计算边的权重</p>
-            </div>
-            <div class="modeling-step">
-              <h3 class="step-title">4. 图的优化</h3>
-              <p class="step-desc">使用社区检测、中心性分析等方法优化图结构，识别重要节点和子图</p>
-            </div>
-            <div class="modeling-step">
-              <h3 class="step-title">5. 应用场景</h3>
-              <p class="step-desc">基于图结构实现原料替代推荐、配方生成、风味分析等功能</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="about-card card">
-        <div class="about-card-header">
-          <h2 class="about-card-title">数据来源</h2>
-        </div>
-        <div class="about-card-body">
-          <div class="data-sources">
-            <div class="source-item">
-              <h3 class="source-title">公开配方数据库</h3>
-              <p class="source-desc">收集了超过 5000 个经典和现代鸡尾酒配方</p>
-            </div>
-            <div class="source-item">
-              <h3 class="source-title">专业调酒书籍</h3>
-              <p class="source-desc">参考权威调酒书籍中的配方和风味搭配原则</p>
-            </div>
-            <div class="source-item">
-              <h3 class="source-title">用户评价数据</h3>
-              <p class="source-desc">收集用户对鸡尾酒的评价和反馈，用于优化模型</p>
-            </div>
-            <div class="source-item">
-              <h3 class="source-title">风味特征数据库</h3>
-              <p class="source-desc">构建原料的风味特征数据库，包括香气、口感、风味轮廓等</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="about-card card">
-        <div class="about-card-header">
-          <h2 class="about-card-title">系统架构</h2>
-        </div>
-        <div class="about-card-body">
-          <div class="system-architecture">
-            <div class="architecture-layer">
-              <h3 class="layer-title">前端层</h3>
-              <p class="layer-desc">基于 Vue.js 构建的交互式界面，包括配方分析、风味图谱、组合调整、创新生成等模块</p>
-              <div class="layer-tech">
-                <span class="tech-tag">Vue.js 3</span>
-                <span class="tech-tag">Vue Router</span>
-                <span class="tech-tag">CSS Variables</span>
-                <span class="tech-tag">Responsive Design</span>
-              </div>
-            </div>
-            <div class="architecture-layer">
-              <h3 class="layer-title">后端层</h3>
-              <p class="layer-desc">提供 API 接口，处理数据请求，执行图算法和优化计算</p>
-              <div class="layer-tech">
-                <span class="tech-tag">Spring Boot</span>
-                <span class="tech-tag">Java</span>
-                <span class="tech-tag">RESTful API</span>
-              </div>
-            </div>
-            <div class="architecture-layer">
-              <h3 class="layer-title">算法层</h3>
-              <p class="layer-desc">实现图结构构建、SQE 评分、原料替代推荐、配方生成等核心算法</p>
-              <div class="layer-tech">
-                <span class="tech-tag">图算法</span>
-                <span class="tech-tag">机器学习</span>
-                <span class="tech-tag">优化算法</span>
-              </div>
-            </div>
-            <div class="architecture-layer">
-              <h3 class="layer-title">数据层</h3>
-              <p class="layer-desc">存储配方数据、原料数据、图结构数据等</p>
-              <div class="layer-tech">
-                <span class="tech-tag">关系型数据库</span>
-                <span class="tech-tag">图数据库</span>
-                <span class="tech-tag">缓存</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="about-card card">
-        <div class="about-card-header">
-          <h2 class="about-card-title">用户界面</h2>
-        </div>
-        <div class="about-card-body">
-          <div class="ui-design">
-            <div class="ui-section">
-              <h3 class="section-title">设计理念</h3>
-              <p class="section-desc">采用爵士酒吧风格，营造温馨、专业的氛围，使用深棕色背景和金色点缀，体现鸡尾酒文化的优雅与精致</p>
-            </div>
-            <div class="ui-section">
-              <h3 class="section-title">色彩方案</h3>
-              <div class="color-palette">
-                <div class="color-item">
-                  <div class="color-swatch" style="background: var(--color-bg-0);"></div>
-                  <span class="color-name">深棕色背景</span>
+        
+        <div class="tab-content">
+          <!-- 核心功能与技术 -->
+          <div v-if="activeTab === 'core'" class="tab-pane">
+            <h2 class="tab-title">核心功能与技术</h2>
+            <div class="feature-grid">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <span class="icon-number">01</span>
                 </div>
-                <div class="color-item">
-                  <div class="color-swatch" style="background: var(--color-gold-400);"></div>
-                  <span class="color-name">金色强调</span>
+                <div class="feature-content">
+                  <h3 class="feature-title">数据采集与预处理</h3>
+                  <p class="feature-desc">收集5000+鸡尾酒配方，提取原料和风味特征</p>
                 </div>
-                <div class="color-item">
-                  <div class="color-swatch" style="background: var(--color-text-primary);"></div>
-                  <span class="color-name">主要文字</span>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <span class="icon-number">02</span>
                 </div>
-                <div class="color-item">
-                  <div class="color-swatch" style="background: var(--color-text-secondary);"></div>
-                  <span class="color-name">次要文字</span>
+                <div class="feature-content">
+                  <h3 class="feature-title">图结构构建</h3>
+                  <p class="feature-desc">基于原料共现关系和风味相似性构建图结构</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <span class="icon-number">03</span>
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">SQE 评分模型</h3>
+                  <p class="feature-desc">协同、冲突、平衡三大组件的综合评分</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <span class="icon-number">04</span>
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">优化算法</h3>
+                  <p class="feature-desc">原料替代和配方优化的智能算法</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <span class="icon-number">05</span>
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">交互式前端</h3>
+                  <p class="feature-desc">配方分析、风味图谱、组合调整等功能</p>
                 </div>
               </div>
             </div>
-            <div class="ui-section">
-              <h3 class="section-title">交互设计</h3>
-              <p class="section-desc">注重用户体验，提供直观的操作界面，包括拖拽交互、实时反馈、动画过渡等，使复杂的数据分析变得易于理解</p>
+          </div>
+          
+          <!-- SQE 方法与图建模 -->
+          <div v-if="activeTab === 'sqe'" class="tab-pane">
+            <h2 class="tab-title">SQE 方法与图建模</h2>
+            <div class="method-modeling-grid">
+              <div class="method-section">
+                <h3 class="section-title">SQE 评分方法</h3>
+                <div class="sqe-components">
+                  <div class="sqe-component">
+                    <h4 class="component-title">协同 (40%)</h4>
+                    <p class="component-desc">衡量原料之间的风味协同效应</p>
+                  </div>
+                  <div class="sqe-component">
+                    <h4 class="component-title">冲突 (30%)</h4>
+                    <p class="component-desc">评估原料之间的风味冲突</p>
+                  </div>
+                  <div class="sqe-component">
+                    <h4 class="component-title">平衡 (30%)</h4>
+                    <p class="component-desc">分析配方中各原料的比例和角色平衡</p>
+                  </div>
+                </div>
+                <div class="sqe-formula">
+                  <p class="formula">SQE(G) = 0.4 × Synergy + 0.3 × (1 - Conflict) + 0.3 × Balance</p>
+                </div>
+              </div>
+              <div class="modeling-section">
+                <h3 class="section-title">图建模流程</h3>
+                <div class="modeling-steps">
+                  <div class="modeling-step">
+                    <span class="step-number">1</span>
+                    <p class="step-desc">节点定义：原料作为图中的节点</p>
+                  </div>
+                  <div class="modeling-step">
+                    <span class="step-number">2</span>
+                    <p class="step-desc">边的构建：基于原料关系强度</p>
+                  </div>
+                  <div class="modeling-step">
+                    <span class="step-number">3</span>
+                    <p class="step-desc">权重计算：综合多种因素</p>
+                  </div>
+                  <div class="modeling-step">
+                    <span class="step-number">4</span>
+                    <p class="step-desc">图的优化：识别重要节点和子图</p>
+                  </div>
+                  <div class="modeling-step">
+                    <span class="step-number">5</span>
+                    <p class="step-desc">应用场景：原料替代、配方生成</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="ui-section">
-              <h3 class="section-title">响应式布局</h3>
-              <p class="section-desc">适配不同屏幕尺寸，从桌面端到移动端都能提供良好的用户体验，确保系统在各种设备上都能正常运行</p>
+          </div>
+          
+          <!-- 系统架构与数据 -->
+          <div v-if="activeTab === 'architecture'" class="tab-pane">
+            <h2 class="tab-title">系统架构与数据</h2>
+            <div class="architecture-data-grid">
+              <div class="architecture-section">
+                <h3 class="section-title">系统架构</h3>
+                <div class="architecture-layers">
+                  <div class="architecture-layer">
+                    <h4 class="layer-title">前端层</h4>
+                    <div class="layer-tech">
+                      <span class="tech-tag">Vue.js 3</span>
+                      <span class="tech-tag">Vue Router</span>
+                      <span class="tech-tag">CSS Variables</span>
+                    </div>
+                  </div>
+                  <div class="architecture-layer">
+                    <h4 class="layer-title">后端层</h4>
+                    <div class="layer-tech">
+                      <span class="tech-tag">Spring Boot</span>
+                      <span class="tech-tag">Java</span>
+                      <span class="tech-tag">RESTful API</span>
+                    </div>
+                  </div>
+                  <div class="architecture-layer">
+                    <h4 class="layer-title">算法层</h4>
+                    <div class="layer-tech">
+                      <span class="tech-tag">图算法</span>
+                      <span class="tech-tag">机器学习</span>
+                      <span class="tech-tag">优化算法</span>
+                    </div>
+                  </div>
+                  <div class="architecture-layer">
+                    <h4 class="layer-title">数据层</h4>
+                    <div class="layer-tech">
+                      <span class="tech-tag">关系型数据库</span>
+                      <span class="tech-tag">图数据库</span>
+                      <span class="tech-tag">缓存</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="data-section">
+                <h3 class="section-title">数据来源</h3>
+                <div class="data-sources">
+                  <div class="source-item">
+                    <h4 class="source-title">公开配方数据库</h4>
+                    <p class="source-desc">5000+ 经典和现代鸡尾酒配方</p>
+                  </div>
+                  <div class="source-item">
+                    <h4 class="source-title">专业调酒书籍</h4>
+                    <p class="source-desc">权威调酒书籍中的配方和原则</p>
+                  </div>
+                  <div class="source-item">
+                    <h4 class="source-title">用户评价数据</h4>
+                    <p class="source-desc">用户对鸡尾酒的评价和反馈</p>
+                  </div>
+                  <div class="source-item">
+                    <h4 class="source-title">风味特征数据库</h4>
+                    <p class="source-desc">原料的风味特征数据</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 用户界面 -->
+          <div v-if="activeTab === 'ui'" class="tab-pane">
+            <h2 class="tab-title">用户界面</h2>
+            <div class="ui-grid">
+              <div class="ui-item">
+                <h3 class="ui-title">设计理念</h3>
+                <p class="ui-desc">爵士酒吧风格，深棕色背景和金色点缀，体现鸡尾酒文化的优雅与精致</p>
+              </div>
+              <div class="ui-item">
+                <h3 class="ui-title">交互设计</h3>
+                <p class="ui-desc">直观的操作界面，包括拖拽交互、实时反馈、动画过渡等</p>
+              </div>
+              <div class="ui-item">
+                <h3 class="ui-title">响应式布局</h3>
+                <p class="ui-desc">适配不同屏幕尺寸，从桌面端到移动端都能提供良好的用户体验</p>
+              </div>
+              <div class="ui-item">
+                <h3 class="ui-title">色彩方案</h3>
+                <div class="color-palette">
+                  <div class="color-item">
+                    <div class="color-swatch" style="background: var(--color-bg-0);"></div>
+                    <span class="color-name">深棕色</span>
+                  </div>
+                  <div class="color-item">
+                    <div class="color-swatch" style="background: var(--color-gold-400);"></div>
+                    <span class="color-name">金色</span>
+                  </div>
+                  <div class="color-item">
+                    <div class="color-swatch" style="background: var(--color-text-primary);"></div>
+                    <span class="color-name">主文字</span>
+                  </div>
+                  <div class="color-item">
+                    <div class="color-swatch" style="background: var(--color-text-secondary);"></div>
+                    <span class="color-name">次文字</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -245,7 +238,18 @@
 
 <script>
 export default {
-  name: 'AboutView'
+  name: 'AboutView',
+  data() {
+    return {
+      activeTab: 'core',
+      tabs: [
+        { id: 'core', title: '核心功能与技术' },
+        { id: 'sqe', title: 'SQE 方法与图建模' },
+        { id: 'architecture', title: '系统架构与数据' },
+        { id: 'ui', title: '用户界面' }
+      ]
+    };
+  }
 }
 </script>
 
@@ -284,216 +288,286 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   padding: var(--spacing-xl);
-  display: grid;
-  gap: var(--spacing-xl);
-  grid-template-columns: 1fr;
 }
 
-.about-card {
+/* 选项卡样式 */
+.about-tabs {
+  background: var(--color-bg-2);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+  display: flex;
+  background: var(--color-bg-3);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+
+.tab-button:hover {
+  color: var(--color-gold-300);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.tab-button.active {
+  color: var(--color-gold-200);
+  border-bottom-color: var(--color-gold-400);
+  background: var(--color-bg-2);
+}
+
+.tab-content {
   padding: var(--spacing-xl);
 }
 
-.about-card-header {
-  margin-bottom: var(--spacing-lg);
-  border-bottom: 1px solid var(--color-border-subtle);
-  padding-bottom: var(--spacing-md);
+.tab-pane {
+  animation: fadeIn 0.3s ease;
 }
 
-.about-card-title {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-title {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-gold-200);
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
   font-family: var(--font-serif);
 }
 
-/* 技术路线图 */
-.roadmap {
+/* 核心功能与技术 */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.feature-item {
   display: flex;
-  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-bg-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  border-color: var(--color-gold-400);
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold-400), var(--color-gold-300));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-bg-0);
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.feature-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* SQE 方法与图建模 */
+.method-modeling-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-lg);
 }
 
-.roadmap-item {
-  display: flex;
-  gap: var(--spacing-md);
-  align-items: flex-start;
+.method-section,
+.modeling-section {
+  padding: var(--spacing-md);
+  background: var(--color-bg-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
 }
 
-.roadmap-step {
-  width: 40px;
-  height: 40px;
+.method-section:hover,
+.modeling-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  border-color: var(--color-gold-400);
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-gold-300);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-serif);
+}
+
+/* SQE 方法 */
+.sqe-components {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.sqe-component {
+  padding: var(--spacing-sm);
+  background: var(--color-bg-0);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.component-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.component-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.sqe-formula {
+  padding: var(--spacing-sm);
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-gold-400);
+}
+
+.formula {
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin: 0;
+}
+
+/* 图建模流程 */
+.modeling-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.modeling-step {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+  padding: var(--spacing-sm);
+  background: var(--color-bg-0);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.step-number {
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: var(--color-gold-400);
   color: var(--color-bg-0);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.8rem;
   font-weight: 700;
   flex-shrink: 0;
 }
 
-.roadmap-content {
+.step-desc {
   flex: 1;
-}
-
-.roadmap-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-xs);
-}
-
-.roadmap-desc {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: 1.4;
+  margin: 0;
 }
 
-/* SQE 方法说明 */
-.sqe-method {
-  display: flex;
-  flex-direction: column;
+/* 系统架构与数据 */
+.architecture-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-lg);
 }
 
-.sqe-component {
+.architecture-section,
+.data-section {
   padding: var(--spacing-md);
-  background: var(--color-bg-2);
+  background: var(--color-bg-3);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
 }
 
-.component-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-gold-300);
-  margin-bottom: var(--spacing-sm);
-}
-
-.component-desc {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin-bottom: var(--spacing-sm);
-}
-
-.component-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.detail-item {
-  font-size: 0.8rem;
-  color: var(--color-text-tertiary);
-}
-
-.sqe-formula {
-  padding: var(--spacing-md);
-  background: rgba(212, 175, 55, 0.1);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-gold-400);
-}
-
-.formula-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--color-gold-300);
-  margin-bottom: var(--spacing-sm);
-}
-
-.formula-content p {
-  font-size: 0.9rem;
-  color: var(--color-text-primary);
-  line-height: 1.5;
-  margin: 0 0 var(--spacing-sm) 0;
-}
-
-.formula-content p:last-child {
-  margin-bottom: 0;
-}
-
-/* 图建模流程 */
-.graph-modeling {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.modeling-step {
-  padding: var(--spacing-md);
-  background: var(--color-bg-2);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-}
-
-.step-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.step-desc {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-}
-
-/* 数据来源 */
-.data-sources {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-md);
-}
-
-.source-item {
-  padding: var(--spacing-md);
-  background: var(--color-bg-2);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-}
-
-.source-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
-}
-
-.source-desc {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
+.architecture-section:hover,
+.data-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  border-color: var(--color-gold-400);
 }
 
 /* 系统架构 */
-.system-architecture {
+.architecture-layers {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 
 .architecture-layer {
-  padding: var(--spacing-md);
-  background: var(--color-bg-2);
-  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  background: var(--color-bg-0);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
 
 .layer-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-gold-300);
-  margin-bottom: var(--spacing-sm);
-}
-
-.layer-desc {
   font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .layer-tech {
@@ -503,44 +577,82 @@ export default {
 }
 
 .tech-tag {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--color-bg-3);
+  padding: 2px 8px;
+  background: var(--color-bg-2);
   border-radius: var(--radius-sm);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-gold-300);
+  border: 1px solid var(--color-gold-400);
 }
 
-/* 用户界面 */
-.ui-design {
+/* 数据来源 */
+.data-sources {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-sm);
 }
 
-.ui-section {
-  padding: var(--spacing-md);
-  background: var(--color-bg-2);
-  border-radius: var(--radius-md);
+.source-item {
+  padding: var(--spacing-sm);
+  background: var(--color-bg-0);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
 
-.section-title {
+.source-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.source-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* 用户界面 */
+.ui-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.ui-item {
+  padding: var(--spacing-md);
+  background: var(--color-bg-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.ui-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+  border-color: var(--color-gold-400);
+}
+
+.ui-title {
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-text-primary);
   margin-bottom: var(--spacing-sm);
 }
 
-.section-desc {
-  font-size: 0.9rem;
+.ui-desc {
+  font-size: 0.85rem;
   color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: 1.4;
+  margin: 0;
 }
 
+/* 色彩方案 */
 .color-palette {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
   margin-top: var(--spacing-sm);
 }
 
@@ -552,16 +664,24 @@ export default {
 }
 
 .color-swatch {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
 
 .color-name {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
   text-align: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .method-modeling-grid,
+  .architecture-data-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
@@ -573,20 +693,27 @@ export default {
     padding: var(--spacing-md);
   }
   
-  .about-card {
+  .tabs {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    border-left: 3px solid transparent;
+  }
+  
+  .tab-button.active {
+    border-left-color: var(--color-gold-400);
+    border-bottom-color: var(--color-border);
+  }
+  
+  .tab-content {
     padding: var(--spacing-lg);
   }
   
-  .roadmap-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .roadmap-step {
-    align-self: flex-start;
-  }
-  
-  .data-sources {
+  .feature-grid,
+  .ui-grid {
     grid-template-columns: 1fr;
   }
   

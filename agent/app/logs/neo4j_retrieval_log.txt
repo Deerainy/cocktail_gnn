@@ -1,0 +1,1370 @@
+[2026-04-04 11:14:02] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:14:02] 搜索食谱: Margarita
+[2026-04-04 11:14:12] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:14:16] 找到食谱: Prickly Pear Margarita
+[2026-04-04 11:15:19] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 11:15:19] 获取食材替代建议: 龙舌兰酒
+[2026-04-04 11:15:23] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 11:15:23] 查询参数: ingredient_name=龙舌兰酒
+[2026-04-04 11:15:25] 查询结果: []
+[2026-04-04 11:15:25] 未找到食材，尝试查询中英文映射
+[2026-04-04 11:15:25] 找到中英文映射: 龙舌兰酒 -> tequila
+[2026-04-04 11:15:25] 使用英文名称再次查询: tequila
+[2026-04-04 11:15:25] 英文名称查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'chinaco blanco tequila', 'canonical_name': 'tequila', 'ingredient_id': 536, 'created_at': '18/2/2026 21:12:43', 'llm_rationale': "Removed brand name 'chinaco' and type descriptor 'blanco' to isolate the base spirit category.", 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 21:48:05', 'updated_at': '18/2/2026 21:48:05', 'map_confidence': 0.95, 'map_rationale': "Removed brand name 'chinaco' and type descriptor 'blanco' to isolate the base spirit category.", 'canonical_id': 2743, 'name_norm': 'chinaco blanco tequila', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.95, 'llm_canonical_id': 2743}}]
+[2026-04-04 11:15:25] 找到食材: chinaco blanco tequila
+[2026-04-04 11:15:25] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'chinaco blanco tequila', 'canonical_name': 'tequila', 'ingredient_id': 536, 'created_at': '18/2/2026 21:12:43', 'llm_rationale': "Removed brand name 'chinaco' and type descriptor 'blanco' to isolate the base spirit category.", 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 21:48:05', 'updated_at': '18/2/2026 21:48:05', 'map_confidence': 0.95, 'map_rationale': "Removed brand name 'chinaco' and type descriptor 'blanco' to isolate the base spirit category.", 'canonical_id': 2743, 'name_norm': 'chinaco blanco tequila', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.95, 'llm_canonical_id': 2743}
+[2026-04-04 11:15:25] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 11:15:25] 查询参数: actual_ingredient_name=chinaco blanco tequila
+[2026-04-04 11:15:27] 替代建议查询结果: [{'substitute_name': 'curacao liqueur', 'similarity_score': 1}, {'substitute_name': 'christmas spirit', 'similarity_score': 1}, {'substitute_name': 'pomegranate juice', 'similarity_score': 2}, {'substitute_name': 'sparkling wine', 'similarity_score': 2}, {'substitute_name': 'limoncello', 'similarity_score': 3}]
+[2026-04-04 11:15:27] 找到 5 个替代建议
+[2026-04-04 11:15:27] 替代建议: [{'substitute_name': 'curacao liqueur', 'similarity_score': 1}, {'substitute_name': 'christmas spirit', 'similarity_score': 1}, {'substitute_name': 'pomegranate juice', 'similarity_score': 2}, {'substitute_name': 'sparkling wine', 'similarity_score': 2}, {'substitute_name': 'limoncello', 'similarity_score': 3}]
+[2026-04-04 11:18:10] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:18:10] 搜索食谱: The Happy Place
+[2026-04-04 11:18:15] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:18:17] 找到食谱: The Happy Place
+[2026-04-04 11:20:51] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:20:51] 搜索食谱: Margarita
+[2026-04-04 11:20:55] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:20:57] 找到食谱: Prickly Pear Margarita
+[2026-04-04 11:21:02] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 11:21:02] 获取食材替代建议: 青柠
+[2026-04-04 11:21:06] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 11:21:06] 查询参数: ingredient_name=青柠
+[2026-04-04 11:21:08] 查询结果: []
+[2026-04-04 11:21:08] 未找到食材，尝试查询中英文映射
+[2026-04-04 11:21:09] 找到中英文映射: 青柠 -> lime
+[2026-04-04 11:21:09] 使用英文名称再次查询: lime
+[2026-04-04 11:21:09] 英文名称查询结果: [{'i': {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'lime juice', 'canonical_name': 'lime juice', 'ingredient_id': 3, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': 'canonical node', 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 22:44:20', 'updated_at': '18/2/2026 22:44:20', 'map_confidence': 1.0, 'map_rationale': "Already in canonical form: lowercase, no descriptors or brands, preparation form 'juice' is meaningful.", 'canonical_id': 3, 'name_norm': 'lime juice', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 3}}]
+[2026-04-04 11:21:09] 找到食材: lime juice
+[2026-04-04 11:21:09] 食材属性: {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'lime juice', 'canonical_name': 'lime juice', 'ingredient_id': 3, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': 'canonical node', 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 22:44:20', 'updated_at': '18/2/2026 22:44:20', 'map_confidence': 1.0, 'map_rationale': "Already in canonical form: lowercase, no descriptors or brands, preparation form 'juice' is meaningful.", 'canonical_id': 3, 'name_norm': 'lime juice', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 3}
+[2026-04-04 11:21:09] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 11:21:09] 查询参数: actual_ingredient_name=lime juice
+[2026-04-04 11:21:09] 替代建议查询结果: [{'substitute_name': 'espresso liqueur', 'similarity_score': 1}, {'substitute_name': 'coffee', 'similarity_score': 1}, {'substitute_name': 'cynar', 'similarity_score': 2}, {'substitute_name': 'acid phosphate', 'similarity_score': 2}, {'substitute_name': 'allspice dram', 'similarity_score': 3}]
+[2026-04-04 11:21:09] 找到 5 个替代建议
+[2026-04-04 11:21:09] 替代建议: [{'substitute_name': 'espresso liqueur', 'similarity_score': 1}, {'substitute_name': 'coffee', 'similarity_score': 1}, {'substitute_name': 'cynar', 'similarity_score': 2}, {'substitute_name': 'acid phosphate', 'similarity_score': 2}, {'substitute_name': 'allspice dram', 'similarity_score': 3}]
+[2026-04-04 11:22:00] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:22:00] 搜索食谱: Margarita
+[2026-04-04 11:22:04] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:22:06] 找到食谱: Prickly Pear Margarita
+[2026-04-04 11:23:52] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:23:52] 搜索食谱: Margarita
+[2026-04-04 11:23:56] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:23:58] 找到食谱: Prickly Pear Margarita
+[2026-04-04 11:24:10] 
+=== 通用响应 ===
+[2026-04-04 11:24:10] 生成通用响应: 当然记得！我们要做的酒是 Margarita。
+[2026-04-04 11:24:10] 生成通用响应完成
+[2026-04-04 11:25:52] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:25:52] 搜索食谱: Margarita
+[2026-04-04 11:25:56] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:25:58] 找到食谱: Prickly Pear Margarita
+[2026-04-04 11:26:10] 
+=== 通用响应 ===
+[2026-04-04 11:26:10] 生成通用响应: 当然记得！我们要做的酒是 Margarita。
+[2026-04-04 11:26:10] 生成通用响应完成
+[2026-04-04 11:29:02] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:29:02] 搜索食谱: The Happy Place
+[2026-04-04 11:29:06] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:29:08] 找到食谱: The Happy Place
+[2026-04-04 11:29:27] 
+=== 通用响应 ===
+[2026-04-04 11:29:27] 生成通用响应: 抱歉，我不太记得我们要做的酒的名字了。您可以告诉我具体的酒名，我会为您提供相关信息。
+[2026-04-04 11:29:27] 生成通用响应完成
+[2026-04-04 11:52:30] 
+=== 通用响应 ===
+[2026-04-04 11:52:30] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 11:52:30] 生成通用响应完成
+[2026-04-04 11:52:45] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:52:45] 搜索食谱: Margarita
+[2026-04-04 11:52:49] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:52:51] 找到食谱: Prickly Pear Margarita
+[2026-04-04 11:55:01] 
+=== 通用响应 ===
+[2026-04-04 11:55:01] 生成通用响应: 抱歉，我不太记得我们要做的酒的名字了。您可以告诉我具体的酒名，我会为您提供相关信息。
+[2026-04-04 11:55:01] 生成通用响应完成
+[2026-04-04 11:56:55] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 11:56:55] 搜索食谱: Flor de Amaras
+[2026-04-04 11:56:59] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 11:57:01] 找到食谱: Flor de Amaras
+[2026-04-04 11:57:40] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 11:57:40] 获取食材替代建议: Syrup
+[2026-04-04 11:57:44] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 11:57:44] 查询参数: ingredient_name=Syrup
+[2026-04-04 11:57:46] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 11:57:46] 找到食材: hibiscus simple syrup
+[2026-04-04 11:57:46] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 11:57:46] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 11:57:46] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 11:57:46] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 11:57:46] 找到 5 个替代建议
+[2026-04-04 11:57:46] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 11:58:36] 
+=== 通用响应 ===
+[2026-04-04 11:58:36] 生成通用响应: 抱歉，我不太记得我们要做的酒的名字了。您可以告诉我具体的酒名，我会为您提供相关信息。
+[2026-04-04 11:58:36] 生成通用响应完成
+[2026-04-04 12:02:28] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 12:02:28] 搜索食谱: Flor de Amaras
+[2026-04-04 12:02:32] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 12:02:34] 找到食谱: Flor de Amaras
+[2026-04-04 12:02:44] 
+=== 通用响应 ===
+[2026-04-04 12:02:44] 生成通用响应: 抱歉，我不太记得我们要做的酒的名字了。您可以告诉我具体的酒名，我会为您提供相关信息。
+[2026-04-04 12:02:44] 生成通用响应完成
+[2026-04-04 12:06:23] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 12:06:23] 搜索食谱: Flor de Amaras
+[2026-04-04 12:06:27] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 12:06:29] 找到食谱: Flor de Amaras
+[2026-04-04 12:06:41] 
+=== 通用响应 ===
+[2026-04-04 12:06:41] 生成通用响应: 当然记得！我们要做的酒是 Flor de Amaras。
+[2026-04-04 12:06:41] 生成通用响应完成
+[2026-04-04 12:08:03] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 12:08:03] 搜索食谱: Flor de Amaras
+[2026-04-04 12:08:07] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 12:08:09] 找到食谱: Flor de Amaras
+[2026-04-04 12:08:40] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 12:08:40] 获取食材替代建议: Syrup
+[2026-04-04 12:08:44] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 12:08:44] 查询参数: ingredient_name=Syrup
+[2026-04-04 12:08:46] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 12:08:46] 找到食材: hibiscus simple syrup
+[2026-04-04 12:08:46] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 12:08:46] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 12:08:46] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 12:08:46] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:08:46] 找到 5 个替代建议
+[2026-04-04 12:08:46] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:09:40] 
+=== 通用响应 ===
+[2026-04-04 12:09:40] 生成通用响应: 抱歉，我不太记得我们要做的酒的名字了。您可以告诉我具体的酒名，我会为您提供相关信息。
+[2026-04-04 12:09:40] 生成通用响应完成
+[2026-04-04 12:18:07] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 12:18:07] 搜索食谱: Flor de Amaras
+[2026-04-04 12:18:11] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 12:18:13] 找到食谱: Flor de Amaras
+[2026-04-04 12:18:26] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 12:18:26] 获取食材替代建议: Syrup
+[2026-04-04 12:18:31] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 12:18:31] 查询参数: ingredient_name=Syrup
+[2026-04-04 12:18:33] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 12:18:33] 找到食材: hibiscus simple syrup
+[2026-04-04 12:18:33] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 12:18:33] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 12:18:33] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 12:18:33] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:18:33] 找到 5 个替代建议
+[2026-04-04 12:18:33] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:20:02] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 12:20:02] 搜索食谱: Flor de Amaras
+[2026-04-04 12:20:06] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 12:20:08] 找到食谱: Flor de Amaras
+[2026-04-04 12:20:19] 
+=== 通用响应 ===
+[2026-04-04 12:20:19] 生成通用响应: 当然记得！我们要做的酒是 Flor de Amaras。
+[2026-04-04 12:20:19] 生成通用响应完成
+[2026-04-04 12:55:25] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 12:55:25] 获取食材替代建议: Syrup
+[2026-04-04 12:55:29] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 12:55:29] 查询参数: ingredient_name=Syrup
+[2026-04-04 12:55:31] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 12:55:31] 找到食材: hibiscus simple syrup
+[2026-04-04 12:55:31] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 12:55:31] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 12:55:31] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 12:55:32] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:55:32] 找到 5 个替代建议
+[2026-04-04 12:55:32] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:56:05] 
+=== 通用响应 ===
+[2026-04-04 12:56:05] 生成通用响应: 抱歉，我不太记得我们要做的酒的名字了。您可以告诉我具体的酒名，我会为您提供相关信息。
+[2026-04-04 12:56:05] 生成通用响应完成
+[2026-04-04 12:58:19] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 12:58:19] 搜索食谱: Flor de Amaras
+[2026-04-04 12:58:23] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 12:58:25] 找到食谱: Flor de Amaras
+[2026-04-04 12:58:44] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 12:58:44] 获取食材替代建议: Syrup
+[2026-04-04 12:58:49] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 12:58:49] 查询参数: ingredient_name=Syrup
+[2026-04-04 12:58:51] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 12:58:51] 找到食材: hibiscus simple syrup
+[2026-04-04 12:58:51] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 12:58:51] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 12:58:51] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 12:58:51] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:58:51] 找到 5 个替代建议
+[2026-04-04 12:58:51] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 12:59:40] 
+=== 通用响应 ===
+[2026-04-04 12:59:40] 生成通用响应: 当然记得！我们要做的酒是 Flor de Amaras。
+[2026-04-04 12:59:40] 生成通用响应完成
+[2026-04-04 13:15:43] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:15:43] 搜索食谱: Flor de Amaras
+[2026-04-04 13:15:47] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:15:49] 找到食谱: Flor de Amaras
+[2026-04-04 13:17:15] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:17:15] 搜索食谱: Flor de Amaras
+[2026-04-04 13:17:19] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:17:21] 找到食谱: Flor de Amaras
+[2026-04-04 13:17:21] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:17:21] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:17:22] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:17:22] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:17:23] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:17:23] 搜索食谱: Margarita
+[2026-04-04 13:17:27] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:17:29] 找到食谱: Prickly Pear Margarita
+[2026-04-04 13:17:29] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:17:29] 搜索食谱: Mojito
+[2026-04-04 13:17:33] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:17:35] 找到食谱: Italian Riviera Mojito
+[2026-04-04 13:19:34] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:19:34] 搜索食谱: Flor de Amaras
+[2026-04-04 13:19:39] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:19:41] 找到食谱: Flor de Amaras
+[2026-04-04 13:19:42] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:19:42] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:19:46] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:19:46] 查询参数: ingredient_name=Hibiscus Simple Syrup
+[2026-04-04 13:19:48] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:19:48] 找到食材: hibiscus simple syrup
+[2026-04-04 13:19:48] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:19:48] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:19:48] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:19:48] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:19:48] 找到 5 个替代建议
+[2026-04-04 13:19:48] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:19:50] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:19:50] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:19:54] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:19:54] 查询参数: ingredient_name=Hibiscus Simple Syrup
+[2026-04-04 13:19:56] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:19:56] 找到食材: hibiscus simple syrup
+[2026-04-04 13:19:56] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:19:56] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:19:56] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:19:56] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:19:56] 找到 5 个替代建议
+[2026-04-04 13:19:56] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:19:58] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:19:58] 搜索食谱: Margarita
+[2026-04-04 13:20:02] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:20:04] 找到食谱: Prickly Pear Margarita
+[2026-04-04 13:20:05] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:20:05] 搜索食谱: Mojito
+[2026-04-04 13:20:09] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:20:11] 找到食谱: Italian Riviera Mojito
+[2026-04-04 13:22:22] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:22:22] 搜索食谱: Flor de Amaras
+[2026-04-04 13:22:26] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:22:28] 找到食谱: Flor de Amaras
+[2026-04-04 13:25:48] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:25:48] 搜索食谱: Flor de Amaras
+[2026-04-04 13:25:52] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:25:54] 找到食谱: Flor de Amaras
+[2026-04-04 13:25:54] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:25:54] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:25:59] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:25:59] 查询参数: ingredient_name=Hibiscus Simple Syrup
+[2026-04-04 13:26:01] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:26:01] 找到食材: hibiscus simple syrup
+[2026-04-04 13:26:01] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:26:01] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:26:01] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:26:01] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:26:01] 找到 5 个替代建议
+[2026-04-04 13:26:01] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:26:01] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:26:01] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:26:05] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:26:05] 查询参数: ingredient_name=Hibiscus Simple Syrup
+[2026-04-04 13:26:07] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:26:07] 找到食材: hibiscus simple syrup
+[2026-04-04 13:26:07] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:26:07] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:26:07] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:26:07] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:26:07] 找到 5 个替代建议
+[2026-04-04 13:26:07] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:26:08] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:26:08] 搜索食谱: Margarita
+[2026-04-04 13:26:12] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:26:14] 找到食谱: Prickly Pear Margarita
+[2026-04-04 13:26:15] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:26:15] 搜索食谱: Mojito
+[2026-04-04 13:26:19] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:26:21] 找到食谱: Italian Riviera Mojito
+[2026-04-04 13:27:26] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:27:26] 搜索食谱: Flor de Amaras
+[2026-04-04 13:27:30] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:27:32] 找到食谱: Flor de Amaras
+[2026-04-04 13:29:39] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:29:39] 搜索食谱: Flor de Amaras
+[2026-04-04 13:29:43] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:29:45] 找到食谱: Flor de Amaras
+[2026-04-04 13:29:46] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:29:46] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:29:50] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:29:50] 查询参数: ingredient_name=Hibiscus Simple Syrup
+[2026-04-04 13:29:52] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:29:52] 找到食材: hibiscus simple syrup
+[2026-04-04 13:29:52] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:29:52] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:29:52] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:29:52] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:29:52] 找到 5 个替代建议
+[2026-04-04 13:29:52] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:29:53] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:29:53] 获取食材替代建议: Hibiscus Simple Syrup
+[2026-04-04 13:29:57] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:29:57] 查询参数: ingredient_name=Hibiscus Simple Syrup
+[2026-04-04 13:29:59] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:29:59] 找到食材: hibiscus simple syrup
+[2026-04-04 13:29:59] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:29:59] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:29:59] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:29:59] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:29:59] 找到 5 个替代建议
+[2026-04-04 13:29:59] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:30:00] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:30:00] 搜索食谱: Margarita
+[2026-04-04 13:30:04] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:30:06] 找到食谱: Prickly Pear Margarita
+[2026-04-04 13:30:06] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:30:06] 搜索食谱: Mojito
+[2026-04-04 13:30:10] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:30:12] 找到食谱: Italian Riviera Mojito
+[2026-04-04 13:31:24] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:31:24] 搜索食谱: Flor de Amaras
+[2026-04-04 13:31:28] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:31:30] 找到食谱: Flor de Amaras
+[2026-04-04 13:34:22] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:34:22] 搜索食谱: Flor de Amaras
+[2026-04-04 13:34:26] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:34:28] 找到食谱: Flor de Amaras
+[2026-04-04 13:37:53] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:37:53] 搜索食谱: Flor de Amaras
+[2026-04-04 13:37:58] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:38:00] 找到食谱: Flor de Amaras
+[2026-04-04 13:40:25] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:40:25] 搜索食谱: Flor de Amaras
+[2026-04-04 13:40:29] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:40:31] 找到食谱: Flor de Amaras
+[2026-04-04 13:41:08] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:41:08] 获取食材替代建议: Syrup
+[2026-04-04 13:41:12] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:41:12] 查询参数: ingredient_name=Syrup
+[2026-04-04 13:41:14] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:41:14] 找到食材: hibiscus simple syrup
+[2026-04-04 13:41:14] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:41:14] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:41:14] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:41:14] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:41:14] 找到 5 个替代建议
+[2026-04-04 13:41:14] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:45:33] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:45:33] 获取食材替代建议: Syrup
+[2026-04-04 13:45:37] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:45:37] 查询参数: ingredient_name=Syrup
+[2026-04-04 13:45:39] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:45:39] 找到食材: hibiscus simple syrup
+[2026-04-04 13:45:39] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:45:39] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:45:39] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:45:39] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:45:39] 找到 5 个替代建议
+[2026-04-04 13:45:39] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:46:15] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 13:46:15] 搜索食谱: Flor de Amaras
+[2026-04-04 13:46:19] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 13:46:21] 找到食谱: Flor de Amaras
+[2026-04-04 13:47:06] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 13:47:06] 获取食材替代建议: Syrup
+[2026-04-04 13:47:10] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 13:47:10] 查询参数: ingredient_name=Syrup
+[2026-04-04 13:47:12] 查询结果: [{'i': {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}}]
+[2026-04-04 13:47:12] 找到食材: hibiscus simple syrup
+[2026-04-04 13:47:12] 食材属性: {'map_status': 'ok', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'hibiscus simple syrup', 'canonical_name': 'hibiscus syrup', 'ingredient_id': 2, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:29:40', 'updated_at': '18/2/2026 22:29:40', 'map_confidence': 0.9, 'map_rationale': "Removed 'simple' as a descriptor, kept 'hibiscus' as a flavor modifier and 'syrup' as the base ingredient type.", 'canonical_id': 2160, 'name_norm': 'hibiscus simple syrup', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.9, 'llm_canonical_id': 2160}
+[2026-04-04 13:47:12] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 13:47:12] 查询参数: actual_ingredient_name=hibiscus simple syrup
+[2026-04-04 13:47:12] 替代建议查询结果: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:47:12] 找到 5 个替代建议
+[2026-04-04 13:47:12] 替代建议: [{'substitute_name': 'limoncello', 'similarity_score': 1}, {'substitute_name': 'elderflower syrup', 'similarity_score': 2}, {'substitute_name': 'pineau des charentes', 'similarity_score': 3}, {'substitute_name': 'falernum', 'similarity_score': 5}, {'substitute_name': 'sugar syrup', 'similarity_score': 6}]
+[2026-04-04 13:47:58] 
+=== 通用响应 ===
+[2026-04-04 13:47:58] 生成通用响应: 当然记得！我们要做的酒是 Flor de Amaras。
+[2026-04-04 13:47:58] 生成通用响应完成
+[2026-04-04 14:03:22] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 14:03:22] 搜索食谱: The Bittered Valley
+[2026-04-04 14:03:26] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 14:03:28] 找到食谱: The Bittered Valley
+[2026-04-04 14:04:22] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 14:04:22] 获取食材替代建议: 白兰地
+[2026-04-04 14:04:26] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 14:04:26] 查询参数: ingredient_name=白兰地
+[2026-04-04 14:04:28] 查询结果: []
+[2026-04-04 14:04:28] 未找到食材，尝试查询中英文映射
+[2026-04-04 14:04:28] 找到中英文映射: 白兰地 -> brandy
+[2026-04-04 14:04:28] 使用英文名称再次查询: brandy
+[2026-04-04 14:04:28] 英文名称查询结果: [{'i': {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:38', 'map_src_name_norm': 'pear brandy', 'canonical_name': 'pear brandy', 'ingredient_id': 527, 'created_at': '18/2/2026 21:12:43', 'llm_rationale': "No descriptors or brand names to remove. 'pear brandy' is a specific type of brandy and should be kept as is.", 'map_updated_at': '19/2/2026 15:19:38', 'llm_updated_at': '18/2/2026 21:51:48', 'updated_at': '18/2/2026 21:51:48', 'map_confidence': 1.0, 'map_rationale': "No descriptors or brand names to remove. 'pear brandy' is a specific type of brandy and should be kept as is.", 'canonical_id': 527, 'name_norm': 'pear brandy', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 527}}]
+[2026-04-04 14:04:28] 找到食材: pear brandy
+[2026-04-04 14:04:28] 食材属性: {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:38', 'map_src_name_norm': 'pear brandy', 'canonical_name': 'pear brandy', 'ingredient_id': 527, 'created_at': '18/2/2026 21:12:43', 'llm_rationale': "No descriptors or brand names to remove. 'pear brandy' is a specific type of brandy and should be kept as is.", 'map_updated_at': '19/2/2026 15:19:38', 'llm_updated_at': '18/2/2026 21:51:48', 'updated_at': '18/2/2026 21:51:48', 'map_confidence': 1.0, 'map_rationale': "No descriptors or brand names to remove. 'pear brandy' is a specific type of brandy and should be kept as is.", 'canonical_id': 527, 'name_norm': 'pear brandy', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 527}
+[2026-04-04 14:04:28] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 14:04:28] 查询参数: actual_ingredient_name=pear brandy
+[2026-04-04 14:04:28] 替代建议查询结果: [{'substitute_name': 'vermouth', 'similarity_score': 2}, {'substitute_name': 'americano', 'similarity_score': 3}, {'substitute_name': 'pisco', 'similarity_score': 4}, {'substitute_name': 'cynar', 'similarity_score': 4}, {'substitute_name': 'pomegranate juice', 'similarity_score': 5}]
+[2026-04-04 14:04:28] 找到 5 个替代建议
+[2026-04-04 14:04:28] 替代建议: [{'substitute_name': 'vermouth', 'similarity_score': 2}, {'substitute_name': 'americano', 'similarity_score': 3}, {'substitute_name': 'pisco', 'similarity_score': 4}, {'substitute_name': 'cynar', 'similarity_score': 4}, {'substitute_name': 'pomegranate juice', 'similarity_score': 5}]
+[2026-04-04 14:20:31] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 14:20:31] 搜索食谱: Margarita
+[2026-04-04 14:20:35] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 14:20:37] 找到食谱: Prickly Pear Margarita
+[2026-04-04 14:20:48] 
+=== Neo4j 食材替代查询 ===
+[2026-04-04 14:20:48] 获取食材替代建议: 龙舌兰
+[2026-04-04 14:20:52] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-04 14:20:52] 查询参数: ingredient_name=龙舌兰
+[2026-04-04 14:20:54] 查询结果: []
+[2026-04-04 14:20:54] 未找到食材，尝试查询中英文映射
+[2026-04-04 14:20:55] 找到中英文映射: 龙舌兰 -> agave
+[2026-04-04 14:20:55] 使用英文名称再次查询: agave
+[2026-04-04 14:20:55] 英文名称查询结果: [{'i': {'map_status': 'low_conf', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:40', 'map_src_name_norm': 'citrus agave blend', 'canonical_name': 'agave nectar', 'ingredient_id': 507, 'created_at': '18/2/2026 21:12:43', 'llm_rationale': 'self map', 'map_updated_at': '19/2/2026 15:19:40', 'llm_updated_at': '18/2/2026 21:20:09', 'updated_at': '18/2/2026 21:20:09', 'map_confidence': 0.7, 'map_rationale': "The term 'citrus agave blend' suggests a sweetener base of agave with citrus flavoring. Following rule 3, 'citrus' is removed as a descriptor. The core ingredient is agave, likely in syrup/nectar form given it's a 'blend' for cocktails. 'agave nectar' is ", 'canonical_id': 618, 'name_norm': 'citrus agave blend', 'map_model': '', 'llm_version': 'init_self', 'llm_confidence': 1.0, 'llm_canonical_id': 507}}]
+[2026-04-04 14:20:55] 找到食材: citrus agave blend
+[2026-04-04 14:20:55] 食材属性: {'map_status': 'low_conf', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:40', 'map_src_name_norm': 'citrus agave blend', 'canonical_name': 'agave nectar', 'ingredient_id': 507, 'created_at': '18/2/2026 21:12:43', 'llm_rationale': 'self map', 'map_updated_at': '19/2/2026 15:19:40', 'llm_updated_at': '18/2/2026 21:20:09', 'updated_at': '18/2/2026 21:20:09', 'map_confidence': 0.7, 'map_rationale': "The term 'citrus agave blend' suggests a sweetener base of agave with citrus flavoring. Following rule 3, 'citrus' is removed as a descriptor. The core ingredient is agave, likely in syrup/nectar form given it's a 'blend' for cocktails. 'agave nectar' is ", 'canonical_id': 618, 'name_norm': 'citrus agave blend', 'map_model': '', 'llm_version': 'init_self', 'llm_confidence': 1.0, 'llm_canonical_id': 507}
+[2026-04-04 14:20:55] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-04 14:20:55] 查询参数: actual_ingredient_name=citrus agave blend
+[2026-04-04 14:20:55] 替代建议查询结果: [{'substitute_name': 'americano', 'similarity_score': 1}, {'substitute_name': 'sugar', 'similarity_score': 2}, {'substitute_name': 'cynar', 'similarity_score': 2}, {'substitute_name': 'aperol', 'similarity_score': 3}, {'substitute_name': 'limoncello', 'similarity_score': 3}]
+[2026-04-04 14:20:55] 找到 5 个替代建议
+[2026-04-04 14:20:55] 替代建议: [{'substitute_name': 'americano', 'similarity_score': 1}, {'substitute_name': 'sugar', 'similarity_score': 2}, {'substitute_name': 'cynar', 'similarity_score': 2}, {'substitute_name': 'aperol', 'similarity_score': 3}, {'substitute_name': 'limoncello', 'similarity_score': 3}]
+[2026-04-04 14:21:28] 
+=== 通用响应 ===
+[2026-04-04 14:21:28] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 14:21:28] 生成通用响应完成
+[2026-04-04 14:21:33] 
+=== 通用响应 ===
+[2026-04-04 14:21:33] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 14:21:33] 生成通用响应完成
+[2026-04-04 14:36:20] 
+=== 通用响应 ===
+[2026-04-04 14:36:20] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 14:36:20] 生成通用响应完成
+[2026-04-04 14:40:02] 
+=== 通用响应 ===
+[2026-04-04 14:40:02] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 14:40:02] 生成通用响应完成
+[2026-04-04 23:26:37] 
+=== Neo4j 食谱搜索 ===
+[2026-04-04 23:26:37] 搜索食谱: Old Fashioned
+[2026-04-04 23:26:42] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-04 23:26:44] 找到食谱: Hophead Old Fashioned
+[2026-04-04 23:36:05] 
+=== 通用响应 ===
+[2026-04-04 23:36:05] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 23:36:05] 生成通用响应完成
+[2026-04-04 23:41:32] 
+=== 通用响应 ===
+[2026-04-04 23:41:32] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 23:41:32] 生成通用响应完成
+[2026-04-04 23:51:16] 
+=== 通用响应 ===
+[2026-04-04 23:51:16] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 23:51:16] 生成通用响应完成
+[2026-04-04 23:54:44] 
+=== 通用响应 ===
+[2026-04-04 23:54:44] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-04 23:54:44] 生成通用响应完成
+[2026-04-05 00:04:09] 
+=== 通用响应 ===
+[2026-04-05 00:04:09] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-05 00:04:09] 生成通用响应完成
+[2026-04-05 10:07:57] 
+=== Neo4j 食材替代查询 ===
+[2026-04-05 10:07:57] 获取食材替代建议: lemon
+[2026-04-05 10:08:06] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-05 10:08:06] 查询参数: ingredient_name=lemon
+[2026-04-05 10:08:10] 查询结果: [{'i': {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'lemon juice', 'canonical_name': 'lemon juice', 'ingredient_id': 7, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': 'canonical node', 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 22:46:39', 'updated_at': '18/2/2026 22:46:39', 'map_confidence': 1.0, 'map_rationale': "The ingredient is already in a standard form with preparation method (juice) that changes meaning from just 'lemon'. No descriptors or brand names to remove.", 'canonical_id': 7, 'name_norm': 'lemon juice', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 7}}]
+[2026-04-05 10:08:10] 找到食材: lemon juice
+[2026-04-05 10:08:10] 食材属性: {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'lemon juice', 'canonical_name': 'lemon juice', 'ingredient_id': 7, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': 'canonical node', 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 22:46:39', 'updated_at': '18/2/2026 22:46:39', 'map_confidence': 1.0, 'map_rationale': "The ingredient is already in a standard form with preparation method (juice) that changes meaning from just 'lemon'. No descriptors or brand names to remove.", 'canonical_id': 7, 'name_norm': 'lemon juice', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 7}
+[2026-04-05 10:08:10] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-05 10:08:10] 查询参数: actual_ingredient_name=lemon juice
+[2026-04-05 10:08:12] 替代建议查询结果: [{'substitute_name': 'espresso liqueur', 'similarity_score': 1}, {'substitute_name': 'coffee', 'similarity_score': 1}, {'substitute_name': 'allspice dram', 'similarity_score': 2}, {'substitute_name': 'acid phosphate', 'similarity_score': 2}, {'substitute_name': 'creme de cassis', 'similarity_score': 3}]
+[2026-04-05 10:08:12] 找到 5 个替代建议
+[2026-04-05 10:08:12] 替代建议: [{'substitute_name': 'espresso liqueur', 'similarity_score': 1}, {'substitute_name': 'coffee', 'similarity_score': 1}, {'substitute_name': 'allspice dram', 'similarity_score': 2}, {'substitute_name': 'acid phosphate', 'similarity_score': 2}, {'substitute_name': 'creme de cassis', 'similarity_score': 3}]
+[2026-04-05 12:17:43] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 12:17:43] 搜索食谱: Hippi Hill
+[2026-04-05 12:17:49] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 12:17:52] 找到食谱: Hippi Hill
+[2026-04-05 12:22:42] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 12:22:42] 搜索食谱: 嬉皮山丘？
+[2026-04-05 12:22:46] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 12:22:48] 未找到食谱
+[2026-04-05 12:24:57] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 12:24:57] 搜索食谱: 嬉皮山丘
+[2026-04-05 12:25:01] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 12:25:04] 未找到食谱
+[2026-04-05 12:25:24] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 12:25:24] 搜索食谱: Hippi Hill
+[2026-04-05 12:25:28] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 12:25:30] 找到食谱: Hippi Hill
+[2026-04-05 12:36:48] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 12:36:48] 搜索食谱: Hippi Hill
+[2026-04-05 12:36:52] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 12:36:54] 找到食谱: Hippi Hill
+[2026-04-05 13:05:08] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:05:08] 搜索食谱: Hippi Hill
+[2026-04-05 13:05:12] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:05:14] 找到食谱: Hippi Hill
+[2026-04-05 13:08:15] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:08:15] 搜索食谱: Flor de Amaras
+[2026-04-05 13:08:19] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:08:21] 找到食谱: Flor de Amaras
+[2026-04-05 13:15:50] 
+=== Neo4j 食材替代查询 ===
+[2026-04-05 13:15:50] 获取食材替代建议: lemon
+[2026-04-05 13:15:54] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-05 13:15:54] 查询参数: ingredient_name=lemon
+[2026-04-05 13:15:57] 查询结果: [{'i': {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'lemon juice', 'canonical_name': 'lemon juice', 'ingredient_id': 7, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': 'canonical node', 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 22:46:39', 'updated_at': '18/2/2026 22:46:39', 'map_confidence': 1.0, 'map_rationale': "The ingredient is already in a standard form with preparation method (juice) that changes meaning from just 'lemon'. No descriptors or brand names to remove.", 'canonical_id': 7, 'name_norm': 'lemon juice', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 7}}]
+[2026-04-05 13:15:57] 找到食材: lemon juice
+[2026-04-05 13:15:57] 食材属性: {'map_provider': 'deepseek', 'map_status': 'ok', 'map_created_at': '19/2/2026 15:19:37', 'map_src_name_norm': 'lemon juice', 'canonical_name': 'lemon juice', 'ingredient_id': 7, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': 'canonical node', 'map_updated_at': '19/2/2026 15:19:37', 'llm_updated_at': '18/2/2026 22:46:39', 'updated_at': '18/2/2026 22:46:39', 'map_confidence': 1.0, 'map_rationale': "The ingredient is already in a standard form with preparation method (juice) that changes meaning from just 'lemon'. No descriptors or brand names to remove.", 'canonical_id': 7, 'name_norm': 'lemon juice', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 1.0, 'llm_canonical_id': 7}
+[2026-04-05 13:15:57] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-05 13:15:57] 查询参数: actual_ingredient_name=lemon juice
+[2026-04-05 13:15:57] 替代建议查询结果: [{'substitute_name': 'espresso liqueur', 'similarity_score': 1}, {'substitute_name': 'coffee', 'similarity_score': 1}, {'substitute_name': 'allspice dram', 'similarity_score': 2}, {'substitute_name': 'acid phosphate', 'similarity_score': 2}, {'substitute_name': 'creme de cassis', 'similarity_score': 3}]
+[2026-04-05 13:15:57] 找到 5 个替代建议
+[2026-04-05 13:15:57] 替代建议: [{'substitute_name': 'espresso liqueur', 'similarity_score': 1}, {'substitute_name': 'coffee', 'similarity_score': 1}, {'substitute_name': 'allspice dram', 'similarity_score': 2}, {'substitute_name': 'acid phosphate', 'similarity_score': 2}, {'substitute_name': 'creme de cassis', 'similarity_score': 3}]
+[2026-04-05 13:19:54] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:19:54] 搜索食谱: Flor de Amaras
+[2026-04-05 13:19:58] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:20:00] 找到食谱: Flor de Amaras
+[2026-04-05 13:24:40] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:24:40] 搜索食谱: Flor de Amaras
+[2026-04-05 13:24:44] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:24:46] 找到食谱: Flor de Amaras
+[2026-04-05 13:29:22] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:29:22] 搜索食谱: Flor de Amaras
+[2026-04-05 13:29:27] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:29:29] 找到食谱: Flor de Amaras
+[2026-04-05 13:32:14] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:32:14] 搜索食谱: Flor de Amaras
+[2026-04-05 13:32:19] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:32:21] 找到食谱: Flor de Amaras
+[2026-04-05 13:38:22] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:38:22] 搜索食谱: Flor de Amaras
+[2026-04-05 13:38:27] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:38:29] 找到食谱: Flor de Amaras
+[2026-04-05 13:43:13] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:43:13] 搜索食谱: Flor de Amaras
+[2026-04-05 13:43:17] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:43:19] 找到食谱: Flor de Amaras
+[2026-04-05 13:45:03] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:45:03] 搜索食谱: Flor de Amaras
+[2026-04-05 13:45:07] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:45:09] 找到食谱: Flor de Amaras
+[2026-04-05 13:50:33] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:50:33] 搜索食谱: Flor de Amaras
+[2026-04-05 13:50:37] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:50:39] 找到食谱: Flor de Amaras
+[2026-04-05 13:54:11] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:54:11] 搜索食谱: Hippi Hill
+[2026-04-05 13:54:15] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:54:17] 找到食谱: Hippi Hill
+[2026-04-05 13:57:47] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 13:57:47] 搜索食谱: 嬉皮山丘什么
+[2026-04-05 13:57:51] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 13:57:54] 未找到食谱
+[2026-04-05 14:05:09] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 14:05:09] 搜索食谱: 嬉皮山丘
+[2026-04-05 14:05:13] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 14:05:15] 未找到食谱
+[2026-04-05 14:07:43] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 14:07:43] 搜索食谱: 嬉皮山丘
+[2026-04-05 14:07:43] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 14:07:46] 未找到食谱
+[2026-04-05 14:07:46] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 14:07:46] 搜索食谱: Hippi Hill
+[2026-04-05 14:07:46] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 14:07:48] 找到食谱: Hippi Hill
+[2026-04-05 14:12:02] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 14:12:02] 搜索食谱: 嬉皮山丘
+[2026-04-05 14:12:06] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 14:12:08] 未找到食谱
+[2026-04-05 14:14:55] 找到中英文映射: 嬉皮山丘 -> Hippi Hill
+[2026-04-05 14:14:55] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 14:14:55] 搜索食谱: Hippi Hill
+[2026-04-05 14:14:59] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 14:15:01] 找到食谱: Hippi Hill
+[2026-04-05 14:20:02] 找到中英文映射: 简约至上 -> L.E.S. Is More
+[2026-04-05 14:20:02] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 14:20:02] 搜索食谱: L.E.S. Is More
+[2026-04-05 14:20:06] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 14:20:08] 找到食谱: L.E.S. Is More
+[2026-04-05 14:26:55] 
+=== Neo4j 食材替代查询 ===
+[2026-04-05 14:26:55] 获取食材替代建议: 苦精
+[2026-04-05 14:26:59] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-05 14:26:59] 查询参数: ingredient_name=苦精
+[2026-04-05 14:27:01] 查询结果: []
+[2026-04-05 14:27:01] 未找到食材，尝试查询中英文映射
+[2026-04-05 14:27:03] 找到中英文映射: 苦精 -> bitters
+[2026-04-05 14:27:03] 使用英文名称再次查询: bitters
+[2026-04-05 14:27:03] 英文名称查询结果: [{'i': {'map_status': 'low_conf', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'forgery earth day bitters', 'canonical_name': 'bitters', 'ingredient_id': 10, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:26:20', 'updated_at': '18/2/2026 22:26:20', 'map_confidence': 0.8, 'map_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'canonical_id': 1831, 'name_norm': 'forgery earth day bitters', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.8, 'llm_canonical_id': 1831}}]
+[2026-04-05 14:27:03] 找到食材: forgery earth day bitters
+[2026-04-05 14:27:03] 食材属性: {'map_status': 'low_conf', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'forgery earth day bitters', 'canonical_name': 'bitters', 'ingredient_id': 10, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:26:20', 'updated_at': '18/2/2026 22:26:20', 'map_confidence': 0.8, 'map_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'canonical_id': 1831, 'name_norm': 'forgery earth day bitters', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.8, 'llm_canonical_id': 1831}
+[2026-04-05 14:27:03] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-05 14:27:03] 查询参数: actual_ingredient_name=forgery earth day bitters
+[2026-04-05 14:27:03] 替代建议查询结果: [{'substitute_name': 'apple bitters', 'similarity_score': 1}, {'substitute_name': 'grapefruit bitters', 'similarity_score': 2}, {'substitute_name': 'pomegranate bitters', 'similarity_score': 3}, {'substitute_name': 'absinthe', 'similarity_score': 6}, {'substitute_name': 'mole', 'similarity_score': 7}]
+[2026-04-05 14:27:03] 找到 5 个替代建议
+[2026-04-05 14:27:03] 替代建议: [{'substitute_name': 'apple bitters', 'similarity_score': 1}, {'substitute_name': 'grapefruit bitters', 'similarity_score': 2}, {'substitute_name': 'pomegranate bitters', 'similarity_score': 3}, {'substitute_name': 'absinthe', 'similarity_score': 6}, {'substitute_name': 'mole', 'similarity_score': 7}]
+[2026-04-05 14:31:09] 
+=== Neo4j 食材替代查询 ===
+[2026-04-05 14:31:09] 获取食材替代建议: 苦精
+[2026-04-05 14:31:13] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm =~ '(?i).*' + $ingredient_name + '.*' OR 
+                      i.canonical_name =~ '(?i).*' + $ingredient_name + '.*'
+                RETURN i LIMIT 1
+                
+[2026-04-05 14:31:13] 查询参数: ingredient_name=苦精
+[2026-04-05 14:31:15] 查询结果: []
+[2026-04-05 14:31:15] 未找到食材，尝试查询中英文映射
+[2026-04-05 14:31:16] 找到中英文映射: 苦精 -> bitters
+[2026-04-05 14:31:16] 使用英文名称再次查询: bitters
+[2026-04-05 14:31:16] 英文名称查询结果: [{'i': {'map_status': 'low_conf', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'forgery earth day bitters', 'canonical_name': 'bitters', 'ingredient_id': 10, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:26:20', 'updated_at': '18/2/2026 22:26:20', 'map_confidence': 0.8, 'map_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'canonical_id': 1831, 'name_norm': 'forgery earth day bitters', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.8, 'llm_canonical_id': 1831}}]
+[2026-04-05 14:31:16] 找到食材: forgery earth day bitters
+[2026-04-05 14:31:16] 食材属性: {'map_status': 'low_conf', 'map_provider': 'deepseek', 'map_created_at': '19/2/2026 15:19:41', 'map_src_name_norm': 'forgery earth day bitters', 'canonical_name': 'bitters', 'ingredient_id': 10, 'created_at': '18/2/2026 21:07:15', 'llm_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'map_updated_at': '19/2/2026 15:19:41', 'llm_updated_at': '18/2/2026 22:26:20', 'updated_at': '18/2/2026 22:26:20', 'map_confidence': 0.8, 'map_rationale': "Removed brand name 'forgery earth day' as it appears to be a specific product name, keeping only the base ingredient type 'bitters'.", 'canonical_id': 1831, 'name_norm': 'forgery earth day bitters', 'map_model': '', 'llm_version': 'deepseek_llm_v1', 'llm_confidence': 0.8, 'llm_canonical_id': 1831}
+[2026-04-05 14:31:16] 执行查询: 
+                MATCH (i:Ingredient) 
+                WHERE i.name_norm = $actual_ingredient_name
+                OPTIONAL MATCH (i)-[:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
+                OPTIONAL MATCH (ci)-[r:GLOBAL_SUBSTITUTE]->(sub:CanonicalIngredient)
+                WHERE ci IS NOT NULL AND sub IS NOT NULL
+                RETURN sub.canonical_name as substitute_name, 
+                       r.best_rank as similarity_score
+                ORDER BY r.best_rank ASC
+                LIMIT 5
+                
+[2026-04-05 14:31:16] 查询参数: actual_ingredient_name=forgery earth day bitters
+[2026-04-05 14:31:16] 替代建议查询结果: [{'substitute_name': 'apple bitters', 'similarity_score': 1}, {'substitute_name': 'grapefruit bitters', 'similarity_score': 2}, {'substitute_name': 'pomegranate bitters', 'similarity_score': 3}, {'substitute_name': 'absinthe', 'similarity_score': 6}, {'substitute_name': 'mole', 'similarity_score': 7}]
+[2026-04-05 14:31:16] 找到 5 个替代建议
+[2026-04-05 14:31:16] 替代建议: [{'substitute_name': 'apple bitters', 'similarity_score': 1}, {'substitute_name': 'grapefruit bitters', 'similarity_score': 2}, {'substitute_name': 'pomegranate bitters', 'similarity_score': 3}, {'substitute_name': 'absinthe', 'similarity_score': 6}, {'substitute_name': 'mole', 'similarity_score': 7}]
+[2026-04-05 14:31:25] 未找到中英文映射: apple bitters
+[2026-04-05 14:31:26] 未找到中英文映射: grapefruit bitters
+[2026-04-05 14:31:27] 未找到中英文映射: pomegranate bitters
+[2026-04-05 14:31:28] 未找到中英文映射: absinthe
+[2026-04-05 14:31:29] 未找到中英文映射: mole
+[2026-04-05 14:44:12] 
+=== 通用响应 ===
+[2026-04-05 14:44:12] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-05 14:44:12] 生成通用响应完成
+[2026-04-05 14:47:08] 
+=== 通用响应 ===
+[2026-04-05 14:47:08] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-05 14:47:08] 生成通用响应完成
+[2026-04-05 14:51:55] 
+=== 通用响应 ===
+[2026-04-05 14:51:55] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-05 14:51:55] 生成通用响应完成
+[2026-04-05 15:09:58] 未找到中英文映射: 伏特加有哪些常见的喝法
+[2026-04-05 15:09:58] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 15:09:58] 搜索食谱: 伏特加有哪些常见的喝法
+[2026-04-05 15:10:02] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 15:10:04] 未找到食谱
+[2026-04-05 15:14:08] 未找到中英文映射: 伏特加有哪些常见的喝法
+[2026-04-05 15:14:08] 
+=== Neo4j 食谱搜索 ===
+[2026-04-05 15:14:08] 搜索食谱: 伏特加有哪些常见的喝法
+[2026-04-05 15:14:12] 执行查询: 
+                MATCH (r:Recipe) 
+                WHERE r.name =~ '(?i).*' + $recipe_name + '.*' OR r.recipe_name_zh =~ '(?i).*' + $recipe_name + '.*'
+                RETURN r LIMIT 1
+                
+[2026-04-05 15:14:14] 未找到食谱
+[2026-04-05 15:28:01] 
+=== 通用响应 ===
+[2026-04-05 15:28:01] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-05 15:28:01] 生成通用响应完成
+[2026-04-05 15:32:38] 
+=== 通用响应 ===
+[2026-04-05 15:32:38] 生成通用响应: 您好，有什么可以帮助您的吗？
+[2026-04-05 15:32:38] 生成通用响应完成
+[2026-04-05 15:46:38] 
+=== 通用响应 ===
+[2026-04-05 15:46:38] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 15:46:38] 生成通用响应完成
+[2026-04-05 17:38:50] 
+=== 通用响应 ===
+[2026-04-05 17:38:50] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 17:38:50] 生成通用响应完成
+[2026-04-05 18:10:51] 
+=== 通用响应 ===
+[2026-04-05 18:10:51] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 18:10:51] 生成通用响应完成
+[2026-04-05 18:13:55] 
+=== 通用响应 ===
+[2026-04-05 18:13:55] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 18:13:55] 生成通用响应完成
+[2026-04-05 18:24:40] 
+=== 通用响应 ===
+[2026-04-05 18:24:40] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 18:24:40] 生成通用响应完成
+[2026-04-05 18:51:42] 
+=== 通用响应 ===
+[2026-04-05 18:51:42] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 18:51:42] 生成通用响应完成
+[2026-04-05 18:54:16] 
+=== 通用响应 ===
+[2026-04-05 18:54:16] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 18:54:16] 生成通用响应完成
+[2026-04-05 21:51:58] 
+=== 通用响应 ===
+[2026-04-05 21:51:58] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-05 21:51:58] 生成通用响应完成
+[2026-04-08 23:11:41] 
+=== 通用响应 ===
+[2026-04-08 23:11:41] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-08 23:11:41] 生成通用响应完成
+[2026-04-19 20:01:31] 
+=== 通用响应 ===
+[2026-04-19 20:01:31] 生成通用响应: 你好呀，有什么可以帮到你吗？（搓手）
+[2026-04-19 20:01:31] 生成通用响应完成

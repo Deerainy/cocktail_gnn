@@ -1,6 +1,6 @@
 <template>
   <div class="combo-step-timeline card">
-    <h3 class="timeline-title">操作步骤序列</h3>
+    <h3 class="timeline-title">操作步骤序列 Operation Steps</h3>
     
     <div class="timeline-container">
       <div 
@@ -19,7 +19,7 @@
               {{ getStepTypeLabel(step.op_type) }}
             </div>
             <div class="step-sqe-change">
-              <span class="sqe-label">SQE变化:</span>
+              <span class="sqe-label">SQE变化 SQE Change:</span>
               <span :class="['sqe-value', step.delta_sqe >= 0 ? 'positive' : 'negative']">
                 {{ step.delta_sqe >= 0 ? '+' : '' }}{{ (step.delta_sqe || 0).toFixed(3) }}
               </span>
@@ -33,31 +33,31 @@
             
             <div class="step-details">
               <div class="detail-item" v-if="step.target_ingredient">
-                <span class="detail-label">目标原料:</span>
+                <span class="detail-label">目标原料 Target:</span>
                 <span class="detail-value">{{ step.target_ingredient }}</span>
               </div>
               <div class="detail-item" v-if="step.candidate_ingredient">
-                <span class="detail-label">候选原料:</span>
+                <span class="detail-label">候选原料 Candidate:</span>
                 <span class="detail-value">{{ step.candidate_ingredient }}</span>
               </div>
               <div class="detail-item" v-if="step.role_info">
-                <span class="detail-label">角色:</span>
+                <span class="detail-label">角色 Role:</span>
                 <span class="detail-value">{{ step.role_info }}</span>
               </div>
               <div class="detail-item" v-if="step.amount_factor">
-                <span class="detail-label">比例因子:</span>
+                <span class="detail-label">比例因子 Factor:</span>
                 <span class="detail-value">{{ step.amount_factor.toFixed(2) }}</span>
               </div>
             </div>
             
             <div class="step-sqes">
               <div class="sqe-item">
-                <span class="sqe-label">调整前</span>
+                <span class="sqe-label">调整前 Before</span>
                 <span class="sqe-value">{{ (step.before_sqe_total || 0).toFixed(3) }}</span>
               </div>
               <div class="sqe-arrow">→</div>
               <div class="sqe-item">
-                <span class="sqe-label">调整后</span>
+                <span class="sqe-label">调整后 After</span>
                 <span class="sqe-value">{{ (step.after_sqe_total || 0).toFixed(3) }}</span>
               </div>
             </div>
@@ -72,7 +72,7 @@
       
       <div v-if="steps.length === 0" class="no-steps">
         <div class="no-steps-icon">📝</div>
-        <p class="no-steps-text">暂无操作步骤</p>
+        <p class="no-steps-text">暂无操作步骤 / No Steps</p>
       </div>
     </div>
   </div>
@@ -102,25 +102,25 @@ export default {
     
     getStepTypeLabel(opType) {
       const labelMap = {
-        'replace': '替换',
-        'add': '添加',
-        'remove': '移除',
-        'adjust': '调整'
+        'replace': '替换 / Replace',
+        'add': '添加 / Add',
+        'remove': '移除 / Remove',
+        'adjust': '调整 / Adjust'
       }
       return labelMap[opType] || opType
     },
     
     getStepDescription(step) {
       if (step.op_type === 'replace') {
-        return `将 ${step.target_ingredient || '原料'} 替换为 ${step.candidate_ingredient || '新原料'}`
+        return `将 ${step.target_ingredient || '原料'} 替换为 ${step.candidate_ingredient || '新原料'} / Replace ${step.target_ingredient || 'ingredient'} with ${step.candidate_ingredient || 'new ingredient'}`
       } else if (step.op_type === 'add') {
-        return `添加 ${step.candidate_ingredient || '新原料'}`
+        return `添加 ${step.candidate_ingredient || '新原料'} / Add ${step.candidate_ingredient || 'new ingredient'}`
       } else if (step.op_type === 'remove') {
-        return `移除 ${step.target_ingredient || '原料'}`
+        return `移除 ${step.target_ingredient || '原料'} / Remove ${step.target_ingredient || 'ingredient'}`
       } else if (step.op_type === 'adjust') {
-        return `调整 ${step.target_ingredient || '原料'} 的比例`
+        return `调整 ${step.target_ingredient || '原料'} 的比例 / Adjust ratio of ${step.target_ingredient || 'ingredient'}`
       }
-      return '执行操作'
+      return '执行操作 / Execute operation'
     }
   }
 }

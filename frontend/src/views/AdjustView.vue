@@ -14,8 +14,8 @@
     
     <div v-else-if="!recipeId && recipes.length > 0" class="recipe-select-container">
       <div class="recipe-select-card card">
-        <h2 class="select-title">选择配方</h2>
-        <p class="select-description">请选择一个配方进行组合调整分析</p>
+        <h2 class="select-title">选择配方 / Select Recipe</h2>
+        <p class="select-description">请选择一个配方进行组合调整分析 / Please select a recipe for combo adjustment analysis</p>
         <div class="recipe-list">
           <div 
             v-for="recipe in recipes" 
@@ -24,8 +24,11 @@
             @click="selectRecipe(recipe.recipe_id)"
           >
             <div class="recipe-info">
-              <h3 class="recipe-name">{{ recipe.name }}</h3>
-              <p class="recipe-source">{{ recipe.source }}</p>
+              <h4 class="recipe-name">
+                <span v-if="recipe.recipe_name_zh">{{ recipe.recipe_name_zh }}</span>
+                <span v-if="recipe.recipe_name_zh && recipe.name" class="name-separator"> / </span>
+                <span v-if="recipe.name">{{ recipe.name }}</span>
+              </h4>
             </div>
             <div class="recipe-action">
               <span class="action-icon">→</span>
@@ -91,8 +94,14 @@
                     :class="['ingredient-card', { selected: selectedIngredient && selectedIngredient.ingredient_id === ingredient.ingredient_id }]"
                     @click="selectIngredient(ingredient)"
                   >
-                    <div class="ingredient-name">{{ ingredient.ingredient?.name || ingredient.ingredient_id }}</div>
-                    <div class="ingredient-role">{{ ingredient.role }}</div>
+                    <div class="ingredient-name">
+                    <span v-if="ingredient.ingredient?.canonical_name_zh">{{ ingredient.ingredient.canonical_name_zh }}</span>
+                    <span v-if="ingredient.ingredient?.canonical_name_zh && ingredient.ingredient?.canonical_name" class="name-separator"> / </span>
+                    <span v-if="ingredient.ingredient?.canonical_name">{{ ingredient.ingredient.canonical_name }}</span>
+                    <span v-else-if="ingredient.ingredient?.name">{{ ingredient.ingredient.name }}</span>
+                    <span v-else>{{ ingredient.ingredient_id }}</span>
+                  </div>
+                    <div class="ingredient-role">{{ getRoleTranslation(ingredient.role) }}</div>
                     <div class="ingredient-amount">{{ ingredient.amount }} {{ ingredient.unit }}</div>
                     <div class="ingredient-canonical" v-if="ingredient.ingredient?.canonical_id">
                       Canonical: {{ ingredient.ingredient.canonical_id }}
@@ -148,16 +157,22 @@
                       </div>
                       
                       <div class="substitute-title">
-                        {{ substitute.candidate_name || substitute.candidate_canonical_id || '未知原料' }}
+                        {{ substitute.candidate_name || substitute.candidate_canonical_id || '未知原料 / Unknown Ingredient' }}
                       </div>
                       
                       <div class="substitute-info">
                         <div class="info-item">
-                          <span class="info-label">目标原料:</span>
-                          <span class="info-value">{{ selectedIngredient?.ingredient?.name || selectedIngredient?.ingredient_id || '未知' }}</span>
+                          <span class="info-label">目标原料 / Target:</span>
+                          <span class="info-value">
+                            <span v-if="selectedIngredient?.ingredient?.canonical_name_zh">{{ selectedIngredient.ingredient.canonical_name_zh }}</span>
+                            <span v-if="selectedIngredient?.ingredient?.canonical_name_zh && selectedIngredient?.ingredient?.canonical_name" class="name-separator"> / </span>
+                            <span v-if="selectedIngredient?.ingredient?.canonical_name">{{ selectedIngredient.ingredient.canonical_name }}</span>
+                            <span v-else-if="selectedIngredient?.ingredient?.name">{{ selectedIngredient.ingredient.name }}</span>
+                            <span v-else>{{ selectedIngredient?.ingredient_id || '未知' }}</span>
+                          </span>
                         </div>
                         <div class="info-item">
-                          <span class="info-label">候选原料:</span>
+                          <span class="info-label">候选原料 / Candidate:</span>
                           <span class="info-value">{{ substitute.candidate_name || substitute.candidate_canonical_id || '未知' }}</span>
                         </div>
                       </div>
@@ -280,6 +295,7 @@ import ComboPlanDetail from '@/components/adjust/ComboPlanDetail.vue'
 import ScoreCompareCard from '@/components/adjust/ScoreCompareCard.vue'
 import ComboStepTimeline from '@/components/adjust/ComboStepTimeline.vue'
 import DiagnosisAndJudgementPanel from '@/components/adjust/DiagnosisAndJudgementPanel.vue'
+import { fetchComboAdjustOverview, fetchComboAdjustPlans, fetchComboAdjustPlanDetail, fetchAllRecipes, fetchSubstitutes, fetchIngredients } from '../api/recipeApi'
 
 export default {
   name: 'AdjustView',
@@ -384,11 +400,10 @@ export default {
       this.error = null
       
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/recipes/${this.recipeId}/combo-adjust/overview`)
-        const data = await response.json()
+        const overviewData = await fetchComboAdjustOverview(this.recipeId)
         
-        if (data.code === 0) {
-          this.overview = data.data
+        if (overviewData) {
+          this.overview = overviewData
           
           if (this.targetCanonicalId) {
             this.filters.target_canonical_id = this.targetCanonicalId
@@ -424,11 +439,11 @@ export default {
           params.append('model_version', this.filters.model_version)
         }
         
-        const response = await fetch(`http://127.0.0.1:8000/api/recipes/${this.recipeId}/combo-adjust/plans?${params}`)
-        const data = await response.json()
+        const paramsObj = Object.fromEntries(params)
+        const plansData = await fetchComboAdjustPlans(this.recipeId, paramsObj)
         
-        if (data.code === 0) {
-          this.plans = data.data
+        if (plansData) {
+          this.plans = plansData
           
           if (this.plans.length > 0 && !this.selectedPlanId) {
             this.handleSelectPlan(this.plans[0].plan_id)
@@ -443,11 +458,10 @@ export default {
       this.selectedPlanId = planId
       
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/combo-adjust/plans/${planId}`)
-        const data = await response.json()
+        const planData = await fetchComboAdjustPlanDetail(planId)
         
-        if (data.code === 0) {
-          this.selectedPlan = data.data
+        if (planData) {
+          this.selectedPlan = planData
         }
       } catch (err) {
         console.error('获取方案详情失败:', err)
@@ -464,13 +478,12 @@ export default {
       this.error = null
       
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/recipes')
-        const data = await response.json()
+        const recipesData = await fetchAllRecipes()
         
-        if (data.code === 0) {
-          this.recipes = data.data
+        if (recipesData) {
+          this.recipes = recipesData
         } else {
-          this.error = data.message || '获取配方列表失败'
+          this.error = '获取配方列表失败'
         }
       } catch (err) {
         console.error('获取配方列表失败:', err)
@@ -512,11 +525,11 @@ export default {
         const params = new URLSearchParams()
         params.append('target_canonical_id', this.filters.target_canonical_id)
         
-        const response = await fetch(`http://127.0.0.1:8000/api/recipes/${this.recipeId}/substitutes?${params}`)
-        const data = await response.json()
+        const paramsObj = Object.fromEntries(params)
+        const substitutesData = await fetchSubstitutes(this.recipeId, paramsObj.target_canonical_id)
         
-        if (data.code === 0) {
-          this.substitutes = data.data
+        if (substitutesData) {
+          this.substitutes = substitutesData
           
           if (this.substitutes.length > 0 && !this.selectedSubstituteId) {
             this.selectSubstitute(this.substitutes[0].id)
@@ -543,11 +556,10 @@ export default {
       this.loadingIngredients = true
       
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/recipes/${this.recipeId}/ingredients`)
-        const data = await response.json()
+        const ingredientsData = await fetchIngredients(this.recipeId)
         
-        if (data.code === 0) {
-          this.ingredients = data.data
+        if (ingredientsData) {
+          this.ingredients = ingredientsData
         }
       } catch (err) {
         console.error('获取原料列表失败:', err)
@@ -571,6 +583,19 @@ export default {
     
     refreshSubstitutes() {
       this.fetchSubstitutes()
+    },
+    
+    getRoleTranslation(role) {
+      const roleMap = {
+        'Base spirit': '基酒 / Base spirit',
+        'Sweetener': '甜味剂 / Sweetener',
+        'Acid': '酸味剂 / Acid',
+        'Dilution': '稀释剂 / Dilution',
+        'Flavoring': '调味剂 / Flavoring',
+        'Modifier': '改良剂 / Modifier',
+        'Garnish': '装饰 / Garnish'
+      }
+      return roleMap[role] || role
     }
   }
 }
@@ -1043,6 +1068,19 @@ export default {
   padding: var(--spacing-xs);
   border-radius: var(--border-radius-sm);
   margin-top: var(--spacing-xs);
+}
+
+.name-separator {
+  color: var(--color-text-secondary);
+  margin: 0 var(--spacing-xs);
+}
+
+.recipe-name .name-separator {
+  color: var(--color-text-secondary);
+}
+
+.ingredient-name .name-separator {
+  color: var(--color-text-secondary);
 }
 
 .main-content-area {

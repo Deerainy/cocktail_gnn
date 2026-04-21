@@ -11,6 +11,7 @@ from .serializers_recipe import (
 from .services_combo_adjust import ComboAdjustService
 
 class ComboAdjustOverviewView(APIView):
+    permission_classes = []
     def get(self, request, recipe_id):
         try:
             recipe = Recipe.objects.get(recipe_id=recipe_id)
@@ -70,6 +71,7 @@ class ComboAdjustOverviewView(APIView):
             })
 
 class ComboAdjustPlansView(APIView):
+    permission_classes = []
     def get(self, request, recipe_id):
         try:
             Recipe.objects.get(recipe_id=recipe_id)
@@ -117,6 +119,7 @@ class ComboAdjustPlansView(APIView):
             })
 
 class ComboAdjustPlanDetailView(APIView):
+    permission_classes = []
     def get(self, request, plan_id):
         try:
             plan = RecipeComboAdjustResult.objects.get(plan_id=plan_id)

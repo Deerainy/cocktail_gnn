@@ -20,13 +20,19 @@ class RecipeQueries:
         """
         return """
         MATCH (r:Recipe)
-        WHERE r.id = $recipe_id OR r.id = toInteger($recipe_id) OR r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
+        WHERE r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
         OPTIONAL MATCH (r)-[ru:USES]->(i:Ingredient)
         OPTIONAL MATCH (i)-[im:MAPS_TO_CANONICAL]->(ci:CanonicalIngredient)
         OPTIONAL MATCH (r)-[rci:USES_CANONICAL]->(ci2:CanonicalIngredient)
         OPTIONAL MATCH (ci3:CanonicalIngredient)<-[:USES_CANONICAL]-(r)-[:USES_CANONICAL]->(ci4:CanonicalIngredient)
         OPTIONAL MATCH (ci3)-[rel:CO_OCCUR|FLAVOR_SIM|FLAVOR_COMPAT]->(ci4)
-        RETURN r, ru, i, im, rci, ci, ci2, rel, ci3, ci4
+        RETURN r.recipe_id, r.name, 
+               i.name_norm, 
+               ci.canonical_id, ci.canonical_name, 
+               ci2.canonical_id, ci2.canonical_name, 
+               ci3.canonical_id, ci3.canonical_name, 
+               ci4.canonical_id, ci4.canonical_name, 
+               type(rel) as relationship_type
         """
 
 
@@ -41,8 +47,8 @@ class RecipeQueries:
         """
         return """
         MATCH (r:Recipe)
-        WHERE r.id = $recipe_id OR r.id = toInteger($recipe_id) OR r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
-        RETURN r
+        WHERE r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
+        RETURN r.recipe_id, r.name
         """
 
 
@@ -56,9 +62,9 @@ class RecipeQueries:
         """
         return """
         MATCH (r:Recipe)
-        WHERE r.id = $recipe_id OR r.id = toInteger($recipe_id) OR r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
+        WHERE r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
         MATCH (r)-[ru:USES]->(i:Ingredient)
-        RETURN i, ru
+        RETURN i.name_norm
         """
 
 
@@ -72,10 +78,11 @@ class RecipeQueries:
         """
         return """
         MATCH (r:Recipe)
-        WHERE r.id = $recipe_id OR r.id = toInteger($recipe_id) OR r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
+        WHERE r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
         MATCH (r)-[rci:USES_CANONICAL]->(ci:CanonicalIngredient)
-        RETURN ci, rci
+        RETURN ci.canonical_id, ci.canonical_name
         """
+
 
 
     @staticmethod
@@ -88,12 +95,16 @@ class RecipeQueries:
         """
         return """
         MATCH (r:Recipe)
-        WHERE r.id = $recipe_id OR r.id = toInteger($recipe_id) OR r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
+        WHERE r.recipe_id = $recipe_id OR r.recipe_id = toInteger($recipe_id)
         OPTIONAL MATCH (r)-[hr:HAS_SUBSTITUTE_RESULT]->(sr:SubstituteResult)
         OPTIONAL MATCH (sr)-[tr:TARGET]->(t:CanonicalIngredient)
         OPTIONAL MATCH (sr)-[cr:CANDIDATE]->(c:CanonicalIngredient)
-        RETURN r, hr, sr, tr, t, cr, c
+        RETURN r.recipe_id, r.name, 
+               properties(sr) as substitute_result, 
+               t.canonical_id, t.canonical_name as target_ingredient, 
+               c.canonical_id, c.canonical_name as candidate_ingredient
         """
+
 
 
     @staticmethod

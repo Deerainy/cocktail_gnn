@@ -1,0 +1,16 @@
+{
+  "test_user": {
+    "flavors": [
+      "sweet",
+      "fruity"
+    ],
+    "ingredients": [
+      "柠檬"
+    ],
+    "moods": [
+      "开心"
+    ],
+    "recent_recipes": [],
+    "ratings": {}
+  }
+}

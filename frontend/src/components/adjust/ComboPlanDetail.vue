@@ -1,84 +1,84 @@
 <template>
   <div class="combo-plan-detail card">
     <div class="detail-header">
-      <h3 class="detail-title">方案详情</h3>
+      <h3 class="detail-title">方案详情 Plan Detail</h3>
       <span :class="['detail-status', plan.accept_flag ? 'accept' : 'reject']">
-        {{ plan.accept_flag ? '✓ 已接受' : '✗ 已拒绝' }}
+        {{ plan.accept_flag ? '✓ 已接受 / Accepted' : '✗ 已拒绝 / Rejected' }}
       </span>
     </div>
     
     <div class="detail-content">
       <div class="detail-section">
-        <h4 class="section-title">方案信息</h4>
+        <h4 class="section-title">方案信息 Plan Info</h4>
         <div class="info-grid">
           <div class="info-item">
-            <span class="info-label">方案ID</span>
+            <span class="info-label">方案ID Plan ID</span>
             <span class="info-value">{{ plan.plan_id }}</span>
           </div>
           <div class="info-item">
-            <span class="info-label">排名</span>
+            <span class="info-label">排名 Rank</span>
             <span class="info-value rank">{{ plan.rank_no }}</span>
           </div>
           <div class="info-item">
-            <span class="info-label">方案类型</span>
-            <span class="info-value">{{ plan.plan_type || '单步替代' }}</span>
+            <span class="info-label">方案类型 Plan Type</span>
+            <span class="info-value">{{ plan.plan_type || '单步替代 / Single Step' }}</span>
           </div>
           <div class="info-item">
-            <span class="info-label">原因代码</span>
+            <span class="info-label">原因代码 Reason Code</span>
             <span class="info-value code">{{ plan.reason_code || 'N/A' }}</span>
           </div>
         </div>
       </div>
       
       <div class="detail-section">
-        <h4 class="section-title">替代信息</h4>
+        <h4 class="section-title">替代信息 Replacement Info</h4>
         <div class="replacement-info">
           <div class="replacement-item">
-            <span class="replacement-label">目标原料</span>
+            <span class="replacement-label">目标原料 Target</span>
             <span class="replacement-value">{{ plan.target_canonical }}</span>
           </div>
           <div class="replacement-arrow">→</div>
           <div class="replacement-item">
-            <span class="replacement-label">候选原料</span>
+            <span class="replacement-label">候选原料 Candidate</span>
             <span class="replacement-value">{{ plan.candidate_canonical }}</span>
           </div>
         </div>
         
         <div v-if="plan.repair_canonical" class="repair-info">
           <div class="repair-item">
-            <span class="repair-label">修复原料</span>
+            <span class="repair-label">修复原料 Repair</span>
             <span class="repair-value">{{ plan.repair_canonical }}</span>
           </div>
           <div class="repair-item">
-            <span class="repair-label">修复角色</span>
+            <span class="repair-label">修复角色 Role</span>
             <span class="repair-value">{{ plan.repair_role || 'N/A' }}</span>
           </div>
           <div class="repair-item">
-            <span class="repair-label">修复因子</span>
+            <span class="repair-label">修复因子 Factor</span>
             <span class="repair-value">{{ (plan.repair_factor || 1.0).toFixed(2) }}</span>
           </div>
         </div>
       </div>
       
       <div class="detail-section">
-        <h4 class="section-title">SQE评分对比</h4>
+        <h4 class="section-title">SQE评分对比 SQE Score Comparison</h4>
         <div class="sqe-comparison">
           <div class="sqe-bar-item">
-            <div class="sqe-bar-label">原始配方</div>
+            <div class="sqe-bar-label">原始配方 Original</div>
             <div class="sqe-bar-container">
               <div class="sqe-bar-fill original" :style="{ width: getSqePercentage(plan.old_sqe_total) + '%' }"></div>
             </div>
             <div class="sqe-bar-value">{{ (plan.old_sqe_total || 0).toFixed(3) }}</div>
           </div>
           <div class="sqe-bar-item">
-            <div class="sqe-bar-label">单步替代</div>
+            <div class="sqe-bar-label">单步替代 Single Step</div>
             <div class="sqe-bar-container">
               <div class="sqe-bar-fill single" :style="{ width: getSqePercentage(plan.single_sqe_total) + '%' }"></div>
             </div>
             <div class="sqe-bar-value">{{ (plan.single_sqe_total || 0).toFixed(3) }}</div>
           </div>
           <div class="sqe-bar-item">
-            <div class="sqe-bar-label">组合调整</div>
+            <div class="sqe-bar-label">组合调整 Combo Adjust</div>
             <div class="sqe-bar-container">
               <div class="sqe-bar-fill combo" :style="{ width: getSqePercentage(plan.combo_sqe_total) + '%' }"></div>
             </div>
@@ -88,12 +88,12 @@
       </div>
       
       <div class="detail-section" v-if="plan.explanation">
-        <h4 class="section-title">方案说明</h4>
+        <h4 class="section-title">方案说明 Plan Explanation</h4>
         <p class="explanation-text">{{ plan.explanation }}</p>
       </div>
       
       <div class="detail-section" v-if="plan.judgement">
-        <h4 class="section-title">判定说明</h4>
+        <h4 class="section-title">判定说明 Judgement</h4>
         <div class="judgement-content">
           <p class="judgement-text">{{ plan.judgement.judgement_text }}</p>
           <div class="diagnosis-list" v-if="plan.judgement.diagnosis && plan.judgement.diagnosis.length > 0">

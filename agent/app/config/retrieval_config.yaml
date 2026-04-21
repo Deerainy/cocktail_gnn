@@ -1,0 +1,73 @@
+# 检索关键词配置
+# 这些关键词用于判断用户输入是否需要检索增强
+retrieval_keywords:
+  - 替换
+  - 替代
+  - 换成
+  - 食谱
+  - 配方
+  - 食材
+  - 邻域
+  - 结构
+  - 做法
+  - 怎么做
+  - 搜索
+  - 查找
+  - 价格
+  - 多少钱
+  - 推荐
+  - 建议
+
+# 英文食材列表（用于检测英文食材）
+english_ingredients:
+  - lemon
+  - lime
+  - vodka
+  - gin
+  - tequila
+  - rum
+  - whiskey
+  - bourbon
+  - brandy
+  - cognac
+  - vermouth
+  - bitters
+  - syrup
+  - soda
+  - tonic
+  - orange
+  - grapefruit
+  - pineapple
+  - strawberry
+  - mint
+  - basil
+  - ginger
+  - cucumber
+
+# 置信度阈值配置
+confidence_thresholds:
+  # 规则分类的置信度阈值
+  rule_based: 0.8
+  # LLM分类的置信度阈值
+  llm_based: 0.7
+  # 模糊匹配的置信度阈值
+  fuzzy_match: 0.8
+  # 实体识别的置信度阈值
+  entity_recognition: 0.8
+
+# 日常交流判断配置
+daily_chat_config:
+  enabled: true
+  # 是否使用LLM判断日常交流
+  use_llm: true
+  # 日常交流关键词
+  keywords:
+    - 你好
+    - hi
+    - hello
+    - hey
+    - 在吗
+    - 在不在
+    - 谢谢
+    - 再见
+    - 拜拜

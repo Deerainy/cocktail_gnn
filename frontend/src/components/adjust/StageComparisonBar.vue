@@ -1,12 +1,12 @@
 <template>
   <div class="stage-comparison-bar card">
-    <h3 class="bar-title">三阶段对比流程</h3>
+    <h3 class="bar-title">三阶段对比流程 Three-Stage Comparison</h3>
     
     <div class="stages-container">
       <div class="stage-item" :class="{ active: true }">
         <div class="stage-number">1</div>
         <div class="stage-content">
-          <div class="stage-name">原始配方</div>
+          <div class="stage-name">原始配方 Original</div>
           <div class="stage-score">{{ (overview.original_sqe?.final_sqe_total || 0).toFixed(3) }}</div>
           <div class="stage-label">Baseline</div>
         </div>
@@ -25,7 +25,7 @@
       <div class="stage-item" :class="{ active: selectedPlan }">
         <div class="stage-number">2</div>
         <div class="stage-content">
-          <div class="stage-name">单步替代</div>
+          <div class="stage-name">单步替代 Single Replace</div>
           <div class="stage-score">{{ (selectedPlan?.single_sqe_total || overview.best_plan_summary?.single_sqe_total || 0).toFixed(3) }}</div>
           <div class="stage-label">Single Replace</div>
         </div>
@@ -44,7 +44,7 @@
       <div class="stage-item highlight" :class="{ active: selectedPlan }">
         <div class="stage-number">3</div>
         <div class="stage-content">
-          <div class="stage-name">组合调整</div>
+          <div class="stage-name">组合调整 Combo Adjust</div>
           <div class="stage-score">{{ (selectedPlan?.combo_sqe_total || overview.best_plan_summary?.combo_sqe_total || 0).toFixed(3) }}</div>
           <div class="stage-label">Combo Adjust</div>
         </div>
@@ -53,19 +53,19 @@
     
     <div class="stage-explanation" v-if="selectedPlan">
       <div class="explanation-item">
-        <span class="explanation-label">协同变化:</span>
+        <span class="explanation-label">协同变化 Synergy:</span>
         <span :class="['explanation-value', selectedPlan.delta_synergy_combo >= 0 ? 'positive' : 'negative']">
           {{ selectedPlan.delta_synergy_combo >= 0 ? '+' : '' }}{{ (selectedPlan.delta_synergy_combo || 0).toFixed(3) }}
         </span>
       </div>
       <div class="explanation-item">
-        <span class="explanation-label">冲突变化:</span>
+        <span class="explanation-label">冲突变化 Conflict:</span>
         <span :class="['explanation-value', selectedPlan.delta_conflict_combo <= 0 ? 'positive' : 'negative']">
           {{ selectedPlan.delta_conflict_combo >= 0 ? '+' : '' }}{{ (selectedPlan.delta_conflict_combo || 0).toFixed(3) }}
         </span>
       </div>
       <div class="explanation-item">
-        <span class="explanation-label">平衡变化:</span>
+        <span class="explanation-label">平衡变化 Balance:</span>
         <span :class="['explanation-value', selectedPlan.delta_balance_combo >= 0 ? 'positive' : 'negative']">
           {{ selectedPlan.delta_balance_combo >= 0 ? '+' : '' }}{{ (selectedPlan.delta_balance_combo || 0).toFixed(3) }}
         </span>

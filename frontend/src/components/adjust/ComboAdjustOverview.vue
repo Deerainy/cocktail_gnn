@@ -1,7 +1,7 @@
 <template>
   <div class="combo-adjust-overview card">
     <div class="overview-header">
-      <h2 class="overview-title">配方概览</h2>
+      <h2 class="overview-title">配方概览 Recipe Overview</h2>
       <div class="recipe-name">
         <span v-if="overview.recipe?.recipe_name_zh" class="name-zh">{{ overview.recipe.recipe_name_zh }}</span>
         <span v-if="overview.recipe?.recipe_name_zh && overview.recipe?.name" class="name-separator"> / </span>
@@ -11,7 +11,7 @@
     
     <div class="overview-content">
       <div class="info-section">
-        <h3 class="section-title">原始原料</h3>
+        <h3 class="section-title">原始原料 Original Ingredients</h3>
         <div class="ingredients-summary">
           <div 
             v-for="(ingredient, index) in overview.original_ingredients?.slice(0, 5)" 
@@ -19,56 +19,39 @@
             class="ingredient-chip"
           >
             <span v-if="ingredient.ingredient?.canonical_name_zh">{{ ingredient.ingredient.canonical_name_zh }}</span>
-            <span v-else-if="ingredient.ingredient?.canonical_name">{{ ingredient.ingredient.canonical_name }}</span>
+            <span v-if="ingredient.ingredient?.canonical_name_zh && ingredient.ingredient?.canonical_name" class="name-separator"> / </span>
+            <span v-if="ingredient.ingredient?.canonical_name">{{ ingredient.ingredient.canonical_name }}</span>
             <span v-else>{{ ingredient.raw_text }}</span>
           </div>
           <div v-if="overview.original_ingredients?.length > 5" class="ingredient-chip more">
-            +{{ overview.original_ingredients.length - 5 }} 更多
+            +{{ overview.original_ingredients.length - 5 }} 更多 / +{{ overview.original_ingredients.length - 5 }} More
           </div>
         </div>
       </div>
       
       <div class="info-section">
-        <h3 class="section-title">目标替代原料</h3>
+        <h3 class="section-title">目标替代原料 Target Replacement</h3>
         <div class="target-info">
           <div class="target-item" v-if="overview.best_plan_summary">
-            <span class="target-label">目标:</span>
+            <span class="target-label">目标 Target:</span>
             <span class="target-value">{{ overview.best_plan_summary.target_canonical }}</span>
           </div>
           <div class="target-item" v-if="overview.best_plan_summary">
-            <span class="target-label">候选:</span>
+            <span class="target-label">候选 Candidate:</span>
             <span class="target-value">{{ overview.best_plan_summary.candidate_canonical }}</span>
           </div>
         </div>
       </div>
       
-      <div class="sqe-section">
-        <h3 class="section-title">SQE评分对比</h3>
-        <div class="sqe-comparison">
-          <div class="sqe-item">
-            <div class="sqe-label">原始配方</div>
-            <div class="sqe-value">{{ (overview.original_sqe?.final_sqe_total || 0).toFixed(3) }}</div>
-          </div>
-          <div class="sqe-arrow">→</div>
-          <div class="sqe-item" v-if="overview.best_plan_summary">
-            <div class="sqe-label">单步替代</div>
-            <div class="sqe-value">{{ (overview.best_plan_summary.single_sqe_total || 0).toFixed(3) }}</div>
-          </div>
-          <div class="sqe-arrow">→</div>
-          <div class="sqe-item highlight" v-if="overview.best_plan_summary">
-            <div class="sqe-label">组合调整</div>
-            <div class="sqe-value">{{ (overview.best_plan_summary.combo_sqe_total || 0).toFixed(3) }}</div>
-          </div>
-        </div>
-      </div>
+    
       
       <div class="stats-section">
         <div class="stat-item">
-          <span class="stat-label">总方案数</span>
+          <span class="stat-label">总方案数 Total Plans</span>
           <span class="stat-value">{{ overview.total_plans || 0 }}</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">已接受</span>
+          <span class="stat-label">已接受 Accepted</span>
           <span class="stat-value accepted">{{ overview.accepted_plans || 0 }}</span>
         </div>
       </div>

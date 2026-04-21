@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <header class="header">
+    <header class="header" :class="{ 'header-transparent': $route.path === '/' }">
       <div class="header-inner">
         <div class="brand">
                   <img class="brand-logo" src="@/assets/logo.png" alt="Cocktail System Logo">
@@ -16,6 +16,9 @@
             {{ item.name }}
           </router-link>
         </nav>
+        <div class="user-center-container">
+          <UserCenter />
+        </div>
       </div>
     </header>
     
@@ -23,7 +26,7 @@
       <router-view />
     </main>
     
-    <footer class="footer">
+    <footer v-if="$route.path === '/' || $route.path === '/about'" class="footer">
       <div class="footer-inner">
         <div class="footer-left">
           <span class="footer-logo">COCKTAIL & JAZZ</span>
@@ -38,8 +41,13 @@
 </template>
 
 <script>
+import UserCenter from './components/auth/UserCenter.vue';
+
 export default {
   name: 'App',
+  components: {
+    UserCenter
+  },
   data() {
     return {
       navItems: [
@@ -48,6 +56,7 @@ export default {
         { name: '风味图谱', path: '/graph' },
         { name: '组合调整', path: '/adjust' },
         { name: '创新生成', path: '/generate' },
+        { name: '对话中心', path: '/chat' },
         { name: '关于系统', path: '/about' }
       ]
     };
@@ -70,7 +79,15 @@ export default {
   left: 0;
   right: 0;
   z-index: 100;
+  background: rgba(10, 7, 5, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.header-transparent {
   background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
 }
 
 .header-inner {
@@ -180,6 +197,12 @@ export default {
 
 .nav-link.active::before {
   width: 24px;
+}
+
+.user-center-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
 .main {

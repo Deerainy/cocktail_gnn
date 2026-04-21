@@ -1,0 +1,124 @@
+{
+  "ingredient": {
+    "柠檬": {
+      "name": "lemon",
+      "aliases": ["lemon juice", "fresh lemon", "lemon wedge"]
+    },
+    "青柠": {
+      "name": "lime",
+      "aliases": ["lime juice", "fresh lime", "lime wedge"]
+    },
+    "伏特加": {
+      "name": "vodka",
+      "aliases": ["vodka", "absolut vodka", "karlsson's gold vodka"]
+    },
+    "朗姆酒": {
+      "name": "rum",
+      "aliases": ["rum", "white rum", "dark rum", "aged rum"]
+    },
+    "金酒": {
+      "name": "gin",
+      "aliases": ["gin", "dry gin", "london dry gin"]
+    },
+    "威士忌": {
+      "name": "whiskey",
+      "aliases": ["whiskey", "whisky", "bourbon", "rye"]
+    },
+    "糖浆": {
+      "name": "simple syrup",
+      "aliases": ["simple syrup", "sugar syrup", "gomme syrup", "syrup"]
+    },
+    "蜂蜜": {
+      "name": "honey",
+      "aliases": ["honey", "honey syrup"]
+    },
+    "苏打水": {
+      "name": "soda water",
+      "aliases": ["soda water", "club soda", "sparkling water"]
+    },
+    "橙汁": {
+      "name": "orange juice",
+      "aliases": ["orange juice", "oj", "fresh orange juice"]
+    },
+    "菠萝汁": {
+      "name": "pineapple juice",
+      "aliases": ["pineapple juice", "fresh pineapple juice"]
+    },
+    "蔓越莓汁": {
+      "name": "cranberry juice",
+      "aliases": ["cranberry juice", "cranberry"]
+    },
+    "石榴糖浆": {
+      "name": "grenadine",
+      "aliases": ["grenadine", "pomegranate syrup"]
+    },
+    "苦精": {
+      "name": "bitters",
+      "aliases": ["bitters", "angostura bitters", "orange bitters"]
+    },
+    "薄荷": {
+      "name": "mint",
+      "aliases": ["mint", "mint leaves", "fresh mint"]
+    },
+    "姜": {
+      "name": "ginger",
+      "aliases": ["ginger", "ginger beer", "ginger ale"]
+    },
+    "肉桂": {
+      "name": "cinnamon",
+      "aliases": ["cinnamon", "cinnamon stick"]
+    },
+    "香草": {
+      "name": "vanilla",
+      "aliases": ["vanilla", "vanilla extract", "vanilla syrup"]
+    },
+    "椰奶": {
+      "name": "coconut milk",
+      "aliases": ["coconut milk", "coconut cream"]
+    },
+    "咖啡": {
+      "name": "coffee",
+      "aliases": ["coffee", "coffee liqueur", "espresso"]
+    },
+    "巧克力": {
+      "name": "chocolate",
+      "aliases": ["chocolate", "chocolate liqueur", "cocoa"]
+    },
+    "草莓": {
+      "name": "strawberry",
+      "aliases": ["strawberry", "strawberry puree", "strawberry syrup"]
+    },
+    "蓝莓": {
+      "name": "blueberry",
+      "aliases": ["blueberry", "blueberry puree", "blueberry syrup"]
+    },
+    "覆盆子": {
+      "name": "raspberry",
+      "aliases": ["raspberry", "raspberry puree", "raspberry syrup"]
+    },
+    "桃子": {
+      "name": "peach",
+      "aliases": ["peach", "peach puree", "peach schnapps"]
+    },
+    "苹果": {
+      "name": "apple",
+      "aliases": ["apple", "apple juice", "apple brandy", "calvados"]
+    },
+    "梨": {
+      "name": "pear",
+      "aliases": ["pear", "pear juice", "pear brandy"]
+    },
+    "葡萄": {
+      "name": "grape",
+      "aliases": ["grape", "grape juice", "grape brandy"]
+    },
+    "柠檬汁": {
+      "name": "lemon juice",
+      "aliases": ["lemon juice", "fresh lemon juice", "lemon"]
+    },
+    "青柠汁": {
+      "name": "lime juice",
+      "aliases": ["lime juice", "fresh lime juice", "lime"]
+    }
+  }
+}

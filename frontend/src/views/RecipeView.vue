@@ -2,10 +2,117 @@
   <div class="recipe">
     <!-- 页面头部 -->
     <div class="page-header">
+      <div class="page-header-bg">
+        <div class="header-particles"></div>
+        <div class="header-gradient"></div>
+      </div>
       <div class="container">
         <div class="page-header-content">
           <h1 class="page-title">配方列表</h1>
           <p class="page-subtitle">探索所有可用的配方</p>
+          <div class="header-stats">
+            <div class="stat-item">
+              <span class="stat-number">{{ recipes.length }}</span>
+              <span class="stat-label">总配方数</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">{{ filteredRecipes.length }}</span>
+              <span class="stat-label">当前显示</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 搜索和筛选区域 -->
+    <div class="search-filter-section">
+      <div class="container">
+        <div class="search-filter-content">
+          <div class="search-box">
+            <svg viewBox="0 0 20 20" fill="none" class="search-icon">
+              <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M14 14L19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <input 
+              type="text" 
+              v-model="searchQuery" 
+              placeholder="搜索配方名称..." 
+              class="search-input"
+            >
+          </div>
+          <div class="filter-groups">
+            <div class="filter-group">
+              <label class="filter-label">配方类型</label>
+              <div class="filter-options">
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: filterType === null }"
+                  @click="filterType = null"
+                >
+                  全部
+                </button>
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: filterType === 'chinese' }"
+                  @click="filterType = 'chinese'"
+                >
+                  中式配方
+                </button>
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: filterType === 'western' }"
+                  @click="filterType = 'western'"
+                >
+                  西式配方
+                </button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">酒精类型</label>
+              <div class="filter-options">
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: alcoholFilter === null }"
+                  @click="alcoholFilter = null"
+                >
+                  全部
+                </button>
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: alcoholFilter === 'alcoholic' }"
+                  @click="alcoholFilter = 'alcoholic'"
+                >
+                  含酒精
+                </button>
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: alcoholFilter === 'non-alcoholic' }"
+                  @click="alcoholFilter = 'non-alcoholic'"
+                >
+                  不含酒精
+                </button>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label class="filter-label">排序方式</label>
+              <div class="filter-options">
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: sortBy === 'name' }"
+                  @click="sortBy = 'name'"
+                >
+                  名称
+                </button>
+                <button 
+                  class="filter-btn" 
+                  :class="{ active: sortBy === 'recent' }"
+                  @click="sortBy = 'recent'"
+                >
+                  最新
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -26,42 +133,95 @@
     
     <!-- 配方卡片列表 -->
     <div v-else class="container">
+      <div class="recipe-header">
+        <div class="recipe-header-content">
+          <h2 class="recipe-header-title">
+            {{ filteredRecipes.length }} 个配方
+            <span v-if="searchQuery || filterType || alcoholFilter" class="recipe-header-subtitle">
+              (已筛选)
+            </span>
+          </h2>
+        </div>
+      </div>
+      
       <div class="recipe-grid">
         <div 
-          v-for="recipe in recipes" 
+          v-for="(recipe, index) in filteredRecipes" 
           :key="recipe.recipe_id"
-          class="recipe-card card"
+          class="recipe-card"
           @click="navigateToDetails(recipe.recipe_id)"
+          :style="{ animationDelay: `${index * 0.1}s` }"
         >
-          <div class="recipe-card-header">
+          <div class="recipe-card-image">
+            <img 
+              :src="getRecipeImage(recipe.recipe_id)" 
+              :alt="recipe.recipe_name_zh || recipe.name" 
+              class="recipe-image"
+              loading="lazy"
+              @error="$event.target.src = require('@/assets/loss.png')"
+            >
+            <div class="recipe-card-badges">
+              <span 
+                class="badge" 
+                :class="recipe.is_alcoholic ? 'badge-alcoholic' : 'badge-non-alcoholic'"
+              >
+                {{ recipe.is_alcoholic ? '含酒精' : '不含酒精' }}
+              </span>
+              <span class="badge badge-source">
+                {{ recipe.recipe_name_zh ? '中式' : '西式' }}
+              </span>
+            </div>
+          </div>
+          <div class="recipe-card-content">
             <h3 class="recipe-card-name">
               <span v-if="recipe.recipe_name_zh" class="name-zh">{{ recipe.recipe_name_zh }}</span>
               <span v-if="recipe.recipe_name_zh && recipe.name" class="name-separator"> / </span>
               <span v-if="recipe.name" class="name-en">{{ recipe.name }}</span>
             </h3>
-            <div class="recipe-card-meta">
-              <span class="recipe-card-category">{{ recipe.source || '未知来源' }}</span>
-              <span class="recipe-card-origin">{{ recipe.is_alcoholic ? '含酒精' : '无酒精' }}</span>
+            
+            <!-- 标签显示 -->
+            <div v-if="recipe.tags && recipe.tags.length > 0" class="recipe-card-tags">
+              <span 
+                v-for="(tag, tagIndex) in recipe.tags.slice(0, 3)" 
+                :key="tagIndex"
+                class="recipe-tag"
+              >
+                {{ getTagTranslation(tag) }}
+              </span>
+              <span v-if="recipe.tags.length > 3" class="recipe-tag more-tags">
+                +{{ recipe.tags.length - 3 }}
+              </span>
             </div>
-          </div>
-          <div class="recipe-card-ingredients">
-            <div class="recipe-card-ingredient-list">
-              <div class="recipe-card-ingredient-item">
-                <span class="recipe-card-ingredient-name">玻璃类型</span>
-                <span class="recipe-card-ingredient-amount">{{ recipe.glass || '未指定' }}</span>
+            
+            <!-- 基础信息显示 -->
+            <div class="recipe-card-info">
+              <div v-if="recipe.glass" class="info-item">
+                <span class="info-label">酒杯</span>
+                <span class="info-value">{{ recipe.glass }}</span>
               </div>
-              <div class="recipe-card-ingredient-item">
-                <span class="recipe-card-ingredient-name">标签</span>
-                <span class="recipe-card-ingredient-amount">{{ recipe.tags || '无' }}</span>
+              <div class="info-item">
+                <span class="info-label">含酒精</span>
+                <span class="info-value">{{ recipe.is_alcoholic ? '是' : '否' }}</span>
               </div>
             </div>
-          </div>
-          <div class="recipe-card-actions">
-            <button class="btn btn-sm btn-outline" @click.stop="navigateToDetails(recipe.recipe_id)">
-              查看详情
-            </button>
+            
+            <!-- 操作按钮 -->
+            <div class="recipe-card-actions">
+              <button class="btn btn-outline btn-sm" @click.stop="navigateToDetails(recipe.recipe_id)">
+                查看详情
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+      
+      <!-- 空状态 -->
+      <div v-if="filteredRecipes.length === 0" class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3 class="empty-state-title">没有找到配方</h3>
+        <p class="empty-state-desc">
+          尝试调整搜索条件或筛选选项，以找到更多配方。
+        </p>
       </div>
     </div>
   </div>
@@ -76,8 +236,57 @@ export default {
     return {
       recipes: [],
       loading: false,
-      error: null
+      error: null,
+      searchQuery: '',
+      filterType: null,
+      alcoholFilter: null,
+      sortBy: 'name'
     };
+  },
+  computed: {
+    filteredRecipes() {
+      let filtered = this.recipes;
+      
+      // 搜索过滤
+      if (this.searchQuery) {
+        const query = this.searchQuery.toLowerCase();
+        filtered = filtered.filter(recipe => {
+          const nameZh = recipe.recipe_name_zh ? recipe.recipe_name_zh.toLowerCase() : '';
+          const nameEn = recipe.name ? recipe.name.toLowerCase() : '';
+          return nameZh.includes(query) || nameEn.includes(query);
+        });
+      }
+      
+      // 配方类型过滤
+      if (this.filterType === 'chinese') {
+        filtered = filtered.filter(recipe => recipe.recipe_name_zh);
+      } else if (this.filterType === 'western') {
+        filtered = filtered.filter(recipe => recipe.name && !recipe.recipe_name_zh);
+      }
+      
+      // 酒精类型过滤
+      if (this.alcoholFilter === 'alcoholic') {
+        filtered = filtered.filter(recipe => recipe.is_alcoholic);
+      } else if (this.alcoholFilter === 'non-alcoholic') {
+        filtered = filtered.filter(recipe => !recipe.is_alcoholic);
+      }
+      
+      // 排序
+      if (this.sortBy === 'name') {
+        filtered.sort((a, b) => {
+          const nameA = a.recipe_name_zh || a.name || '';
+          const nameB = b.recipe_name_zh || b.name || '';
+          return nameA.localeCompare(nameB);
+        });
+      } else if (this.sortBy === 'recent') {
+        // 假设配方有创建时间字段，如果没有则按ID排序
+        filtered.sort((a, b) => {
+          return b.recipe_id - a.recipe_id;
+        });
+      }
+      
+      return filtered;
+    }
   },
   mounted() {
     this.fetchRecipes();
@@ -96,6 +305,32 @@ export default {
     },
     navigateToDetails(recipeId) {
       this.$router.push({ path: '/visualization', query: { recipe_id: recipeId } });
+    },
+    getRecipeImage(id) {
+      try {
+        const imageId = id > 50 ? id - 50 : id;
+        return require(`@/assets/recipe_image/${imageId}.png`)
+      } catch (e) {
+        return require('@/assets/loss.png')
+      }
+    },
+    getTagTranslation(tag) {
+      const tagMap = {
+        'spirit': '烈酒',
+        'mezcal': '梅斯卡尔',
+        'sour': '酸味',
+        'sweet': '甜味',
+        'fruity': '果味',
+        'refreshing': '清爽',
+        'casual': '休闲',
+        'modern': '现代',
+        'bitter': '苦味',
+        'aromatic': '芳香',
+        'wine': '葡萄酒',
+        'liqueur': '利口酒',
+        'bitters': '苦味酒'
+      };
+      return tagMap[tag] || tag;
     }
   }
 };
@@ -104,7 +339,645 @@ export default {
 <style scoped>
 .recipe {
   width: 100%;
+  min-height: 100vh;
+  background: var(--color-bg-0);
+}
+
+/* 页面头部样式 */
+.page-header {
+  position: relative;
   padding: var(--spacing-3xl) 0;
+  overflow: hidden;
+}
+
+.page-header-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.header-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.header-particles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: particleFloat 20s linear infinite;
+}
+
+.header-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.8) 100%);
+  animation: gradientShift 15s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-50px) rotate(360deg);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.page-header-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.02em;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.page-subtitle {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-2xl);
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.header-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-2xl);
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.header-stats .stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid var(--color-gold-400);
+  border-radius: var(--radius-xl);
+  transition: all 0.3s ease;
+}
+
+.header-stats .stat-item:hover {
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+}
+
+.header-stats .stat-number {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-gold-300);
+  margin-bottom: var(--spacing-xs);
+}
+
+.header-stats .stat-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 搜索和筛选区域样式 */
+.search-filter-section {
+  padding: var(--spacing-2xl) 0;
+  background: linear-gradient(135deg, rgba(26, 20, 16, 0.6), rgba(13, 10, 8, 0.8));
+  border-bottom: 1px solid var(--color-border-subtle);
+  backdrop-filter: blur(10px);
+}
+
+.search-filter-content {
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--color-gold-400);
+  transition: all 0.3s ease;
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 48px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-gold-400);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.search-input:focus + .search-icon {
+  color: var(--color-gold-300);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.filter-groups {
+  display: flex;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 300px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.filter-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-gold-400);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--spacing-xs);
+}
+
+.filter-options {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.filter-btn:hover {
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-300);
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--color-gold-500), var(--color-gold-400));
+  border-color: var(--color-gold-500);
+  color: var(--color-bg-0);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.filter-btn.active:hover {
+  background: linear-gradient(135deg, var(--color-gold-600), var(--color-gold-500));
+  border-color: var(--color-gold-600);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+/* 配方头部样式 */
+.recipe-header {
+  margin-bottom: var(--spacing-2xl);
+  padding: var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.recipe-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+
+.recipe-header-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.recipe-header-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-gold-400);
+  font-weight: 500;
+}
+
+/* 配方卡片样式 */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-xl);
+  padding: var(--spacing-2xl) 0;
+}
+
+.recipe-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  animation: fadeInUp 0.8s ease-out both;
+  position: relative;
+  backdrop-filter: blur(5px);
+}
+
+.recipe-card:hover {
+  border-color: var(--color-gold-400);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+}
+
+.recipe-card-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.recipe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s ease;
+}
+
+.recipe-card:hover .recipe-image {
+  transform: scale(1.1);
+}
+
+.recipe-card-badges {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  z-index: 10;
+}
+
+.badge {
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.badge-alcoholic {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+}
+
+.badge-non-alcoholic {
+  background: linear-gradient(135deg, #4ecdc4, #45b7aa);
+  color: white;
+}
+
+.badge-source {
+  background: linear-gradient(135deg, #ffd93d, #f9a825);
+  color: #2d1c00;
+  font-weight: 800;
+}
+
+.recipe-card-content {
+  padding: var(--spacing-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.recipe-card-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+  line-height: 1.3;
+}
+
+.recipe-card:hover .recipe-card-name {
+  color: var(--color-gold-200);
+}
+
+.recipe-card-name .name-zh {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.recipe-card-name .name-en {
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.recipe-card-name .name-separator {
+  color: var(--color-gold-400);
+  margin: 0 0.25rem;
+}
+
+/* 标签样式 */
+.recipe-card-tags {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.recipe-card-tags::-webkit-scrollbar {
+  display: none;
+}
+
+.recipe-tag {
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #d4af37, #f9a825);
+  color: #2d1c00;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.recipe-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #f9a825, #d4af37);
+}
+
+.recipe-tag.more-tags {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+}
+
+/* 调整徽章样式，使其与标签在同一行显示 */
+.recipe-card-tags .badge {
+  margin-right: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.recipe-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.recipe-card:hover .info-item {
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 175, 55, 0.2);
+  transform: translateX(4px);
+}
+
+.info-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-gold-400);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.recipe-card:hover .info-icon {
+  color: var(--color-gold-200);
+  transform: scale(1.1);
+}
+
+.info-label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-gold-400);
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-family: var(--font-body);
+  flex: 1;
+  color: var(--color-text-primary);
+}
+
+.recipe-card:hover .info-value {
+  color: var(--color-text-primary);
+}
+
+.recipe-card:hover .info-text {
+  color: var(--color-text-primary);
+}
+
+.recipe-card-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: auto;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.recipe-card-actions .btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.recipe-card-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.recipe-card-actions .btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.recipe-card-actions .btn-primary {
+  background: var(--color-gold-500);
+  border: 1px solid var(--color-gold-500);
+  color: var(--color-bg-0);
+}
+
+.recipe-card-actions .btn-primary:hover {
+  background: var(--color-gold-600);
+  border-color: var(--color-gold-600);
+}
+
+.recipe-card-actions .btn-outline {
+  background: transparent;
+  border: 1px solid var(--color-gold-400);
+  color: var(--color-gold-400);
+}
+
+.recipe-card-actions .btn-outline:hover {
+  background: var(--color-gold-400);
+  color: var(--color-bg-0);
+}
+
+/* 空状态样式 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: var(--spacing-3xl);
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-normal);
+  margin: var(--spacing-2xl) 0;
+}
+
+.empty-state:hover {
+  border-color: var(--color-gold-300);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.1);
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+  transition: opacity var(--transition-normal);
+}
+
+.empty-state:hover .empty-state-icon {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.empty-state-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  transition: color var(--transition-normal);
+}
+
+.empty-state:hover .empty-state-title {
+  color: var(--color-gold-400);
+}
+
+.empty-state-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 400px;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-normal);
+}
+
+.empty-state:hover .empty-state-desc {
+  color: var(--color-text-primary);
 }
 
 .loading-container {
@@ -1097,6 +1970,28 @@ export default {
 
 .recipe-card {
   padding: var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card-image {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--spacing-xl);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover .recipe-image {
+  transform: scale(1.05);
 }
 
 .recipe-card-header {
@@ -1471,6 +2366,99 @@ export default {
   
   .recipe-name {
     font-size: 24px;
+  }
+  
+  /* 页面头部响应式 */
+  .page-title {
+    font-size: 36px;
+  }
+  
+  .page-subtitle {
+    font-size: 16px;
+  }
+  
+  .header-stats {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .header-stats .stat-item {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .header-stats .stat-number {
+    font-size: 28px;
+  }
+  
+  /* 搜索和筛选响应式 */
+  .search-filter-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-box {
+    min-width: auto;
+  }
+  
+  .filter-options {
+    justify-content: center;
+  }
+  
+  /* 配方卡片响应式 */
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .recipe-card-image {
+    height: 200px;
+  }
+  
+  .recipe-card-content {
+    padding: var(--spacing-lg);
+  }
+  
+  .recipe-card-name {
+    font-size: 18px;
+  }
+  
+  .recipe-card-actions .btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header {
+    padding: var(--spacing-2xl) 0;
+  }
+  
+  .page-title {
+    font-size: 28px;
+  }
+  
+  .page-subtitle {
+    font-size: 14px;
+  }
+  
+  .header-stats .stat-number {
+    font-size: 24px;
+  }
+  
+  .header-stats .stat-label {
+    font-size: 12px;
+  }
+  
+  .recipe-card-image {
+    height: 180px;
+  }
+  
+  .recipe-card-name {
+    font-size: 16px;
+  }
+  
+  .info-text {
+    font-size: 13px;
   }
 }
 </style>
