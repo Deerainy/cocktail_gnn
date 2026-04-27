@@ -9,11 +9,24 @@ from .models_recipe import (
 from .services_combo_adjust import ComboAdjustService
 
 class RecipeSerializer(serializers.ModelSerializer):
+    family = serializers.SerializerMethodField()
+    
+    def get_family(self, obj):
+        # 获取配方的平衡特征，从中提取family字段
+        balance_feature = RecipeBalanceFeature.objects.filter(recipe_id=obj.recipe_id).order_by('-computed_at').first()
+        if balance_feature:
+            # 去掉-like后缀，与Daiquiri保持一致
+            family = balance_feature.family
+            if family.endswith('-like'):
+                return family[:-5]  # 去掉'-like'后缀
+            return family
+        return None
+    
     class Meta:
         model = Recipe
         fields = [
             'recipe_id', 'source', 'source_recipe_key', 'name', 'recipe_name_zh', 'instructions', 'instructions_zh',
-            'glass', 'tags', 'image_url', 'is_alcoholic', 'created_at', 'updated_at'
+            'glass', 'tags', 'image_url', 'is_alcoholic', 'family', 'created_at', 'updated_at'
         ]
 
 class FlavorFeatureSerializer(serializers.ModelSerializer):

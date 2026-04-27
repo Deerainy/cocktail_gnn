@@ -267,6 +267,8 @@ export default {
   gap: var(--spacing-md);
   max-width: 75%;
   word-break: break-word;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .message-avatar {
@@ -281,11 +283,13 @@ export default {
 .message-content {
   padding: var(--spacing-md);
   min-width: 200px;
-  max-width: 100%;
+  max-width: 500px;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: normal;
   transition: all var(--transition-normal);
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .message-content:hover {
@@ -325,6 +329,7 @@ export default {
   position: relative;
   z-index: 1;
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Markdown样式 */
@@ -392,6 +397,8 @@ export default {
   overflow-x: auto;
   margin: 0.5em 0;
   border: 1px solid var(--color-border-subtle);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .message-text :deep(pre code) {
@@ -531,6 +538,10 @@ export default {
   background: rgba(255, 255, 255, 0.02);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-subtle);
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+  flex-shrink: 0;
 }
 
 .recommendations-grid::-webkit-scrollbar {

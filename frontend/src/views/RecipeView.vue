@@ -51,20 +51,71 @@
                 >
                   全部
                 </button>
-                <button 
-                  class="filter-btn" 
-                  :class="{ active: filterType === 'chinese' }"
-                  @click="filterType = 'chinese'"
-                >
-                  中式配方
-                </button>
-                <button 
-                  class="filter-btn" 
-                  :class="{ active: filterType === 'western' }"
-                  @click="filterType = 'western'"
-                >
-                  西式配方
-                </button>
+                <div class="filter-btn-with-tooltip">
+                  <button 
+                    class="filter-btn" 
+                    :class="{ active: filterType === 'Daiquiri' }"
+                    @click="filterType = 'Daiquiri'"
+                  >
+                    代基里型
+                  </button>
+                  <div class="tooltip">
+                    <h4>代基里型</h4>
+                    <p>以基酒、酸味成分和甜味成分为核心，整体结构清晰，强调酸甜平衡与清爽口感。</p>
+                  </div>
+                </div>
+                <div class="filter-btn-with-tooltip">
+                  <button 
+                    class="filter-btn" 
+                    :class="{ active: filterType === 'Margarita' }"
+                    @click="filterType = 'Margarita'"
+                  >
+                    玛格丽特型
+                  </button>
+                  <div class="tooltip">
+                    <h4>玛格丽特型</h4>
+                    <p>通常以龙舌兰类基酒、酸味成分和橙味利口酒为主要结构，具有较明显的酸甜层次和果香特征。</p>
+                  </div>
+                </div>
+                <div class="filter-btn-with-tooltip">
+                  <button 
+                    class="filter-btn" 
+                    :class="{ active: filterType === 'Old Fashioned' }"
+                    @click="filterType = 'Old Fashioned'"
+                  >
+                    古典鸡尾酒型
+                  </button>
+                  <div class="tooltip">
+                    <h4>古典鸡尾酒型</h4>
+                    <p>以烈酒基底为主体，通常辅以少量甜味成分和苦味成分，整体风格浓郁、厚重，突出基酒本身的风味。</p>
+                  </div>
+                </div>
+                <div class="filter-btn-with-tooltip">
+                  <button 
+                    class="filter-btn" 
+                    :class="{ active: filterType === 'Sour' }"
+                    @click="filterType = 'Sour'"
+                  >
+                    酸酒型
+                  </button>
+                  <div class="tooltip">
+                    <h4>酸酒型</h4>
+                    <p>强调酸味与甜味之间的平衡关系，常呈现明亮、清爽的口感结构，是许多经典鸡尾酒的重要基础类型。</p>
+                  </div>
+                </div>
+                <div class="filter-btn-with-tooltip">
+                  <button 
+                    class="filter-btn" 
+                    :class="{ active: filterType === 'Martini' }"
+                    @click="filterType = 'Martini'"
+                  >
+                    马天尼型
+                  </button>
+                  <div class="tooltip">
+                    <h4>马天尼型</h4>
+                    <p>以烈酒和苦艾酒等成分构成，甜味较弱，整体风格偏干爽、直接，突出酒体强度与香气层次。</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="filter-group">
@@ -167,8 +218,8 @@
               >
                 {{ recipe.is_alcoholic ? '含酒精' : '不含酒精' }}
               </span>
-              <span class="badge badge-source">
-                {{ recipe.recipe_name_zh ? '中式' : '西式' }}
+              <span class="badge badge-family">
+                {{ getFamilyTranslation(recipe.family) }}
               </span>
             </div>
           </div>
@@ -179,18 +230,27 @@
               <span v-if="recipe.name" class="name-en">{{ recipe.name }}</span>
             </h3>
             
-            <!-- 标签显示 -->
+            <!-- 标签显示 - 轮播形式 -->
             <div v-if="recipe.tags && recipe.tags.length > 0" class="recipe-card-tags">
-              <span 
-                v-for="(tag, tagIndex) in recipe.tags.slice(0, 3)" 
-                :key="tagIndex"
-                class="recipe-tag"
-              >
-                {{ getTagTranslation(tag) }}
-              </span>
-              <span v-if="recipe.tags.length > 3" class="recipe-tag more-tags">
-                +{{ recipe.tags.length - 3 }}
-              </span>
+              <div class="tags-carousel">
+                <div class="tags-track" :style="{ transform: `translateX(-${carouselPosition[recipe.recipe_id] || 0}px)` }">
+                  <span 
+                    v-for="(tag, tagIndex) in recipe.tags" 
+                    :key="tagIndex"
+                    class="recipe-tag"
+                  >
+                    {{ getTagTranslation(tag) }}
+                  </span>
+                  <!-- 复制标签，实现无缝滚动效果 -->
+                  <span 
+                    v-for="(tag, tagIndex) in recipe.tags" 
+                    :key="`copy-${tagIndex}`"
+                    class="recipe-tag"
+                  >
+                    {{ getTagTranslation(tag) }}
+                  </span>
+                </div>
+              </div>
             </div>
             
             <!-- 基础信息显示 -->
@@ -240,7 +300,9 @@ export default {
       searchQuery: '',
       filterType: null,
       alcoholFilter: null,
-      sortBy: 'name'
+      sortBy: 'name',
+      carouselPosition: {},
+      carouselIntervals: {}
     };
   },
   computed: {
@@ -258,10 +320,12 @@ export default {
       }
       
       // 配方类型过滤
-      if (this.filterType === 'chinese') {
-        filtered = filtered.filter(recipe => recipe.recipe_name_zh);
-      } else if (this.filterType === 'western') {
-        filtered = filtered.filter(recipe => recipe.name && !recipe.recipe_name_zh);
+      if (this.filterType) {
+        filtered = filtered.filter(recipe => {
+          // 处理带-like后缀的情况
+          const recipeFamily = recipe.family ? recipe.family.replace('-like', '') : '';
+          return recipeFamily === this.filterType;
+        });
       }
       
       // 酒精类型过滤
@@ -291,11 +355,26 @@ export default {
   mounted() {
     this.fetchRecipes();
   },
+  beforeUnmount() {
+    // 组件销毁前停止所有轮播
+    this.stopAllCarousels();
+  },
   methods: {
     async fetchRecipes() {
       this.loading = true;
       try {
         this.recipes = await fetchAllRecipes();
+        // 打印每个配方的family字段，检查前后端通信数据
+        console.log('Recipes with family:', this.recipes.map(r => ({ id: r.recipe_id, name: r.name, family: r.family })));
+        // 打印标签信息，检查是否有足够的标签需要滚动
+        this.recipes.forEach(recipe => {
+          if (recipe.tags && recipe.tags.length > 3) {
+            console.log(`Recipe ${recipe.recipe_id} has ${recipe.tags.length} tags, needs carousel`);
+          }
+        });
+        // 启动所有轮播
+        this.startAllCarousels();
+        console.log('Carousels started');
       } catch (error) {
         this.error = '获取配方列表失败';
         console.error('Error fetching recipes:', error);
@@ -331,6 +410,75 @@ export default {
         'bitters': '苦味酒'
       };
       return tagMap[tag] || tag;
+    },
+    getFamilyTranslation(family) {
+      const familyMap = {
+        'Daiquiri': '代基里型',
+        'Margarita': '玛格丽塔型',
+        'Old Fashioned': '古典鸡尾酒型',
+        'Sour': '酸酒型',
+        'Martini': '马天尼型',
+        'Daiquiri-like': '代基里型',
+        'Margarita-like': '玛格丽塔型',
+        'Old Fashioned-like': '古典鸡尾酒型',
+        'Sour-like': '酸酒型',
+        'Martini-like': '马天尼型'
+      };
+      return familyMap[family] || (family || '未知');
+    },
+    // 启动标签持续滚动
+    startTagCarousel(recipeId) {
+      // 清除之前的轮播定时器
+      if (this.carouselIntervals[recipeId]) {
+        clearInterval(this.carouselIntervals[recipeId]);
+      }
+      
+      // 启动持续滚动
+      let position = 0;
+      const recipe = this.recipes.find(r => r.recipe_id === recipeId);
+      if (!recipe || !recipe.tags || recipe.tags.length <= 3) return;
+      
+      // 计算实际的总宽度
+      const tagWidth = 80; // 每个标签的大致宽度
+      const gap = 8; // 标签之间的间隙
+      const totalWidth = recipe.tags.length * (tagWidth + gap) - gap;
+      
+      this.carouselIntervals[recipeId] = setInterval(() => {
+        position += 1; // 每次移动1px
+        
+        // 当滚动完所有标签后，重置位置
+        if (position > totalWidth) {
+          position = 0;
+        }
+        
+        this.carouselPosition = {
+          ...this.carouselPosition,
+          [recipeId]: position
+        };
+      }, 20); // 每20毫秒移动一次，实现更平滑的滚动
+    },
+    // 停止标签滚动
+    stopTagCarousel(recipeId) {
+      if (this.carouselIntervals[recipeId]) {
+        clearInterval(this.carouselIntervals[recipeId]);
+        delete this.carouselIntervals[recipeId];
+      }
+    },
+    // 为所有配方启动轮播
+    startAllCarousels() {
+      console.log('Starting carousels for recipes:', this.recipes.length);
+      this.recipes.forEach(recipe => {
+        if (recipe.tags && recipe.tags.length > 3) {
+          console.log(`Starting carousel for recipe ${recipe.recipe_id}`);
+          this.startTagCarousel(recipe.recipe_id);
+        }
+      });
+    },
+    // 停止所有轮播
+    stopAllCarousels() {
+      Object.keys(this.carouselIntervals).forEach(recipeId => {
+        this.stopTagCarousel(recipeId);
+      });
     }
   }
 };
@@ -409,6 +557,7 @@ export default {
   font-size: 48px;
   font-weight: 700;
   color: var(--color-text-primary);
+  margin-top:50px;
   margin-bottom: var(--spacing-md);
   letter-spacing: -0.02em;
   animation: fadeInUp 0.8s ease-out;
@@ -599,6 +748,77 @@ export default {
   box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
 }
 
+/* 带注解的筛选按钮 */
+.filter-btn-with-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* 注解气泡卡片 */
+.tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  padding: var(--spacing-md);
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--color-gold-400);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+/* 注解气泡卡片的箭头 */
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: var(--color-gold-400) transparent transparent transparent;
+}
+
+/* 鼠标悬停时显示注解气泡卡片 */
+.filter-btn-with-tooltip:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-8px);
+}
+
+/* 注解气泡卡片的标题 */
+.tooltip h4 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gold-300);
+  margin-bottom: var(--spacing-xs);
+  letter-spacing: 0.05em;
+}
+
+/* 注解气泡卡片的内容 */
+.tooltip p {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .tooltip {
+    width: 200px;
+    font-size: 11px;
+  }
+}
+
 /* 配方头部样式 */
 .recipe-header {
   margin-bottom: var(--spacing-2xl);
@@ -720,6 +940,12 @@ export default {
   font-weight: 800;
 }
 
+.badge-family {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-weight: 600;
+}
+
 .recipe-card-content {
   padding: var(--spacing-lg);
   flex: 1;
@@ -759,20 +985,35 @@ export default {
 
 /* 标签样式 */
 .recipe-card-tags {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
   animation: fadeInUp 0.8s ease-out 0.3s both;
-  overflow-x: auto;
   padding-bottom: 4px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  height: 30px; /* 固定高度，确保标签能够垂直居中 */
+  display: flex;
+  align-items: center;
 }
 
-.recipe-card-tags::-webkit-scrollbar {
-  display: none;
+/* 轮播容器 */
+.tags-carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
 }
 
+/* 轮播轨道 */
+.tags-track {
+  display: flex;
+  gap: 8px;
+  transition: transform 0s linear;
+  will-change: transform;
+  height: 100%;
+  align-items: center;
+}
+
+/* 标签样式 */
 .recipe-tag {
   padding: 4px 12px;
   background: linear-gradient(135deg, #d4af37, #f9a825);
@@ -788,17 +1029,14 @@ export default {
   letter-spacing: 0.05em;
   white-space: nowrap;
   flex-shrink: 0;
+  min-width: 80px;
+  text-align: center;
 }
 
 .recipe-tag:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
   background: linear-gradient(135deg, #f9a825, #d4af37);
-}
-
-.recipe-tag.more-tags {
-  background: linear-gradient(135deg, #6c757d, #495057);
-  color: white;
 }
 
 /* 调整徽章样式，使其与标签在同一行显示 */

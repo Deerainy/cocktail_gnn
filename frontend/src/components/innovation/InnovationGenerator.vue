@@ -124,7 +124,7 @@
           @click="openComboModal(combo)"
         >
           <div class="card-header">
-            <h4 class="combo-name">{{ combo.suggested_name }}</h4>
+            <h4 class="combo-name">{{ combo.recipe_name || combo.suggested_name || '未知配方' }}</h4>
             <div class="combo-rank">#{{ index + 1 }}</div>
           </div>
           
@@ -256,7 +256,7 @@
     <!-- 方案详情模态框 -->
     <a-modal
       v-model:open="showComboModal"
-      :title="selectedCombo?.suggested_name || '方案详情'"
+      :title="selectedCombo?.recipe_name || selectedCombo?.suggested_name || '方案详情'"
       width="800px"
       class="dark-modal"
     >
@@ -266,56 +266,7 @@
           <a-tag class="creativity-badge">{{ selectedCombo.creativity_level }}创意</a-tag>
         </div>
         
-        <!-- 原料列表 -->
-        <div class="detail-section">
-          <h5 class="detail-title">原料</h5>
-          <div class="detail-list">
-            <div
-              v-for="(ing, ingIndex) in selectedCombo.ingredients"
-              :key="ing.id"
-              class="detail-item"
-            >
-              <span class="detail-name">{{ ing.name_zh || ing.name }}</span>
-              <span class="detail-role">{{ getRoleName(ing.role) }}</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 风味特征 -->
-        <div class="detail-section">
-          <h5 class="detail-title">风味特征</h5>
-          <div class="detail-flavor-bars">
-            <div
-              v-for="(value, key) in selectedCombo.flavor_profile"
-              :key="key"
-              class="detail-flavor-bar"
-            >
-              <span class="detail-flavor-key">{{ flavorMap[key] }}</span>
-              <div class="detail-bar-container">
-                <div
-                  class="detail-bar-fill"
-                  :style="{ width: (value * 100) + '%' }"
-                ></div>
-              </div>
-              <span class="detail-flavor-value">{{ Math.round(value * 100) }}%</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 比例建议 -->
-        <div class="detail-section">
-          <h5 class="detail-title">建议比例</h5>
-          <div class="detail-proportion-list">
-            <div
-              v-for="(proportion, pIndex) in selectedCombo.proportions"
-              :key="pIndex"
-              class="detail-proportion-item"
-            >
-              <span class="detail-proportion-name">{{ getIngredientName(proportion.ingredient_id, selectedCombo.ingredients) }}</span>
-              <span class="detail-proportion-value">{{ proportion.proportion }}%</span>
-            </div>
-          </div>
-        </div>
+
         
         <!-- 做法 -->
         <div class="detail-section">
@@ -387,6 +338,28 @@ export default {
     const renderMarkdown = (text) => {
       if (!text) return '暂无做法';
       return marked(text);
+    };
+    
+    // 从recipe中提取配方名
+    const extractRecipeName = (recipe) => {
+      if (!recipe) return '未知配方';
+      
+      // 尝试从recipe中提取配方名
+      // 查找类似 "鸡尾酒名称：xxx" 或 "名称：xxx" 或 "Cocktail Name: xxx" 的模式
+      const namePatterns = [
+        /(?:鸡尾酒名称|名称|Cocktail Name):\s*(.+)/i,
+        /^#\s*(.+)/, // 查找Markdown标题
+        /名为[\s"']*(.+?)[\s"']*的/i // 处理开场白中的配方名
+      ];
+      
+      for (const pattern of namePatterns) {
+        const match = recipe.match(pattern);
+        if (match && match[1]) {
+          return match[1].trim();
+        }
+      }
+      
+      return '未知配方';
     };
     
     const flavorMap = {
@@ -769,6 +742,7 @@ export default {
       showComboModal,
       selectedCombo,
       renderMarkdown,
+      extractRecipeName,
       openIngredientModal,
       openComboModal,
       addIngredient,
@@ -1779,24 +1753,43 @@ export default {
 }
 
 .detail-recipe-content {
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   background: rgba(255, 255, 255, 0.02);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-subtle);
   line-height: var(--line-height-relaxed);
   color: var(--color-text-primary);
+  font-family: var(--font-body);
 }
 
 .detail-recipe-content h1,
 .detail-recipe-content h2,
 .detail-recipe-content h3 {
   color: var(--color-gold-400);
-  margin-top: var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--spacing-sm);
+}
+
+.detail-recipe-content h1 {
+  font-size: var(--font-size-xl);
+}
+
+.detail-recipe-content h2 {
+  font-size: var(--font-size-lg);
+}
+
+.detail-recipe-content h3 {
+  font-size: var(--font-size-md);
 }
 
 .detail-recipe-content p {
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  text-align: justify;
 }
 
 .detail-recipe-content ul,
@@ -1806,7 +1799,45 @@ export default {
 }
 
 .detail-recipe-content li {
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+  position: relative;
+}
+
+.detail-recipe-content ul li::before {
+  content: '•';
+  color: var(--color-gold-400);
+  font-weight: bold;
+  position: absolute;
+  left: -20px;
+}
+
+.detail-recipe-content ol li {
+  counter-increment: list-item;
+}
+
+.detail-recipe-content ol li::before {
+  content: counter(list-item) '.';
+  color: var(--color-gold-400);
+  font-weight: bold;
+  position: absolute;
+  left: -25px;
+}
+
+.detail-recipe-content strong {
+  color: var(--color-gold-400);
+  font-weight: 600;
+}
+
+.detail-recipe-content em {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.detail-recipe-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border-strong), transparent);
+  margin: var(--spacing-lg) 0;
 }
 
 /* 生成结果 */
@@ -1904,6 +1935,9 @@ export default {
   position: relative;
   box-shadow: var(--shadow-md);
   cursor: pointer;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
 }
 
 .combination-card:hover {
@@ -2011,6 +2045,9 @@ export default {
 
 .card-body {
   padding: var(--spacing-lg);
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
 }
 
 .list-title {

@@ -1,7 +1,6 @@
 <template>
   <div class="recipe-local-graph">
     <div class="graph-header">
-      <h3 class="graph-title">结构解释图</h3>
       <div class="graph-controls">
         <button 
           v-for="layer in graphLayers" 
@@ -11,7 +10,6 @@
         >
           {{ layer.label }}
         </button>
-        <div class="graph-control-separator"></div>
         <div class="graph-control-separator"></div>
         <button 
           :class="['graph-control-btn', { active: showOnlyKeyNodes }]"
@@ -28,62 +26,8 @@
         </button>
       </div>
     </div>
-    <div class="graph-info">
-      <div class="info-item">
-        <span class="info-label">图表说明：</span>
-        <span class="info-text">节点大小表示贡献比例，颜色表示角色类型，金色边框为关键节点</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">关系类型：</span>
-        <span class="info-text">
-          <span class="info-tag" style="background-color: #d4af37;">兼容</span> - 成分之间搭配和谐
-          <span class="info-tag" style="background-color: #66a3ff;">共现</span> - 经常一起使用
-          <span class="info-tag" style="background-color: #4bc0c0;">风味</span> - 风味互补
-        </span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">角色类型：</span>
-        <span class="info-text">
-          <span class="info-tag" style="background-color: #d4af37;">基酒</span>
-          <span class="info-tag" style="background-color: #ff9f40;">酸味剂</span>
-          <span class="info-tag" style="background-color: #66a3ff;">甜味剂</span>
-          <span class="info-tag" style="background-color: #4bc0c0;">苦味剂</span>
-          <span class="info-tag" style="background-color: #9966ff;">修饰剂</span>
-          <span class="info-tag" style="background-color: #ff6384;">装饰</span>
-        </span>
-      </div>
-    </div>
     <div class="graph-container">
       <div ref="chartRef" style="width: 100%; height: 100%;"></div>
-    </div>
-    <div v-if="selectedNode" class="node-detail-panel">
-      <h4 class="detail-title">{{ selectedNode.text }}</h4>
-      <div class="detail-metrics">
-        <div class="metric-row">
-          <span class="metric-label">角色</span>
-          <span class="metric-value">{{ getRoleLabel(selectedNode.role) }}</span>
-        </div>
-        <div class="metric-row">
-          <span class="metric-label">贡献比例</span>
-          <span class="metric-value">{{ ((selectedNode.contribution_ratio || 0) * 100).toFixed(0) }}%</span>
-        </div>
-        <div class="metric-row" v-if="selectedNode.synergy_contrib !== undefined && selectedNode.synergy_contrib >= 0">
-          <span class="metric-label">协同性</span>
-          <span class="metric-value">{{ (selectedNode.synergy_contrib || 0).toFixed(2) }}</span>
-        </div>
-        <div class="metric-row" v-if="selectedNode.conflict_contrib !== undefined && selectedNode.conflict_contrib >= 0">
-          <span class="metric-label">冲突度</span>
-          <span class="metric-value">{{ (selectedNode.conflict_contrib || 0).toFixed(2) }}</span>
-        </div>
-        <div class="metric-row" v-if="selectedNode.balance_contrib !== undefined && selectedNode.balance_contrib >= 0">
-          <span class="metric-label">平衡性</span>
-          <span class="metric-value">{{ (selectedNode.balance_contrib || 0).toFixed(2) }}</span>
-        </div>
-      </div>
-      <div class="detail-explanation" v-if="selectedNode.explanation">
-        <h5 class="explanation-title">说明</h5>
-        <p class="explanation-text">{{ selectedNode.explanation }}</p>
-      </div>
     </div>
   </div>
 </template>
@@ -494,7 +438,7 @@ export default defineComponent({
 
 .graph-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 0.5rem;
   padding: 1rem;
@@ -502,16 +446,6 @@ export default defineComponent({
   border-radius: 6px;
   border: 1px solid rgba(212, 175, 55, 0.25);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.graph-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #d4af37;
-  margin: 0;
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .graph-controls {
@@ -604,7 +538,7 @@ export default defineComponent({
 .graph-container {
   position: relative;
   width: 100%;
-  height: 650px;
+  height: 500px;
   border-radius: 8px;
   overflow: hidden;
   background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
@@ -612,86 +546,7 @@ export default defineComponent({
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.node-detail-panel {
-  background: rgba(25, 25, 25, 0.9);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-top: 0.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
 
-.detail-title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #d4af37;
-  margin: 0 0 1.25rem 0;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-  padding-bottom: 0.75rem;
-  text-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
-}
-
-.detail-metrics {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.metric-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-  transition: all 0.2s ease;
-}
-
-.metric-row:hover {
-  border-bottom-color: rgba(212, 175, 55, 0.3);
-}
-
-.metric-label {
-  font-size: 0.9rem;
-  color: #888;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.metric-value {
-  font-size: 0.9rem;
-  color: #d0d0d0;
-  font-weight: 600;
-  font-family: 'Courier New', monospace;
-}
-
-.detail-explanation {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: rgba(212, 175, 55, 0.05);
-  border-radius: 6px;
-  border-left: 3px solid rgba(212, 175, 55, 0.5);
-}
-
-.explanation-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #d4af37;
-  margin: 0 0 0.5rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.explanation-text {
-  font-size: 0.9rem;
-  color: #b0b0b0;
-  line-height: 1.6;
-  margin: 0;
-  font-style: italic;
-}
 
 /* 响应式设计 */
 @media (max-width: 768px) {

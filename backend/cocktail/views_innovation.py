@@ -441,6 +441,7 @@ class InnovationGenerationView(APIView):
             'flavor_profile': avg_features,
             'proportions': proportions,
             'suggested_name': name,
+            'recipe_name': name,
             'recipe': recipe,
             'creativity_level': creativity_level
         }
@@ -575,18 +576,20 @@ class InnovationGenerationView(APIView):
         # 生成名称的提示
         name_prompt = f"为一款由{', '.join(ingredient_names)}制作的鸡尾酒起一个创意、好听的名称，适合{scene_desc}。名字要优雅、有吸引力，能够体现酒的风味特点和原料特色。可以参考经典鸡尾酒的命名风格，但要独特创新。只返回名称，不要其他内容。"
         
-        # 生成做法的提示
-        recipe_prompt = f"为一款由{', '.join(ingredient_names)}制作的鸡尾酒编写详细的制作方法，包括：1. 所需材料及准确用量；2. 详细的制作步骤，包括调酒技巧；3. 装饰建议；4. 饮用建议。这款鸡尾酒适合{scene_desc}，风味特点是{', '.join(flavor_desc)}。请提供专业、详细且易于操作的做法。"
-        
-        # 调用LLM API
+        # 调用LLM API生成名称
         name = self._call_llm_api(name_prompt)
-        recipe = self._call_llm_api(recipe_prompt)
         
         # 如果LLM调用失败，使用默认生成方法
         if not name:
             # 回退到默认方法
             canonical_ids = [ing['id'].replace('c_', '') for ing in ingredients]
             name = self._generate_name(canonical_ids)
+        
+        # 生成做法的提示，将生成的名称作为提示词的一部分，并要求统一格式
+        recipe_prompt = f"为一款名为'{name}'的鸡尾酒编写详细的制作方法，这款酒由{', '.join(ingredient_names)}制作，适合{scene_desc}，风味特点是{', '.join(flavor_desc)}。请严格按照以下格式输出：\n\n鸡尾酒名称：{name}\n\n1. 所需材料及准确用量\n...\n\n2. 详细的制作步骤\n...\n\n3. 装饰建议\n...\n\n4. 饮用建议\n...\n\n请提供专业、详细且易于操作的做法，不要添加任何开场白或额外的介绍文字。"
+        
+        # 调用LLM API生成做法
+        recipe = self._call_llm_api(recipe_prompt)
         
         return name, recipe
     

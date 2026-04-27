@@ -292,19 +292,161 @@
             </div>
           </div>
           
-          <!-- 第二行：结构解释图 -->
-          <div class="local-graph-section mb-6">
-            <RecipeLocalGraph 
-              v-if="graphData"
-              :graph-data="graphData"
-              :ingredients="ingredients"
-              @node-click="handleGraphNodeClick"
-              @view-substitutes="handleViewSubstitutes"
-            />
-            <div v-else class="graph-placeholder card">
-              <div class="graph-placeholder-icon">📊</div>
-              <p class="graph-placeholder-text">加载中...</p>
-              <p class="graph-placeholder-subtext">正在获取结构解释图数据</p>
+          <!-- 第二行：结构解释图和图表说明 -->
+          <div class="graph-explanation-section mb-6">
+            <div class="graph-explanation-card card">
+              <div class="card-header" @click="toggleExplanation">
+                <h3 class="card-title">结构解释图</h3>
+                <div class="toggle-icon" :class="{ 'rotated': showExplanation }">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div v-if="showExplanation" class="graph-explanation-content">
+                <div class="graph-description">
+                  <h4 class="description-title">图表说明：</h4>
+                  <ul class="description-list">
+                    <li>节点大小表示贡献比例，颜色表示角色类型，金色边框为关键节点</li>
+                  </ul>
+                  <h4 class="description-title">关系类型：</h4>
+                  <ul class="description-list">
+                    <li>兼容 - 成分之间搭配和谐</li>
+                    <li>共现 - 经常一起使用</li>
+                    <li>风味 - 风味互补</li>
+                  </ul>
+                  <h4 class="description-title">角色类型：</h4>
+                  <div class="role-types">
+                    <span class="role-type-item">
+                      <span class="role-color primary"></span>
+                      <span class="role-name">基酒</span>
+                    </span>
+                    <span class="role-type-item">
+                      <span class="role-color secondary"></span>
+                      <span class="role-name">辅料</span>
+                    </span>
+                    <span class="role-type-item">
+                      <span class="role-color bitter"></span>
+                      <span class="role-name">苦味剂</span>
+                    </span>
+                    <span class="role-type-item">
+                      <span class="role-color sweetener"></span>
+                      <span class="role-name">甜味剂</span>
+                    </span>
+                    <span class="role-type-item">
+                      <span class="role-color modifier"></span>
+                      <span class="role-name">修饰剂</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 第三行：原料详情和图结构显示 -->
+          <div class="graph-display-section mb-6">
+            <div class="two-column-grid">
+              <!-- 左侧：原料详情卡片 -->
+              <div class="grid-column-1">
+                <div class="ingredient-detail-card card">
+                  <h3 class="card-title">原料详情</h3>
+                  <div v-if="selectedIngredient" class="ingredient-detail-content">
+                    <div class="ingredient-basic-info">
+                      <h4 class="ingredient-name">
+                        <span v-if="selectedIngredient.ingredient?.canonical_name_zh" class="name-zh">{{ selectedIngredient.ingredient.canonical_name_zh }}</span>
+                        <span v-if="selectedIngredient.ingredient?.canonical_name_zh && selectedIngredient.ingredient?.canonical_name" class="name-separator"> / </span>
+                        <span v-if="selectedIngredient.ingredient?.canonical_name" class="name-en">{{ selectedIngredient.ingredient.canonical_name }}</span>
+                        <span v-if="!selectedIngredient.ingredient?.canonical_name_zh && !selectedIngredient.ingredient?.canonical_name">{{ selectedIngredient.ingredient?.name_norm || selectedIngredient.raw_text }}</span>
+                      </h4>
+                      <div class="ingredient-meta">
+                        <span class="meta-tag">{{ selectedIngredient.role || '其他' }}</span>
+                        <span class="meta-tag" v-if="selectedIngredient.ingredient?.category">{{ selectedIngredient.ingredient.category }}</span>
+                        <span class="meta-tag">{{ formatNumber(selectedIngredient.amount) }} {{ selectedIngredient.unit }}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="ingredient-contribution">
+                      <h5 class="contribution-title">贡献比例</h5>
+                      <div class="contribution-bar">
+                        <div class="contribution-fill" :style="{ width: Math.abs(getTotalContribution()) * 100 + '%' }"></div>
+                      </div>
+                      <span class="contribution-value">{{ (getTotalContribution() * 100).toFixed(0) }}%</span>
+                    </div>
+                    
+                    <div class="ingredient-substitutes" v-if="substitutes && substitutes.length > 0">
+                      <h5 class="substitutes-title">可能的替代品</h5>
+                      <div class="substitutes-list">
+                        <div 
+                          v-for="(substitute, index) in substitutes.slice(0, 3)" 
+                          :key="substitute.candidate_canonical_id || index"
+                          class="substitute-item"
+                        >
+                          <div class="substitute-header">
+                            <span class="substitute-name">{{ substitute.candidate_name_zh || substitute.candidate_name }}</span>
+                            <span class="substitute-score">{{ (substitute.compatibility_score || getScore(substitute)).toFixed(2) }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="ingredient-actions">
+                      <router-link 
+                        :to="{ path: '/adjust', query: { recipe_id: recipe?.recipe_id, target_canonical_id: selectedIngredient?.ingredient?.canonical_id } }"
+                        class="btn btn-primary w-full"
+                      >
+                        替换这个原料
+                      </router-link>
+                    </div>
+                  </div>
+                  <div v-else class="ingredient-detail-placeholder">
+                    <div class="placeholder-icon">🍹</div>
+                    <p class="placeholder-text">点击图谱中的原料节点查看详情</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 右侧：图结构显示框 -->
+              <div class="grid-column-3">
+                <div class="graph-display-card card">
+                  <h3 class="card-title">图结构显示</h3>
+                  <div v-if="graphData" class="recipe-local-graph">
+                    <div class="graph-header">
+                      <div class="graph-controls">
+                        <button 
+                          v-for="layer in graphLayers" 
+                          :key="layer.value"
+                          :class="['graph-control-btn', { active: graphLayer === layer.value }]"
+                          @click="switchGraphLayer(layer.value)"
+                        >
+                          {{ layer.label }}
+                        </button>
+                        <div class="graph-control-separator"></div>
+                        <button 
+                          :class="['graph-control-btn', { active: showOnlyKeyNodes }]"
+                          @click="toggleKeyNodes"
+                        >
+                          只看关键节点
+                        </button>
+                        <div class="graph-control-separator"></div>
+                        <button 
+                          :class="['graph-control-btn', { active: showEnglish }]"
+                          @click="toggleLanguage"
+                        >
+                          {{ showEnglish ? '中文' : 'English' }}
+                        </button>
+                      </div>
+                    </div>
+                    <div class="graph-container">
+                      <div ref="chartRef" style="width: 100%; height: 100%;"></div>
+                    </div>
+                  </div>
+                  <div v-else class="graph-placeholder">
+                    <div class="graph-placeholder-icon">📊</div>
+                    <p class="graph-placeholder-text">加载中...</p>
+                    <p class="graph-placeholder-subtext">正在获取结构解释图数据</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -328,37 +470,6 @@
               </div>
             </div>
           </div>
-          
-          <!-- 底部：操作区 -->
-          <div class="action-section">
-            <div class="action-buttons">
-              <router-link 
-                :to="{ path: '/graph', query: { recipe_id: recipe?.recipe_id } }"
-                class="btn btn-primary"
-              >
-                查看全局风味图谱
-              </router-link>
-              <router-link 
-                :to="{ path: '/adjust', query: { recipe_id: recipe?.recipe_id, target_canonical_id: selectedIngredient?.ingredient?.canonical_id } }"
-                class="btn btn-secondary"
-                v-if="selectedIngredient"
-              >
-                替代这个原料
-              </router-link>
-              <router-link 
-                :to="{ path: '/generate', query: { recipe_id: recipe?.recipe_id } }"
-                class="btn btn-secondary"
-              >
-                基于此配方生成变体
-              </router-link>
-              <router-link 
-                to="/recipe"
-                class="btn btn-outline"
-              >
-                返回配方列表
-              </router-link>
-            </div>
-          </div>
         </div>
       </section>
     </template>
@@ -367,14 +478,10 @@
 
 <script>
 import { fetchRecipe, fetchIngredients, fetchSQE, fetchBalance, fetchKeyNodes, fetchSubstitutes, fetchGraph } from '../api/recipeApi';
-import RecipeLocalGraph from '../components/RecipeLocalGraph.vue';
 import * as echarts from 'echarts';
 
 export default {
   name: 'VisualizationView',
-  components: {
-    RecipeLocalGraph
-  },
   data() {
     return {
       recipe: null,
@@ -386,10 +493,22 @@ export default {
       selectedIngredient: null,
       graphData: null,
       graphLayer: 'mixed',
+      showOnlyKeyNodes: false,
+      showEnglish: false,
+      chart: null,
+      chartRef: null,
+      selectedNode: null,
       loading: false,
       error: null,
+      showExplanation: false,
       flavorRadarChart: null,
-      ingredientContributionChart: null
+      ingredientContributionChart: null,
+      graphLayers: [
+        { label: '兼容性', value: 'compat' },
+        { label: '共现性', value: 'cooccur' },
+        { label: '风味', value: 'flavor' },
+        { label: '混合', value: 'mixed' }
+      ]
     };
   },
   mounted() {
@@ -408,6 +527,9 @@ export default {
       window.removeEventListener('resize', this.handleResize);
     },
   methods: {
+    toggleExplanation() {
+      this.showExplanation = !this.showExplanation;
+    },
     formatNumber(num) {
       return parseFloat(num).toFixed(2);
     },
@@ -623,6 +745,12 @@ export default {
                       console.error('Failed to find ingredientContributionChart ref after retry');
                     }
                   }, 500);
+                }
+                
+                // 初始化图谱
+                if (this.graphData) {
+                  console.log('Graph data available, initializing chart...');
+                  this.initChart();
                 }
               } catch (error) {
                 console.error('Error initializing charts:', error);
@@ -1023,6 +1151,9 @@ export default {
     async fetchGraphData(recipeId, layer) {
       try {
         this.graphData = await fetchGraph(recipeId, layer);
+        this.$nextTick(() => {
+          this.initChart();
+        });
       } catch (error) {
         console.error('Error fetching graph data:', error);
         this.graphData = null;
@@ -1036,19 +1167,353 @@ export default {
       return '需要改进';
     },
     handleGraphNodeClick(node) {
+      console.log('Clicked node:', node);
       const ingredient = this.ingredients.find(ing => 
-        ing.ingredient?.canonical_id === node.canonical_id
+        ing.ingredient?.canonical_id === node.id
       );
       if (ingredient) {
+        console.log('Found ingredient:', ingredient);
         this.selectIngredient(ingredient);
+      } else {
+        console.log('Ingredient not found for node:', node.id);
       }
     },
     handleViewSubstitutes(node) {
+      console.log('View substitutes for node:', node);
       const ingredient = this.ingredients.find(ing => 
-        ing.ingredient?.canonical_id === node.canonical_id
+        ing.ingredient?.canonical_id === node.id
       );
       if (ingredient) {
+        console.log('Found ingredient:', ingredient);
         this.selectIngredient(ingredient);
+      } else {
+        console.log('Ingredient not found for node:', node.id);
+      }
+    },
+    // 图表相关方法
+    getFilteredData() {
+      if (!this.graphData) {
+        return { nodes: [], edges: [] };
+      }
+      
+      // 创建 ingredients 映射表，只使用 canonical_id
+      const ingredientMap = new Map();
+      (this.ingredients || []).forEach(ingredient => {
+        if (ingredient.ingredient && ingredient.ingredient.canonical_id) {
+          const canonicalId = String(ingredient.ingredient.canonical_id);
+          ingredientMap.set(canonicalId, ingredient.ingredient);
+        }
+      });
+      
+      console.log('Ingredients:', this.ingredients);
+      console.log('Ingredient Map:', Array.from(ingredientMap.entries()));
+      
+      let nodes = (this.graphData.nodes || [])
+        .filter(node => node && node.id !== undefined && node.id !== null)
+        .map(node => {
+          // 从 ingredients 中获取名称
+          const nodeId = String(node.id);
+          const ingredient = ingredientMap.get(nodeId);
+          
+          // 尝试多种字段获取中文名称
+          const chineseName = ingredient?.canonical_name_zh || node.ingredient_name_zh || node.label_zh || node.name_zh;
+          // 尝试多种字段获取英文名称
+          const englishName = ingredient?.canonical_name || node.ingredient_name || node.label || node.name;
+          
+          // 参考 VisualizationView.vue 的显示方式：中文 / 英文
+          let displayText = '';
+          if (chineseName && englishName) {
+            displayText = `${chineseName} / ${englishName}`;
+          } else if (chineseName) {
+            displayText = chineseName;
+          } else if (englishName) {
+            displayText = englishName;
+          } else {
+            displayText = node.name || node.label || `Node ${nodeId}`;
+          }
+          
+          console.log('Node ID:', nodeId);
+          console.log('Ingredient for node:', ingredient);
+          console.log('Chinese Name:', chineseName);
+          console.log('English Name:', englishName);
+          console.log('Display Text:', displayText);
+          
+          return {
+            id: nodeId,
+            text: displayText,
+            role: node.role || 'other',
+            contribution_ratio: node.contribution_ratio || 0,
+            synergy_contrib: node.synergy_contrib,
+            conflict_contrib: node.conflict_contrib,
+            balance_contrib: node.balance_contrib,
+            explanation: node.explanation,
+            is_key_node: node.is_key_node || false
+          };
+        });
+      
+      let edges = (this.graphData.edges || [])
+        .filter(edge => edge && edge.source !== undefined && edge.source !== null && edge.target !== undefined && edge.target !== null)
+        .map(edge => ({
+          source: String(edge.source),
+          target: String(edge.target),
+          type: edge.type || 'compat',
+          weight: edge.weight || 0
+        }));
+      
+      if (this.showOnlyKeyNodes) {
+        nodes = nodes.filter(node => node.is_key_node);
+        const keyNodeIds = nodes.map(node => node.id);
+        edges = edges.filter(edge => 
+          edge.source && edge.target && 
+          keyNodeIds.includes(edge.source) && keyNodeIds.includes(edge.target)
+        );
+      }
+      
+      if (this.graphLayer !== 'mixed') {
+        const filteredEdges = edges.filter(edge => 
+          edge.type === this.graphLayer && 
+          edge.source && edge.target
+        );
+        edges = filteredEdges.length > 0 ? filteredEdges : edges;
+      }
+      
+      console.log('过滤后 nodes:', nodes);
+      console.log('过滤后 edges:', edges);
+      
+      return { nodes, edges };
+    },
+    getNodeColor(node) {
+      const colors = {
+        'base': '#d4af37',
+        'base_spirit': '#d4af37',
+        'acid': '#ff9f40',
+        'sweetener': '#66a3ff',
+        'bitter': '#4bc0c0',
+        'bitters': '#4bc0c0',
+        'modifier': '#9966ff',
+        'garnish': '#ff6384',
+        'other': '#8c8c8c'
+      };
+      return colors[node.role] || colors['other'];
+    },
+    getEdgeColor(edge) {
+      const colors = {
+        'compat': '#d4af37',
+        'cooccur': '#66a3ff',
+        'flavor': '#4bc0c0',
+        'mixed': '#9966ff'
+      };
+      return colors[edge.type] || colors['compat'];
+    },
+    getEdgeWidth(edge) {
+      const weight = edge.weight || 0;
+      return 1 + Math.min(weight * 3, 3);
+    },
+    getEdgeLabel(edge) {
+      const typeLabels = {
+        'compat': '兼容',
+        'cooccur': '共现',
+        'flavor': '风味',
+        'mixed': '混合'
+      };
+      const typeLabel = typeLabels[edge.type] || edge.type;
+      const weight = edge.weight || 0;
+      if (weight < 0) return '';
+      return `${typeLabel}: ${weight.toFixed(2)}`;
+    },
+    getRoleLabel(role) {
+      const labels = {
+        'base': '基酒',
+        'base_spirit': '基酒',
+        'acid': '酸味剂',
+        'sweetener': '甜味剂',
+        'bitter': '苦味剂',
+        'bitters': '苦味剂',
+        'modifier': '修饰剂',
+        'garnish': '装饰',
+        'other': '其他'
+      };
+      return labels[role] || labels['other'];
+    },
+    initChart() {
+      if (this.chart) {
+        this.chart.dispose();
+      }
+      
+      if (this.$refs.chartRef) {
+        this.chart = echarts.init(this.$refs.chartRef);
+        this.updateChart();
+        
+        // 监听点击事件
+        this.chart.on('click', (params) => {
+          if (params.dataType === 'node') {
+            const node = params.data;
+            this.selectedNode = {
+              id: node.id,
+              text: node.name,
+              role: node.role,
+              contribution_ratio: node.contribution_ratio,
+              synergy_contrib: node.synergy_contrib,
+              conflict_contrib: node.conflict_contrib,
+              balance_contrib: node.balance_contrib,
+              explanation: node.explanation,
+              is_key_node: node.is_key_node
+            };
+            this.handleGraphNodeClick(this.selectedNode);
+          }
+        });
+        
+        // 监听窗口大小变化
+        window.addEventListener('resize', () => {
+          this.chart?.resize();
+        });
+      }
+    },
+    updateChart() {
+      const { nodes, edges } = this.getFilteredData();
+      
+      if (!this.chart) return;
+      
+      const option = {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: 'rgba(25, 25, 25, 0.9)',
+          borderColor: 'rgba(212, 175, 55, 0.5)',
+          borderWidth: 1,
+          textStyle: {
+            color: '#ffffff',
+            fontSize: 12
+          },
+          formatter: (params) => {
+            if (params.dataType === 'node') {
+              const node = params.data;
+              return `
+                <div style="font-weight: bold; margin-bottom: 8px; color: ${this.getNodeColor(node)}">${node.name}</div>
+                <div style="margin-bottom: 4px;">角色: ${this.getRoleLabel(node.role)}</div>
+                <div style="margin-bottom: 4px;">贡献比例: ${((node.contribution_ratio || 0) * 100).toFixed(0)}%</div>
+                ${node.is_key_node ? '<div style="color: #d4af37;">关键节点</div>' : ''}
+              `;
+            } else if (params.dataType === 'edge') {
+              const edge = params.data;
+              const typeExplanations = {
+                'compat': '成分之间搭配和谐',
+                'cooccur': '经常一起使用',
+                'flavor': '风味互补',
+                'mixed': '混合关系'
+              };
+              const explanation = typeExplanations[edge.type] || '关系';
+              return `
+                <div style="font-weight: bold; margin-bottom: 8px; color: ${this.getEdgeColor(edge)}">${this.getEdgeLabel(edge)}</div>
+                <div style="font-size: 11px; color: #cccccc;">${explanation}</div>
+              `;
+            }
+            return '';
+          }
+        },
+        series: [{
+          type: 'graph',
+          layout: 'force',
+          data: nodes.map(node => ({
+            id: node.id,
+            name: node.text || 'Unnamed',
+            value: node.contribution_ratio || 0,
+            symbolSize: 25 + (node.contribution_ratio || 0) * 30,
+            itemStyle: {
+              color: this.getNodeColor(node),
+              borderColor: node.is_key_node ? '#d4af37' : 'rgba(212, 175, 55, 0.3)',
+              borderWidth: node.is_key_node ? 3 : 1,
+              shadowColor: node.is_key_node ? '#d4af37' : 'rgba(0, 0, 0, 0.3)',
+              shadowBlur: node.is_key_node ? 15 : 5
+            },
+            label: {
+              show: true,
+              position: 'right',
+              formatter: '{b}',
+              fontSize: 14,
+              color: '#ffffff',
+              fontWeight: node.is_key_node ? 'bold' : 'normal',
+              textShadowColor: 'rgba(0, 0, 0, 0.8)',
+              textShadowBlur: 3
+            },
+            role: node.role,
+            contribution_ratio: node.contribution_ratio,
+            synergy_contrib: node.synergy_contrib,
+            conflict_contrib: node.conflict_contrib,
+            balance_contrib: node.balance_contrib,
+            explanation: node.explanation,
+            is_key_node: node.is_key_node
+          })),
+          links: edges.map((edge, index) => ({
+            source: edge.source,
+            target: edge.target,
+            label: {
+              show: true,
+              formatter: this.getEdgeLabel(edge),
+              fontSize: 9,
+              color: '#cccccc',
+              backgroundColor: 'rgba(25, 25, 25, 0.7)',
+              borderColor: this.getEdgeColor(edge),
+              borderWidth: 1,
+              padding: [2, 4, 2, 4],
+              borderRadius: 2,
+              position: 'middle',
+              distance: 20
+            },
+            lineStyle: {
+              color: this.getEdgeColor(edge),
+              width: this.getEdgeWidth(edge),
+              curveness: 0.3 + (index % 3) * 0.1,
+              type: 'solid',
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowBlur: 5
+            },
+            emphasis: {
+              lineStyle: {
+                width: this.getEdgeWidth(edge) + 2,
+                shadowBlur: 10
+              }
+            },
+            type: edge.type,
+            weight: edge.weight
+          })),
+          force: {
+            repulsion: 2000,
+            edgeLength: 200,
+            gravity: 0.1,
+            friction: 0.2
+          },
+          roam: true,
+          focusNodeAdjacency: true,
+          lineStyle: {
+            opacity: 0.8
+          },
+          emphasis: {
+            focus: 'adjacency',
+            lineStyle: {
+              width: 4
+            }
+          }
+        }]
+      };
+      
+      this.chart.setOption(option);
+    },
+    switchGraphLayer(layer) {
+      this.graphLayer = layer;
+      this.updateChart();
+    },
+    toggleKeyNodes() {
+      this.showOnlyKeyNodes = !this.showOnlyKeyNodes;
+      this.updateChart();
+    },
+    toggleLanguage() {
+      this.showEnglish = !this.showEnglish;
+      this.updateChart();
+    },
+    viewSubstitutes() {
+      if (this.selectedNode) {
+        this.handleViewSubstitutes(this.selectedNode);
       }
     }
   },
@@ -2863,4 +3328,444 @@ export default {
     transform: translateY(0);
   }
 }
+
+/* 结构解释图卡片样式 */
+.graph-explanation-card {
+  width: 100%;
+}
+
+.graph-explanation-content {
+  padding: 1rem;
+}
+
+.graph-description {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.description-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+}
+
+.description-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #e0e0e0;
+}
+
+.description-list li {
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.description-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #d4af37;
+  font-size: 1.25rem;
+}
+
+.role-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.role-type-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.role-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.role-color.primary {
+  background-color: #3b82f6;
+}
+
+.role-color.secondary {
+  background-color: #10b981;
+}
+
+.role-color.bitter {
+  background-color: #ef4444;
+}
+
+.role-color.sweetener {
+  background-color: #f59e0b;
+}
+
+.role-color.modifier {
+  background-color: #8b5cf6;
+}
+
+.role-name {
+  color: #e0e0e0;
+  font-size: 0.875rem;
+}
+
+/* 图结构显示区域样式 */
+
+/* 卡片头部样式 */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  transition: all 0.3s ease;
+}
+
+.card-header:hover {
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.card-header .card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #d4af37;
+}
+
+/* 切换图标样式 */
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #d4af37;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.toggle-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 内容展开/折叠动画 */
+.graph-explanation-content {
+  max-height: 500px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 1rem;
+}
+
+.graph-explanation-content.collapsed {
+  max-height: 0;
+  padding: 0 1rem;
+}
+
+.two-column-grid {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.grid-column-1 {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.grid-column-3 {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 图结构显示卡片样式 */
+.graph-display-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.graph-display-card .graph-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  height: 100%;
+  color: #999;
+}
+
+/* 原料详情卡片样式 */
+.ingredient-detail-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.ingredient-detail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ingredient-basic-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ingredient-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #d4af37;
+  line-height: 1.4;
+}
+
+.ingredient-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.meta-tag {
+  padding: 0.25rem 0.75rem;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 16px;
+  font-size: 0.875rem;
+  color: #d4af37;
+}
+
+.ingredient-contribution {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contribution-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #e0e0e0;
+  margin-bottom: 0.25rem;
+}
+
+.contribution-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.contribution-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #ffd700);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.contribution-value {
+  font-size: 0.875rem;
+  color: #d4af37;
+  font-weight: 600;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+.ingredient-substitutes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.substitutes-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #e0e0e0;
+  margin-bottom: 0.25rem;
+}
+
+.substitutes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.substitute-item {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.substitute-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.substitute-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.substitute-name {
+  font-size: 0.9375rem;
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+.substitute-score {
+  font-size: 0.875rem;
+  color: #d4af37;
+  font-weight: 600;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+}
+
+.ingredient-actions {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.ingredient-actions .btn {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.ingredient-detail-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+  height: 100%;
+  color: #999;
+}
+
+.ingredient-detail-placeholder .placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.ingredient-detail-placeholder .placeholder-text {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* 图表相关样式 */
+  .recipe-local-graph {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .graph-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0rem;
+
+    box-sizing: border-box;
+  }
+
+  .graph-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .graph-control-btn {
+    padding: 0.4rem 0.8rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 134, 11, 0.1) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+    color: #c0c0c0;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .graph-control-btn:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(184, 134, 11, 0.2) 100%);
+    border-color: rgba(212, 175, 55, 0.6);
+    color: #d4af37;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  }
+
+  .graph-control-btn.active {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(184, 134, 11, 0.3) 100%);
+    border-color: rgba(212, 175, 55, 0.8);
+    color: #d4af37;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+  }
+
+  .graph-control-separator {
+    width: 1px;
+    height: 1.5rem;
+    background: linear-gradient(180deg, transparent 0%, rgba(212, 175, 55, 0.3) 50%, transparent 100%);
+    margin: 0 0.4rem;
+  }
+
+  .graph-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(10, 10, 10, 0.9) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .graph-header {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    
+    .graph-controls {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .graph-container {
+      height: 450px;
+    }
+  }
 </style>

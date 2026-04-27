@@ -374,6 +374,13 @@ export default {
           {"value": 98, "name": "其他"}
         ]
       },
+      // 图表实例
+      chartInstances: {
+        trend: null,
+        intent: null,
+        responseTime: null,
+        entity: null
+      },
       conversationsData: [],
       conversationPagination: {
         current: 1,
@@ -393,6 +400,19 @@ export default {
         showTotal: (total) => `共 ${total} 条记录`
       }
     };
+  },
+  watch: {
+    activeTab(newTab) {
+      if (newTab === 'analysis') {
+        // 切换到数据分析标签时，确保图表初始化
+        this.$nextTick(() => {
+          this.initTrendChart();
+          this.initIntentChart();
+          this.initResponseTimeChart();
+          this.initEntityChart();
+        });
+      }
+    }
   },
   computed: {
     filteredTasks() {
@@ -489,18 +509,16 @@ export default {
     this.loadErrors();
     this.loadAnalysisStats();
     
-    // 初始化图表
-    this.$nextTick(() => {
-      this.initTrendChart();
-      this.initIntentChart();
-      this.initResponseTimeChart();
-      this.initEntityChart();
-    });
-    
     window.addEventListener('resize', this.handleResize);
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
+    
+    // 销毁图表实例，避免内存泄漏
+    if (this.chartInstances.trend) this.chartInstances.trend.dispose();
+    if (this.chartInstances.intent) this.chartInstances.intent.dispose();
+    if (this.chartInstances.responseTime) this.chartInstances.responseTime.dispose();
+    if (this.chartInstances.entity) this.chartInstances.entity.dispose();
   },
   methods: {
     async loadReviewTasks() {
@@ -909,7 +927,14 @@ export default {
       const trendChartRef = this.$refs.trendChartRef;
       if (!trendChartRef) return;
       
+      // 销毁旧的图表实例
+      if (this.chartInstances.trend) {
+        this.chartInstances.trend.dispose();
+      }
+      
+      // 创建新的图表实例
       const chart = echarts.init(trendChartRef);
+      this.chartInstances.trend = chart;
       
       const option = {
         tooltip: {
@@ -960,7 +985,14 @@ export default {
       const intentChartRef = this.$refs.intentChartRef;
       if (!intentChartRef) return;
       
+      // 销毁旧的图表实例
+      if (this.chartInstances.intent) {
+        this.chartInstances.intent.dispose();
+      }
+      
+      // 创建新的图表实例
       const chart = echarts.init(intentChartRef);
+      this.chartInstances.intent = chart;
       
       const option = {
         tooltip: {
@@ -993,7 +1025,14 @@ export default {
       const responseTimeChartRef = this.$refs.responseTimeChartRef;
       if (!responseTimeChartRef) return;
       
+      // 销毁旧的图表实例
+      if (this.chartInstances.responseTime) {
+        this.chartInstances.responseTime.dispose();
+      }
+      
+      // 创建新的图表实例
       const chart = echarts.init(responseTimeChartRef);
+      this.chartInstances.responseTime = chart;
       
       const option = {
         tooltip: {
@@ -1038,7 +1077,14 @@ export default {
       const entityChartRef = this.$refs.entityChartRef;
       if (!entityChartRef) return;
       
+      // 销毁旧的图表实例
+      if (this.chartInstances.entity) {
+        this.chartInstances.entity.dispose();
+      }
+      
+      // 创建新的图表实例
       const chart = echarts.init(entityChartRef);
+      this.chartInstances.entity = chart;
       
       // 从 chartData.entityData 中提取数据并转换为柱状图格式
       const entityLabels = this.chartData.entityData.map(item => item.name);
@@ -1085,15 +1131,10 @@ export default {
     },
     handleResize() {
       // 图表大小调整
-      const trendChartRef = this.$refs.trendChartRef;
-      const intentChartRef = this.$refs.intentChartRef;
-      const responseTimeChartRef = this.$refs.responseTimeChartRef;
-      const entityChartRef = this.$refs.entityChartRef;
-      
-      if (trendChartRef) echarts.init(trendChartRef).resize();
-      if (intentChartRef) echarts.init(intentChartRef).resize();
-      if (responseTimeChartRef) echarts.init(responseTimeChartRef).resize();
-      if (entityChartRef) echarts.init(entityChartRef).resize();
+      if (this.chartInstances.trend) this.chartInstances.trend.resize();
+      if (this.chartInstances.intent) this.chartInstances.intent.resize();
+      if (this.chartInstances.responseTime) this.chartInstances.responseTime.resize();
+      if (this.chartInstances.entity) this.chartInstances.entity.resize();
     }
   }
 };

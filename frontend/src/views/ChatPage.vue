@@ -681,11 +681,14 @@ export default {
 
 .chat-container {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 450px;
   gap: var(--spacing-xl);
   max-width: 1600px;
   margin: 0 auto;
   animation: fadeIn 0.8s ease-out;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .chat-main {
@@ -711,6 +714,7 @@ export default {
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .chat-tabs-sidebar {
@@ -777,6 +781,9 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  max-width: 100%;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .chat-content-main > div {
@@ -855,6 +862,7 @@ export default {
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .chat-content > :first-child {

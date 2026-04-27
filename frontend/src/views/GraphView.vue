@@ -5,6 +5,32 @@
         <div class="header-content">
           <h1 class="page-title">风味图谱</h1>
           <p class="page-subtitle">探索原料之间的共现、相似与兼容关系</p>
+          <!-- 搜索框 -->
+          <div class="header-search">
+            <div class="search-box">
+              <span class="search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
+                </svg>
+              </span>
+              <input 
+                type="text" 
+                v-model="searchKeyword"
+                placeholder="搜索原料名称..."
+                class="search-input"
+                @input="handleSearch"
+              >
+              <button 
+                class="search-btn"
+                @click="handleSearch"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -28,92 +54,86 @@
             </div>
 
             <div class="sidebar-card card">
-              <h3 class="sidebar-title">类型筛选</h3>
-              <div class="filter-options">
-                <div 
-                  v-for="type in ingredientTypes" 
-                  :key="type.value"
-                  class="filter-checkbox"
-                >
-                  <input 
-                    type="checkbox" 
-                    :value="type.value"
-                    v-model="selectedTypes"
-                    @change="applyFilters"
-                    :id="`type-${type.value}`"
-                  >
-                  <label :for="`type-${type.value}`" class="filter-label">{{ type.label }}</label>
-                </div>
-              </div>
-              <div style="margin-top: 10px; padding: 10px; background: var(--color-bg-3); border-radius: 4px; font-size: 0.85rem; color: var(--color-text-secondary);">
-                <strong>当前选择:</strong> {{ selectedTypes.length > 0 ? selectedTypes.join(', ') : '无' }}
-              </div>
-            </div>
-
-            <div class="sidebar-card card">
-              <h3 class="sidebar-title">阈值控制</h3>
-              <div class="threshold-control">
-                <div class="control-item">
-                  <label class="control-label">边权阈值</label>
-                  <input 
-                    type="range" 
-                    v-model.number="minWeight" 
-                    min="0" 
-                    max="1" 
-                    step="0.05"
-                    class="control-range"
-                    @change="applyFilters"
-                  >
-                  <span class="control-value">{{ minWeight.toFixed(2) }}</span>
-                </div>
-                <div class="control-item">
-                  <label class="control-label">频次阈值</label>
-                  <input 
-                    type="range" 
-                    v-model.number="minFreq" 
-                    min="0" 
-                    max="100" 
-                    step="5"
-                    class="control-range"
-                    @change="applyFilters"
-                  >
-                  <span class="control-value">{{ minFreq }}</span>
-                </div>
-                <div class="control-item">
-                  <label class="control-label">节点数量</label>
-                  <input 
-                    type="range" 
-                    v-model.number="nodeLimit" 
-                    min="10" 
-                    max="500" 
-                    step="10"
-                    class="control-range"
-                    @change="applyFilters"
-                  >
-                  <span class="control-value">{{ nodeLimit }}</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="sidebar-card card">
-              <h3 class="sidebar-title">搜索</h3>
-              <div class="search-box">
-                <input 
-                  type="text" 
-                  v-model="searchKeyword"
-                  placeholder="输入原料名称..."
-                  class="search-input"
-                  @input="handleSearch"
-                >
+              <h3 class="sidebar-title">筛选与控制</h3>
+              <div class="filter-tabs">
                 <button 
-                  class="search-btn"
-                  @click="handleSearch"
+                  :class="['filter-tab', { active: activeFilterTab === 'types' }]"
+                  @click="activeFilterTab = 'types'"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="M21 21l-4.35-4.35"/>
-                  </svg>
+                  类型筛选
                 </button>
+                <button 
+                  :class="['filter-tab', { active: activeFilterTab === 'thresholds' }]"
+                  @click="activeFilterTab = 'thresholds'"
+                >
+                  阈值控制
+                </button>
+              </div>
+              
+              <div class="filter-content">
+                <!-- 类型筛选 -->
+                <div v-if="activeFilterTab === 'types'" class="filter-options">
+                  <div 
+                    v-for="type in ingredientTypes" 
+                    :key="type.value"
+                    class="filter-checkbox"
+                  >
+                    <input 
+                      type="checkbox" 
+                      :value="type.value"
+                      v-model="selectedTypes"
+                      @change="applyFilters"
+                      :id="`type-${type.value}`"
+                    >
+                    <label :for="`type-${type.value}`" class="filter-label">{{ type.label }}</label>
+                  </div>
+                  <div style="margin-top: 10px; padding: 10px; background: var(--color-bg-3); border-radius: 4px; font-size: 0.85rem; color: var(--color-text-secondary);">
+                    <strong>当前选择:</strong> {{ selectedTypes.length > 0 ? selectedTypes.join(', ') : '无' }}
+                  </div>
+                </div>
+                
+                <!-- 阈值控制 -->
+                <div v-if="activeFilterTab === 'thresholds'" class="threshold-control">
+                  <div class="control-item">
+                    <label class="control-label">边权阈值</label>
+                    <input 
+                      type="range" 
+                      v-model.number="minWeight" 
+                      min="0" 
+                      max="1" 
+                      step="0.05"
+                      class="control-range"
+                      @change="applyFilters"
+                    >
+                    <span class="control-value">{{ minWeight.toFixed(2) }}</span>
+                  </div>
+                  <div class="control-item">
+                    <label class="control-label">频次阈值</label>
+                    <input 
+                      type="range" 
+                      v-model.number="minFreq" 
+                      min="0" 
+                      max="100" 
+                      step="5"
+                      class="control-range"
+                      @change="applyFilters"
+                    >
+                    <span class="control-value">{{ minFreq }}</span>
+                  </div>
+                  <div class="control-item">
+                    <label class="control-label">节点数量</label>
+                    <input 
+                      type="range" 
+                      v-model.number="nodeLimit" 
+                      min="10" 
+                      max="500" 
+                      step="10"
+                      class="control-range"
+                      @change="applyFilters"
+                    >
+                    <span class="control-value">{{ nodeLimit }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </aside>
@@ -447,6 +467,7 @@ export default {
       minFreq: 0,
       nodeLimit: 100,
       searchKeyword: '',
+      activeFilterTab: 'types',
       
       graphData: {
         nodes: [],
@@ -1046,13 +1067,18 @@ export default {
 .header-content {
   max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding-bottom:10px;
 }
 
 .page-title {
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--color-gold-200);
-  margin-bottom: var(--spacing-sm);
+
+  margin-bottom: var(--spacing-xs);
   font-family: var(--font-serif);
 }
 
@@ -1060,6 +1086,79 @@ export default {
   font-size: 1.1rem;
   color: var(--color-text-secondary);
   max-width: 600px;
+  margin-bottom: 10px;
+}
+
+.header-search {
+  width: 100%;
+  max-width: 500px;
+
+}
+
+.header-search .search-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xs);
+  transition: all var(--transition-normal);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-search .search-box:focus-within {
+  border-color: var(--color-gold-400);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.header-search .search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--spacing-md);
+  color: var(--color-text-secondary);
+}
+
+.header-search .search-input {
+  flex: 1;
+  font-size: 1rem;
+  padding: var(--spacing-md) var(--spacing-sm);
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  outline: none;
+  margin-bottom:10px;
+  height:5px;
+}
+
+.header-search .search-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.header-search .search-btn {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: linear-gradient(135deg, var(--color-gold-400), var(--color-gold-300));
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--color-bg-1);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--spacing-xs);
+}
+
+.header-search .search-btn:hover {
+  background: linear-gradient(135deg, var(--color-gold-300), var(--color-gold-200));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.header-search .search-btn:active {
+  transform: translateY(0);
 }
 
 .graph-main {
@@ -1077,16 +1176,61 @@ export default {
   grid-template-columns: 280px 1fr 320px;
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
+  align-items: start;
 }
 
 .graph-sidebar {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  height: 700px;
 }
 
 .sidebar-card {
   padding: var(--spacing-lg);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.graph-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  height: 700px;
+}
+
+.details-card {
+  padding: var(--spacing-lg);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-placeholder {
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  justify-content: center;
 }
 
 .sidebar-title {
@@ -1125,6 +1269,40 @@ export default {
   color: var(--color-bg-1);
   border-color: var(--color-gold-400);
   font-weight: 600;
+}
+
+/* 筛选标签样式 */
+.filter-tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--spacing-sm);
+}
+
+.filter-tab {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border-bottom: 2px solid transparent;
+}
+
+.filter-tab:hover {
+  color: var(--color-gold-300);
+}
+
+.filter-tab.active {
+  color: var(--color-gold-400);
+  border-bottom-color: var(--color-gold-400);
+  font-weight: 600;
+}
+
+.filter-content {
+  min-height: 200px;
 }
 
 .filter-options {

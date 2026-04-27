@@ -39,14 +39,7 @@
     </div>
     
     <template v-else-if="recipeId">
-      <header class="page-header">
-        <div class="container">
-          <div class="page-header-content">
-            <h1 class="page-title">配方调整分析工作台</h1>
-            <p class="page-subtitle">探索配方优化的多种可能性</p>
-          </div>
-        </div>
-      </header>
+
       
       <main class="adjust-main">
         <div class="container">
@@ -681,6 +674,7 @@ export default {
 }
 
 .adjust-main {
+  margin-top:100px;
   padding-bottom: var(--spacing-2xl);
 }
 
